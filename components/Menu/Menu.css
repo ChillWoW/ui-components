@@ -1,0 +1,49 @@
+.menu-trigger {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.menu-dropdown {
+  position: fixed;
+  z-index: 1000;
+  min-width: 180px;
+  background: #2c2e33;
+  border: 1px solid #373a40;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  color: #c1c2c5;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.menu-item:hover:not(.menu-item-disabled) {
+  background-color: #373a40;
+}
+
+.menu-item-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.menu-item-icon {
+  color: #c1c2c5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.menu-item-label {
+  flex: 1;
+}

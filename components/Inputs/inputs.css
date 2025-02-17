@@ -1,0 +1,156 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  font-size: 12px;
+  text-align: left;
+  margin-left: 10px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.input-required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #525864;
+  border-radius: 8px;
+  transition: all 200ms ease-in-out;
+  background-color: #373a40;
+  overflow: hidden;
+}
+
+.input-container:hover:not(.input-disabled) {
+  border-color: #727b8e;
+}
+
+.input-container.input-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input-container.input-error {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+.input-section {
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #727b8e;
+}
+
+.input-field {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  color: #ffffff;
+}
+
+.input-field:disabled {
+  cursor: not-allowed;
+}
+
+.input-description {
+  font-size: 12px;
+  text-align: left;
+  margin-left: 10px;
+  color: #727b8e;
+}
+
+.input-error-text {
+  font-size: 12px;
+  color: #dc2626;
+  margin-left: 10px;
+}
+
+.number-controls {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #525864;
+  background-color: #2c2e33;
+}
+
+.number-button {
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #727b8e;
+  transition: all 200ms ease-in-out;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+
+.number-button:first-child {
+  border-bottom: 1px solid #525864;
+}
+
+.number-button:hover:not(:disabled) {
+  color: #ffffff;
+  background-color: #373a40;
+}
+
+.number-button:active:not(:disabled) {
+  background-color: #434750;
+}
+
+.number-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.select-dropdown {
+  position: fixed;
+  z-index: 50;
+  background-color: #373a40;
+  border: 1px solid #525864;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.select-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 200ms ease;
+  color: #a1adc2;
+}
+
+.select-option:hover {
+  background-color: #434750;
+  color: #ffffff;
+}
+
+.select-option-selected {
+  background-color: #434750;
+  color: #ffffff;
+}
