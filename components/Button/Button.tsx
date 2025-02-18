@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import "./Button.css";
 
 export type ButtonSize = "sm" | "md" | "lg" | "xl";
-export type ButtonVariant = "filled" | "outline";
+export type ButtonVariant = "filled" | "outline" | "custom";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftSection?: React.ReactNode;
@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   leftSection,
   rightSection,
-  className,
+  className = "",
   variant = "filled",
   size = "sm",
   disabled,
@@ -31,20 +31,21 @@ export const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     filled: "button-filled",
     outline: "button-outline",
+    custom: "",
   };
 
+  const baseClasses = [
+    "button",
+    sizeClasses[size],
+    variantClasses[variant],
+    disabled && "button-disabled",
+  ].filter(Boolean);
+
+  const userClasses = className.split(" ").filter(Boolean);
+  const finalClasses = [...userClasses, ...baseClasses].join(" ");
+
   return (
-    <button
-      className={`
-        button
-        ${sizeClasses[size]}
-        ${variantClasses[variant]}
-        ${disabled && "button-disabled"}
-        ${className}
-      `}
-      disabled={disabled}
-      {...props}
-    >
+    <button className={finalClasses} disabled={disabled} {...props}>
       {leftSection && <span className="mr-1">{leftSection}</span>}
       <span className="flex items-center w-full justify-inherit gap-2">
         {children}
