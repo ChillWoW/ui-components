@@ -5,6 +5,7 @@ export interface MenuItem {
   icon?: ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  items?: MenuItem[];
 }
 
 export interface MenuProps {
@@ -14,4 +15,10 @@ export interface MenuProps {
   offset?: number;
   width?: number;
   className?: string;
+}
+
+export interface SubMenuProps {
+  item: MenuItem;
+  parentCoords: { top: number; left: number; width: number; right: number };
+  onClose: () => void;
 }
