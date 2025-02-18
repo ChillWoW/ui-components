@@ -8,6 +8,7 @@ export * from "./Modal";
 export * from "./Inputs";
 export * from "./Pagination";
 export * from "./Progress";
+export * from "./RadioCard";
 export * from "./RingProgress";
 export * from "./Switch";
 export * from "./Tabs";
