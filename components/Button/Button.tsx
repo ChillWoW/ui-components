@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from "react";
+import clsx from "clsx";
 import "./Button.css";
 
 export type ButtonSize = "sm" | "md" | "lg" | "xl";
@@ -15,42 +16,25 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   leftSection,
   rightSection,
-  className = "",
+  className,
   variant = "filled",
   size = "sm",
   disabled,
   ...props
 }) => {
-  const sizeClasses = {
-    sm: "size-sm",
-    md: "size-md",
-    lg: "size-lg",
-    xl: "size-xl",
-  };
-
-  const variantClasses = {
-    filled: "button-filled",
-    outline: "button-outline",
-    custom: "",
-  };
-
-  const baseClasses = [
+  const buttonClasses = clsx(
     "button",
-    sizeClasses[size],
-    variantClasses[variant],
+    size && `size-${size}`,
+    variant !== "custom" && `button-${variant}`,
     disabled && "button-disabled",
-  ].filter(Boolean);
-
-  const userClasses = className.split(" ").filter(Boolean);
-  const finalClasses = [...userClasses, ...baseClasses].join(" ");
+    className
+  );
 
   return (
-    <button className={finalClasses} disabled={disabled} {...props}>
-      {leftSection && <span className="mr-1">{leftSection}</span>}
-      <span className="flex items-center w-full justify-inherit gap-2">
-        {children}
-      </span>
-      {rightSection && <span className="ml-1">{rightSection}</span>}
+    <button className={buttonClasses} disabled={disabled} {...props}>
+      {leftSection && <span className="mr-2">{leftSection}</span>}
+      {children}
+      {rightSection && <span className="ml-2">{rightSection}</span>}
     </button>
   );
 };
