@@ -7,6 +7,8 @@ export * from "./Menu";
 export * from "./Modal";
 export * from "./Inputs";
 export * from "./Pagination";
+export * from "./Progress";
+export * from "./RingProgress";
 export * from "./Switch";
 export * from "./Tabs";
 export * from "./Text";
