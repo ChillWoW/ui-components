@@ -1,65 +1,65 @@
 .alert {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 .size-xs {
-  font-size: 12px;
-  padding: 12px;
+    font-size: 12px;
+    padding: 12px;
 }
 
 .size-sm {
-  font-size: 13px;
-  padding: 14px;
+    font-size: 13px;
+    padding: 14px;
 }
 
 .size-md {
-  font-size: 14px;
-  padding: 16px;
+    font-size: 14px;
+    padding: 16px;
 }
 
 .size-lg {
-  font-size: 15px;
-  padding: 18px;
+    font-size: 15px;
+    padding: 18px;
 }
 
 .size-xl {
-  font-size: 16px;
-  padding: 20px;
+    font-size: 16px;
+    padding: 20px;
 }
 
 .alert-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  height: fit-content;
-  background-color: #272c36;
-  border: 1px solid #383e49;
-  border-radius: 6px;
-  width: fit-content;
-  min-width: 300px;
-  padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: fit-content;
+    background-color: #252627;
+    border: 1px solid #3e4249;
+    border-radius: 6px;
+    width: fit-content;
+    min-width: 300px;
+    padding: 12px 16px;
 }
 
 .alert-title,
 .alert-description {
-  flex: 1;
+    flex: 1;
 }
 
 .alert-title {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .alert-description {
-  color: #a1a1aa;
-  font-size: 0.9em;
+    color: #a1a1aa;
+    font-size: 0.9em;
 }
 
 .alert-underscore {
-  color: #a1a1aa;
+    color: #a1a1aa;
 }
 
 .alert-left-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

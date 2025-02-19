@@ -1,65 +1,65 @@
 .button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  white-space: nowrap;
-  user-select: none;
-  background: none;
-  border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    white-space: nowrap;
+    user-select: none;
+    background: none;
+    border: none;
 }
 
 .size-sm {
-  font-size: 13px;
-  padding: 6px 12px;
-  height: 32px;
+    font-size: 13px;
+    padding: 6px 12px;
+    height: 32px;
 }
 
 .size-md {
-  font-size: 14px;
-  padding: 8px 16px;
-  height: 38px;
+    font-size: 14px;
+    padding: 8px 16px;
+    height: 38px;
 }
 
 .size-lg {
-  font-size: 15px;
-  padding: 10px 20px;
-  height: 44px;
+    font-size: 15px;
+    padding: 10px 20px;
+    height: 44px;
 }
 
 .size-xl {
-  font-size: 16px;
-  padding: 12px 24px;
-  height: 52px;
+    font-size: 16px;
+    padding: 12px 24px;
+    height: 52px;
 }
 
 .button-filled {
-  background-color: #272c36;
-  border: 1px solid #383e49;
-  color: #ffffff;
+    background-color: #252627;
+    border: 1px solid #3e4249;
+    color: #ffffff;
 }
 
 .button-filled:hover {
-  background-color: #3d424b;
+    background-color: #333538;
 }
 
 .button-outline {
-  background-color: transparent;
-  border: 1px solid #4a515e;
-  color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #4a515e;
+    color: #ffffff;
 }
 
 .button-outline:hover {
-  background-color: #e9ecef;
+    background-color: #e9ecef;
 }
 
 .button-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
