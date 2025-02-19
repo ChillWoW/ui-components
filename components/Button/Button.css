@@ -45,10 +45,18 @@
   color: #212529;
 }
 
+.button-filled:hover {
+  background-color: #e9ecef;
+}
+
 .button-outline {
   background-color: transparent;
   border: 1px solid #e9ecef;
   color: #e9ecef;
+}
+
+.button-outline:hover {
+  background-color: #e9ecef;
 }
 
 .button-disabled {

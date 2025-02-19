@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import "./CheckBox.css";
+import "./Checkbox.css";
 import { useState } from "react";
 
 export interface CheckboxProps {
