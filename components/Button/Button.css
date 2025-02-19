@@ -14,7 +14,6 @@
   border: none;
 }
 
-/* Size variants */
 .size-sm {
   font-size: 13px;
   padding: 6px 12px;
@@ -40,19 +39,19 @@
 }
 
 .button-filled {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  color: #212529;
+  background-color: #272c36;
+  border: 1px solid #383e49;
+  color: #ffffff;
 }
 
 .button-filled:hover {
-  background-color: #e9ecef;
+  background-color: #3d424b;
 }
 
 .button-outline {
   background-color: transparent;
-  border: 1px solid #e9ecef;
-  color: #e9ecef;
+  border: 1px solid #4a515e;
+  color: #ffffff;
 }
 
 .button-outline:hover {

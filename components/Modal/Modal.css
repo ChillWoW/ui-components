@@ -24,10 +24,10 @@
 
 .modal-content {
   position: relative;
-  background-color: var(--dark-800, #25262b);
+  background-color: #272c36;
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--dark-700, #2c2e33);
+  border: 1px solid #4a515e;
   animation: slideUp 200ms ease;
 }
 
@@ -36,12 +36,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid var(--dark-700, #2c2e33);
+  border-bottom: 1px solid #4a515e;
 }
 
 .modal-title {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
   line-height: 1;
@@ -69,7 +69,6 @@
   padding: 1.5rem;
 }
 
-/* Size variants */
 .modal-size-xs {
   width: 20rem;
 }
@@ -86,7 +85,6 @@
   width: 60rem;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;

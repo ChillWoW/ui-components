@@ -11,8 +11,8 @@
 .progress-track {
   position: relative;
   overflow: hidden;
-  background: #373a40;
-  border-radius: 4px;
+  background: #272c36;
+  border-radius: 2px;
 }
 
 .progress-bar {

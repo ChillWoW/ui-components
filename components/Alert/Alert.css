@@ -1,5 +1,5 @@
 .alert {
-  color: #fff;
+  color: #ffffff;
 }
 
 .size-xs {
@@ -32,7 +32,8 @@
   flex-direction: column;
   gap: 4px;
   height: fit-content;
-  border: 1px solid #333333;
+  background-color: #272c36;
+  border: 1px solid #383e49;
   border-radius: 6px;
   width: fit-content;
   min-width: 300px;

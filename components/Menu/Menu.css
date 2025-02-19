@@ -7,8 +7,8 @@
   position: fixed;
   z-index: 1000;
   min-width: 180px;
-  background: #2c2e33;
-  border: 1px solid #373a40;
+  background: #272c36;
+  border: 1px solid #4a515e;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   overflow: visible;
@@ -33,7 +33,7 @@
 }
 
 .menu-item:hover:not(.menu-item-disabled) {
-  background-color: #373a40;
+  background-color: #434750;
 }
 
 .menu-item-disabled {
@@ -56,5 +56,5 @@
 
 .menu-item-arrow {
   margin-left: 4px;
-  color: #727b8e;
+  color: #c1c2c5;
 }

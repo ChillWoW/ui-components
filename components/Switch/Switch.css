@@ -37,7 +37,7 @@
   display: inline-block;
   border-radius: 999px;
   transition: background-color 0.2s;
-  background-color: #434750;
+  background-color: #272c36;
 }
 
 .switch-track::after {

@@ -24,7 +24,8 @@
   gap: 10px;
   min-width: 200px;
   padding: 12px;
-  border: 1px solid #222;
+  border: 1px solid #4a515e;
+  background-color: #272c36;
   border-radius: 4px;
   cursor: pointer;
 }

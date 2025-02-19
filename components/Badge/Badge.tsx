@@ -46,7 +46,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const variantStyles = {
     filled: {
-      "--badge-bg": color || "rgba(54, 163, 199, 0.8)",
+      "--badge-bg": color || "rgba(17, 67, 209, 0.5)",
       "--badge-color": "#fff",
     },
     outline: {

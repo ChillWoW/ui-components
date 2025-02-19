@@ -12,7 +12,7 @@
   pointer-events: none;
   max-width: 200px;
   text-align: center;
-  background-color: #373a40;
+  background-color: #272c36;
   color: #ffffff;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
 }
@@ -21,7 +21,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background-color: #373a40;
+  background-color: #272c36;
   transform: rotate(45deg);
 }
 

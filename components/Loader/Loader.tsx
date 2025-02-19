@@ -10,7 +10,7 @@ interface LoaderProps {
 
 export const Loader: React.FC<LoaderProps> = ({
   size = 35,
-  color = "black",
+  color = "white",
   speed = 1,
   stroke = 3.5,
 }) => {

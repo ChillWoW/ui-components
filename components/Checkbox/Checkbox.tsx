@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import "./Checkbox.css";
-import { useState } from "react";
 
 export interface CheckboxProps {
   checked?: boolean;
@@ -18,12 +17,9 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   className,
   ...props
 }) => {
-  const [isChecked, setIsChecked] = useState(checked);
-
   const handleChange = () => {
     if (!disabled && onChange) {
-      onChange(!isChecked);
-      setIsChecked(!isChecked);
+      onChange(!checked);
     }
   };
 
@@ -37,7 +33,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     <div className={checkboxClasses} onClick={handleChange}>
       <input
         type="checkbox"
-        checked={isChecked}
+        checked={checked}
         onChange={handleChange}
         disabled={disabled}
         className="checkbox-input"

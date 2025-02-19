@@ -184,6 +184,7 @@ export const Menu: React.FC<MenuProps> = ({
                 {items.map((item, index) => (
                   <div
                     key={index}
+                    //@ts-ignore
                     ref={(el) => (itemRefs.current[index] = el)}
                     className={`menu-item ${
                       item.disabled ? "menu-item-disabled" : ""
