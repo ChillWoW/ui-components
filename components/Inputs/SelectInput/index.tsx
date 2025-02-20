@@ -1,8 +1,6 @@
-"use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
-import "../inputs.css";
+import { cn } from "../..";
 
 interface Option {
   value: string;
@@ -69,68 +67,93 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   }, []);
 
   const handleSelect = (option: Option) => {
-    onChange?.(option.value);
-    setIsOpen(false);
+    if (!disabled) {
+      if (onChange) {
+        onChange(option.value);
+      }
+      setIsOpen(false);
+    }
+  };
+
+  const toggleDropdown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled) {
+      setIsOpen(!isOpen);
+    }
   };
 
   return (
-    <div className="input-wrapper" ref={containerRef}>
+    <div className="flex flex-col gap-2">
       {label && (
-        <label className="input-label">
+        <label className="text-sm text-white font-medium ml-2 flex items-center gap-1">
           {label}
-          {required && <span className="input-required">*</span>}
+          {required && <span className="text-red-600">*</span>}
         </label>
       )}
 
-      {description && <p className="input-description">{description}</p>}
-
       <div
-        className={`input-container ${disabled ? "input-disabled" : ""} ${
-          error ? "input-error" : ""
-        } ${className || ""}`}
+        ref={containerRef}
+        className={cn(
+          "flex items-center border border-[#3e4249] rounded-lg bg-[#252627] transition-all duration-200 overflow-hidden",
+          "hover:border-[#53575e]",
+          disabled && "opacity-60 cursor-not-allowed",
+          className
+        )}
+        onClick={toggleDropdown}
       >
-        {leftSection && <div className="input-section">{leftSection}</div>}
+        {leftSection && (
+          <div className="px-3 flex items-center justify-center text-[#727b8e] transition-colors duration-200 hover:text-[#c9c2c2]">
+            {leftSection}
+          </div>
+        )}
 
-        <div
-          className="input-field"
-          style={{ cursor: "pointer" }}
-          onClick={() => !disabled && setIsOpen(!isOpen)}
-        >
-          <span style={{ color: !selectedOption ? "#727b8e" : "#ffffff" }}>
+        <div className="flex-1 px-3 py-2 text-sm">
+          <span className={!selectedOption ? "text-[#727b8e]" : "text-white"}>
             {selectedOption ? selectedOption.label : placeholder}
           </span>
         </div>
 
-        <div className="input-section">
+        <div className="px-3 flex items-center justify-center text-[#727b8e]">
           <IconChevronDown
-            style={{
-              width: "16px",
-              height: "16px",
-              color: "#727b8e",
-              transition: "transform 200ms ease",
-              transform: isOpen ? "rotate(180deg)" : "none",
-            }}
+            size={16}
+            className={cn(
+              "transition-transform duration-200",
+              isOpen && "rotate-180"
+            )}
           />
         </div>
       </div>
 
       {isOpen && !disabled && (
-        <div className="select-dropdown" style={dropdownStyle}>
+        <div
+          className="fixed z-50 bg-[#252627] border border-[#3e4249] rounded-lg shadow-lg overflow-y-auto"
+          style={dropdownStyle}
+        >
           {options.map((option) => (
             <div
               key={option.value}
-              className={`select-option ${
-                option.value === value ? "select-option-selected" : ""
-              }`}
-              onClick={() => handleSelect(option)}
+              className={cn(
+                "px-3 py-2 cursor-pointer text-sm transition-all duration-200",
+                option.value === value
+                  ? "bg-[#333538] text-white"
+                  : "text-[#a1adc2] hover:bg-[#333538] hover:text-white"
+              )}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSelect(option);
+              }}
             >
               {option.label}
             </div>
           ))}
         </div>
       )}
-
-      {error && <p className="input-error-text">{error}</p>}
+      {description && (
+        <p className="text-sm text-[#727b8e] ml-2">{description}</p>
+      )}
+      {error && <p className="text-sm text-red-600 ml-2">{error}</p>}
     </div>
   );
 };

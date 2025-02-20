@@ -1,26 +1,22 @@
-import React from "react";
-import "./Switch.css";
+import { cn } from "..";
 
 export interface SwitchProps {
   checked?: boolean;
   onChange?: (checked: boolean) => void;
-  label?: string;
-  description?: string;
-  error?: string;
   disabled?: boolean;
-  size?: "sm" | "md" | "lg";
   className?: string;
+  label?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 export const Switch: React.FC<SwitchProps> = ({
   checked = false,
   onChange,
-  label,
-  description,
-  error,
   disabled,
-  size = "md",
   className,
+  label,
+  size = "md",
+  ...props
 }) => {
   const handleChange = () => {
     if (!disabled && onChange) {
@@ -28,29 +24,70 @@ export const Switch: React.FC<SwitchProps> = ({
     }
   };
 
+  const sizeClasses = {
+    sm: {
+      wrapper: "w-8 h-[18px]",
+      thumb: "w-[14px] h-[14px]",
+      thumbTranslate: "translate-x-[14px]",
+      label: "text-xs",
+    },
+    md: {
+      wrapper: "w-11 h-6",
+      thumb: "w-5 h-5",
+      thumbTranslate: "translate-x-5",
+      label: "text-sm",
+    },
+    lg: {
+      wrapper: "w-14 h-[30px]",
+      thumb: "w-[26px] h-[26px]",
+      thumbTranslate: "translate-x-[26px]",
+      label: "text-base",
+    },
+  };
+
   return (
-    <div className="switch-wrapper">
+    <div className="flex flex-col gap-1">
       <div
-        className={`switch-container ${disabled ? "disabled" : ""} ${
-          className || ""
-        }`}
+        className={cn(
+          "flex items-center gap-2 select-none",
+          disabled && "opacity-60 cursor-not-allowed",
+          className
+        )}
         onClick={handleChange}
       >
-        <div className="switch-input-wrapper">
+        <div
+          className={cn(
+            "relative inline-flex items-center rounded-full transition-colors duration-200",
+            sizeClasses[size].wrapper,
+            checked ? "bg-[#22c55e]" : "bg-[#252627]",
+            !disabled && "cursor-pointer"
+          )}
+        >
           <input
             type="checkbox"
+            className="sr-only"
             checked={checked}
             onChange={handleChange}
             disabled={disabled}
-            className="switch-input"
+            {...props}
           />
-          <div className={`switch-track ${size} ${checked ? "checked" : ""}`} />
+          <span
+            className={cn(
+              "absolute inline-block rounded-full bg-white transition-transform duration-200 ease-in-out",
+              sizeClasses[size].thumb,
+              "top-[2px] left-[2px]",
+              checked && sizeClasses[size].thumbTranslate
+            )}
+          />
         </div>
-        {label && <span className={`switch-label ${size}`}>{label}</span>}
+        {label && (
+          <span
+            className={cn("text-white font-medium", sizeClasses[size].label)}
+          >
+            {label}
+          </span>
+        )}
       </div>
-
-      {description && <p className="switch-description">{description}</p>}
-      {error && <p className="switch-error">{error}</p>}
     </div>
   );
 };

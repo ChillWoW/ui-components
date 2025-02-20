@@ -1,11 +1,9 @@
-"use client";
-
 import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { IconChevronRight } from "@tabler/icons-react";
 import { MenuItem, MenuProps } from "./types";
-import "./Menu.css";
+import { cn } from "..";
 
 interface SubMenuProps {
   item: MenuItem;
@@ -30,7 +28,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ item, parentCoords, onClose }) => {
   return (
     <motion.div
       ref={menuRef}
-      className="menu-dropdown submenu"
+      className="fixed z-[1001] min-w-[180px] bg-[#252627] border border-[#3e4249] rounded-lg shadow-lg overflow-visible"
       style={{
         top: coords.top,
         left: coords.left,
@@ -43,9 +41,12 @@ const SubMenu: React.FC<SubMenuProps> = ({ item, parentCoords, onClose }) => {
       {item.items?.map((subItem, index) => (
         <div
           key={index}
-          className={`menu-item ${
-            subItem.disabled ? "menu-item-disabled" : ""
-          }`}
+          className={cn(
+            "flex items-center gap-2 px-4 py-2 text-sm text-[#c1c2c5] cursor-pointer transition-colors duration-150",
+            "hover:bg-[#333538]",
+            subItem.disabled &&
+              "opacity-50 cursor-not-allowed pointer-events-none"
+          )}
           onClick={() => {
             if (!subItem.disabled) {
               subItem.onClick?.();
@@ -54,9 +55,11 @@ const SubMenu: React.FC<SubMenuProps> = ({ item, parentCoords, onClose }) => {
           }}
         >
           {subItem.icon && (
-            <span className="menu-item-icon">{subItem.icon}</span>
+            <span className="flex items-center justify-center w-4 h-4 text-[#c1c2c5]">
+              {subItem.icon}
+            </span>
           )}
-          <span className="menu-item-label">{subItem.label}</span>
+          <span className="flex-1">{subItem.label}</span>
         </div>
       ))}
     </motion.div>
@@ -159,7 +162,7 @@ export const Menu: React.FC<MenuProps> = ({
       <div
         ref={triggerRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="menu-trigger"
+        className="inline-block cursor-pointer"
       >
         {trigger}
       </div>
@@ -170,7 +173,10 @@ export const Menu: React.FC<MenuProps> = ({
             {isOpen && (
               <motion.div
                 ref={menuRef}
-                className="menu-dropdown"
+                className={cn(
+                  "fixed z-[1000] min-w-[180px] bg-[#252627] border border-[#3e4249] rounded-lg shadow-lg overflow-hidden",
+                  className
+                )}
                 style={{
                   top: coords.top,
                   left: coords.left,
@@ -184,11 +190,13 @@ export const Menu: React.FC<MenuProps> = ({
                 {items.map((item, index) => (
                   <div
                     key={index}
-                    //@ts-ignore
                     ref={(el) => (itemRefs.current[index] = el)}
-                    className={`menu-item ${
-                      item.disabled ? "menu-item-disabled" : ""
-                    }`}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 text-sm text-[#c1c2c5] cursor-pointer transition-colors duration-150",
+                      "hover:bg-[#333538]",
+                      item.disabled &&
+                        "opacity-50 cursor-not-allowed pointer-events-none"
+                    )}
                     onClick={() => {
                       if (!item.disabled && !item.items) {
                         item.onClick?.();
@@ -198,11 +206,13 @@ export const Menu: React.FC<MenuProps> = ({
                     onMouseEnter={() => handleItemMouseEnter(item, index)}
                   >
                     {item.icon && (
-                      <span className="menu-item-icon">{item.icon}</span>
+                      <span className="flex items-center justify-center w-4 h-4 text-[#c1c2c5]">
+                        {item.icon}
+                      </span>
                     )}
-                    <span className="menu-item-label">{item.label}</span>
+                    <span className="flex-1">{item.label}</span>
                     {item.items && (
-                      <span className="menu-item-arrow">
+                      <span className="text-[#c1c2c5] ml-1">
                         <IconChevronRight size={14} />
                       </span>
                     )}

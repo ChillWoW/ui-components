@@ -1,6 +1,6 @@
 import React from "react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import "./Pagination.css";
+import { cn } from "..";
 
 export interface PaginationProps {
   total: number;
@@ -54,10 +54,21 @@ export const Pagination: React.FC<PaginationProps> = ({
     ];
   };
 
+  const paginationClass = "flex items-center gap-2";
+  const paginationButtonClass = cn(
+    "flex min-w-[32px] h-[32px] items-center justify-center cursor-pointer user-select-none px-[8px] rounded-md",
+    "border border-[#3e4249] bg-[#252627] text-[#bbb] text-sm",
+    "hover:not(:disabled):not(.pagination-dots):hover:bg-[#333538] hover:text-white",
+    "disabled:opacity-60 disabled:cursor-not-allowed"
+  );
+  const paginationButtonActiveClass = "border-[#727477] text-white";
+
+  const paginationDotsClass = "cursor-default text-[#bbb]";
+
   return (
-    <div className={`pagination ${className}`}>
+    <div className={cn(paginationClass, className)}>
       <button
-        className="pagination-button"
+        className={paginationButtonClass}
         onClick={() => page > 1 && onChange(page - 1)}
         disabled={page === 1}
       >
@@ -67,11 +78,11 @@ export const Pagination: React.FC<PaginationProps> = ({
       {getPageNumbers().map((pageNumber, i) => (
         <button
           key={i}
-          className={`
-            pagination-button
-            ${pageNumber === page ? "active" : ""}
-            ${pageNumber === "..." ? "pagination-dots" : ""}
-          `}
+          className={cn(
+            paginationButtonClass,
+            pageNumber === page && paginationButtonActiveClass,
+            pageNumber === "..." && paginationDotsClass
+          )}
           onClick={() => pageNumber !== "..." && onChange(Number(pageNumber))}
         >
           {pageNumber}
@@ -79,7 +90,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       ))}
 
       <button
-        className="pagination-button"
+        className={paginationButtonClass}
         onClick={() => page < total && onChange(page + 1)}
         disabled={page === total}
       >

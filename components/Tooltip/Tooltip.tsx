@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import "./Tooltip.css";
+import { cn } from "../index";
 
 export interface TooltipProps {
   children: React.ReactNode;
@@ -88,11 +88,20 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setIsVisible(false);
   };
 
+  const arrowClasses = {
+    top: "bottom-[-4px] left-1/2 -translate-x-1/2 border-t-[#252627] border-l-transparent border-r-transparent border-b-transparent",
+    bottom:
+      "top-[-4px] left-1/2 -translate-x-1/2 border-b-[#252627] border-l-transparent border-r-transparent border-t-transparent",
+    left: "right-[-4px] top-1/2 -translate-y-1/2 border-l-[#252627] border-t-transparent border-b-transparent border-r-transparent",
+    right:
+      "left-[-4px] top-1/2 -translate-y-1/2 border-r-[#252627] border-t-transparent border-b-transparent border-l-transparent",
+  };
+
   return (
     <>
       <div
         ref={triggerRef}
-        className="tooltip-trigger"
+        className="inline-block"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -105,7 +114,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             {isVisible && (
               <motion.div
                 ref={tooltipRef}
-                className="tooltip"
+                className="fixed z-[1000] px-2.5 py-1.5 text-xs text-white bg-[#252627] rounded shadow-md border border-[#3e4249]"
                 style={{ top: coords.top, left: coords.left }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -114,7 +123,12 @@ export const Tooltip: React.FC<TooltipProps> = ({
               >
                 {label}
                 {withArrow && (
-                  <div className={`tooltip-arrow tooltip-arrow-${position}`} />
+                  <div
+                    className={cn(
+                      "absolute w-0 h-0 border-[4px]",
+                      arrowClasses[position]
+                    )}
+                  />
                 )}
               </motion.div>
             )}

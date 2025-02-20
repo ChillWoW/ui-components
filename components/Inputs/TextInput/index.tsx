@@ -1,50 +1,60 @@
-import React, { InputHTMLAttributes } from "react";
-import "../inputs.css";
+import React from "react";
+import {
+  cn,
+  defaultDescriptionClass,
+  defaultIconClass,
+  defaultInputClass,
+  defaultInputContainerClass,
+  defaultInputContentClass,
+  defaultLabelClass,
+} from "../../index";
 
-export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   description?: string;
-  error?: string;
   required?: boolean;
   leftSection?: React.ReactNode;
-  rightSection?: React.ReactNode;
+  hideToggle?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
   label,
   description,
-  error,
   required,
   leftSection,
-  rightSection,
+  hideToggle = false,
   className,
   disabled,
   ...props
 }) => {
   return (
-    <div className="input-wrapper">
+    <div className={defaultInputContainerClass}>
       {label && (
-        <label className="input-label">
+        <label className={defaultLabelClass}>
           {label}
-          {required && <span className="input-required">*</span>}
+          {required && <span className="text-red-600">*</span>}
         </label>
       )}
 
       <div
-        className={`
-          input-container
-          ${disabled ? "input-disabled" : ""}
-          ${error ? "input-error" : ""}
-          ${className || ""}
-        `}
+        className={cn(
+          defaultInputClass,
+          disabled && "opacity-60 cursor-not-allowed",
+          className
+        )}
       >
-        {leftSection && <div className="input-section">{leftSection}</div>}
-        <input className="input-field" disabled={disabled} {...props} />
-        {rightSection && <div className="input-section">{rightSection}</div>}
+        {leftSection && <div className={defaultIconClass}>{leftSection}</div>}
+
+        <input
+          type="text"
+          className={defaultInputContentClass}
+          disabled={disabled}
+          {...props}
+        />
       </div>
 
-      {description && <p className="input-description">{description}</p>}
-      {error && <p className="input-error-text">{error}</p>}
+      {description && <p className={defaultDescriptionClass}>{description}</p>}
     </div>
   );
 };

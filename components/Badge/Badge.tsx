@@ -1,8 +1,8 @@
 import React from "react";
-import "./Badge.css";
+import { cn } from "../index";
 
-export type BadgeSize = "sm" | "md" | "lg" | "xl";
-export type BadgeVariant = "filled" | "outline" | "light";
+export type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type BadgeVariant = "filled" | "outline";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -13,7 +13,6 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   withDot?: boolean;
   className?: string;
   color?: string;
-  style?: React.CSSProperties;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
@@ -25,66 +24,54 @@ export const Badge: React.FC<BadgeProps> = ({
   withDot = false,
   className,
   color,
-  style,
   ...props
 }) => {
-  const rootClasses = ["root", withDot && "root--dot", className]
-    .filter(Boolean)
-    .join(" ");
+  const badgeClass =
+    "inline-flex items-center justify-center rounded-full font-semibold uppercase tracking-wider leading-none";
 
-  const dataAttributes: Record<string, boolean | string> = {
-    "data-with-left-section": Boolean(leftSection),
-    "data-with-right-section": Boolean(rightSection),
-    "data-variant": withDot ? "dot" : false,
+  const sizeClasses = {
+    xs: "text-[9px] px-1.5 h-4",
+    sm: "text-[10px] px-2 h-[18px]",
+    md: "text-[11px] px-2.5 h-5",
+    lg: "text-[13px] px-3 h-[26px]",
+    xl: "text-[16px] px-4 h-8",
   };
 
-  const sizeStyles = {
-    "--badge-height": `var(--badge-height-${size})`,
-    "--badge-size": `var(--badge-size-${size})`,
-    "--badge-padding-x": `var(--badge-padding-x-${size})`,
+  const variantClasses = {
+    filled: "bg-white text-black hover:bg-gray-100",
+    outline: "bg-transparent border border-current text-white hover:bg-white/5",
   };
 
-  const variantStyles = {
-    filled: {
-      "--badge-bg": color || "rgba(17, 67, 209, 0.5)",
-      "--badge-color": "#fff",
-    },
-    outline: {
-      "--badge-bg": "transparent",
-      "--badge-color": color || "#d3d3d3",
-      "--badge-border": "1px solid currentColor",
-    },
-    light: {
-      "--badge-bg": color || "#e6f0ff",
-      "--badge-color": "#0052cc",
-    },
-  };
+  const badgeDotClass =
+    "w-1.5 h-1.5 rounded-full bg-transparent border border-current mr-1";
 
   return (
     <div
-      className={rootClasses}
+      className={cn(
+        badgeClass,
+        sizeClasses[size],
+        variantClasses[variant],
+        className
+      )}
       style={{
-        ...sizeStyles,
-        ...variantStyles[variant],
-        ...style,
+        color: variant === "outline" ? color : undefined,
+        backgroundColor: variant === "filled" ? color : undefined,
+        borderColor: variant === "outline" ? color : undefined,
       }}
-      {...dataAttributes}
       {...props}
     >
-      {withDot && <span className="section dot" data-position="left" />}
+      {withDot && <span className={badgeDotClass} />}
       {leftSection && (
-        <span className="section" data-position="left">
+        <span className="flex items-center justify-center mr-1">
           {leftSection}
         </span>
       )}
-      <span className="label">{children}</span>
+      <span className="truncate">{children}</span>
       {rightSection && (
-        <span className="section" data-position="right">
+        <span className="flex items-center justify-center ml-1">
           {rightSection}
         </span>
       )}
     </div>
   );
 };
-
-export default Badge;

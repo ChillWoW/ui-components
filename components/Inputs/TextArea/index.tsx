@@ -1,5 +1,13 @@
 import React, { TextareaHTMLAttributes } from "react";
-import "../inputs.css";
+import {
+  defaultDescriptionClass,
+  defaultIconClass,
+  defaultInputClass,
+  defaultInputContainerClass,
+  defaultInputContentClass,
+} from "../..";
+import { defaultLabelClass } from "../..";
+import { cn } from "../../index";
 
 export interface TextAreaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -8,7 +16,6 @@ export interface TextAreaProps
   error?: string;
   required?: boolean;
   leftSection?: React.ReactNode;
-  rightSection?: React.ReactNode;
 }
 
 export const TextArea: React.FC<TextAreaProps> = ({
@@ -17,39 +24,38 @@ export const TextArea: React.FC<TextAreaProps> = ({
   error,
   required,
   leftSection,
-  rightSection,
   className,
   disabled,
   ...props
 }) => {
+  const inputClass = "resize-none min-h-[80px]";
+
   return (
-    <div className="input-wrapper">
+    <div className={defaultInputContainerClass}>
       {label && (
-        <label className="input-label">
+        <label className={defaultLabelClass}>
           {label}
           {required && <span className="input-required">*</span>}
         </label>
       )}
 
       <div
-        className={`
-          input-container
-          ${disabled ? "input-disabled" : ""}
-          ${error ? "input-error" : ""}
-          ${className || ""}
-        `}
+        className={cn(
+          defaultInputClass,
+          disabled && "opacity-60 cursor-not-allowed",
+          className
+        )}
       >
-        {leftSection && <div className="input-section">{leftSection}</div>}
+        {leftSection && <div className={defaultIconClass}>{leftSection}</div>}
         <textarea
-          className="input-field resize-none min-h-[100px]"
+          className={cn(defaultInputContentClass, inputClass)}
           disabled={disabled}
           {...props}
         />
-        {rightSection && <div className="input-section">{rightSection}</div>}
       </div>
 
-      {description && <p className="input-description">{description}</p>}
-      {error && <p className="input-error-text">{error}</p>}
+      {description && <p className={defaultDescriptionClass}>{description}</p>}
+      {error && <p className="text-red-600">{error}</p>}
     </div>
   );
 };

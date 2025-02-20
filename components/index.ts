@@ -1,4 +1,3 @@
-export * from "./Alert";
 export * from "./Badge";
 export * from "./Button";
 export * from "./Checkbox";
@@ -14,3 +13,11 @@ export * from "./Switch";
 export * from "./Tabs";
 export * from "./Text";
 export * from "./Tooltip";
+
+//Tailwind Support
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

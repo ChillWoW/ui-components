@@ -1,5 +1,5 @@
 import React from "react";
-import "./Text.css";
+import { cn } from "..";
 
 export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | number;
@@ -16,9 +16,9 @@ export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
 
 export const Text: React.FC<TextProps> = ({
   size = "md",
-  color,
-  weight,
-  align,
+  color = "white",
+  weight = "normal",
+  align = "left",
   italic,
   underline,
   dimmed,
@@ -28,27 +28,44 @@ export const Text: React.FC<TextProps> = ({
   children,
   ...others
 }) => {
-  const classes = [
-    "text",
-    typeof size === "string" && `text-${size}`,
-    typeof weight === "string" && `text-${weight}`,
-    align && `text-${align}`,
-    italic && "text-italic",
-    underline && "text-underline",
-    dimmed && "text-dimmed",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const sizeClasses = {
+    xs: "text-[10px]",
+    sm: "text-[14px]",
+    md: "text-[16px]",
+    lg: "text-[18px]",
+    xl: "text-[20px]",
+  };
+
+  const weightClasses = {
+    bold: "font-bold",
+    semibold: "font-semibold",
+    normal: "font-normal",
+    light: "font-light",
+  };
+
+  const alignClasses = {
+    left: "text-left",
+    center: "text-center",
+    right: "text-right",
+  };
 
   return (
     <Component
-      className={classes}
+      className={cn(
+        "m-0 p-0 font-inherit",
+        typeof size === "string" && sizeClasses[size],
+        typeof weight === "string" && weightClasses[weight],
+        align && alignClasses[align],
+        italic && "italic",
+        underline && "underline",
+        dimmed && "text-[#c9b4b4]",
+        className
+      )}
       style={{
         ...style,
         color: color,
-        fontWeight: typeof weight === "number" ? weight : undefined,
         fontSize: typeof size === "number" ? size : undefined,
+        fontWeight: typeof weight === "number" ? weight : undefined,
       }}
       {...others}
     >

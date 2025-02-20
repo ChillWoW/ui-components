@@ -1,57 +1,30 @@
-:host {
-  flex-shrink: 0;
+.loader-container {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: calc(var(--uib-size) * 0.9);
-  width: var(--uib-size);
+  flex-shrink: 0;
 }
 
-:host([hidden]) {
-  display: none;
+.loader-svg {
+  animation: rotate var(--speed) linear infinite;
 }
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: var(--uib-size);
-  height: calc(var(--uib-size) * 0.9);
+.loader-track {
+  fill: none;
+  background-color: #252627;
+  transition: stroke 0.5s ease;
 }
 
-.bar {
-  width: var(--uib-stroke);
-  height: 100%;
-  background-color: var(--uib-color);
-  transition: background-color 0.3s ease;
+.loader-circle {
+  fill: none;
+  transition: stroke 0.5s ease;
 }
 
-.bar:nth-child(1) {
-  animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
-    infinite;
-}
-
-.bar:nth-child(2) {
-  animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
-    infinite;
-}
-
-.bar:nth-child(3) {
-  animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
-    infinite;
-}
-
-.bar:nth-child(4) {
-  animation: grow var(--uib-speed) ease-in-out infinite;
-}
-
-@keyframes grow {
-  0%,
-  100% {
-    transform: scaleY(0.4);
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
   }
-
-  50% {
-    transform: scaleY(1);
+  to {
+    transform: rotate(360deg);
   }
 }

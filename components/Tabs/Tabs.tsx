@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Tabs.css";
+import { cn } from "..";
 
 export interface Tab {
   value: string;
@@ -44,9 +45,21 @@ export const Tabs: React.FC<TabsProps> = ({
     onChange?.(value);
   };
 
+  const tabsContainerClass = "flex flex-col w-full";
+  const tabsHeaderClass =
+    "flex justify-around border-b border-[#3e4249] relative";
+  const tabItemClass = cn(
+    "flex-1 px-4 py-2 cursor-pointer text-center font-medium transition-colors duration-200 text-[#727b8e]",
+    "hover:text-white"
+  );
+  const tabItemActiveClass = "text-white";
+  const tabIndicatorClass =
+    "absolute bottom-0 h-[1px] bg-white transition-all duration-200";
+  const tabContentClass = "p-1";
+
   return (
-    <div className={`tabs-container ${className || ""}`}>
-      <div className="tabs-header">
+    <div className={cn(tabsContainerClass, className)}>
+      <div className={tabsHeaderClass}>
         {tabs.map((tab, index) => (
           <div
             key={tab.value}
@@ -55,15 +68,18 @@ export const Tabs: React.FC<TabsProps> = ({
                 tabsRef.current[index] = el;
               }
             }}
-            className={`tab-item ${tab.value === activeTab ? "active" : ""}`}
+            className={cn(
+              tabItemClass,
+              tab.value === activeTab && tabItemActiveClass
+            )}
             onClick={() => handleTabClick(tab.value)}
           >
             {tab.label}
           </div>
         ))}
-        <div className="tab-indicator" style={indicatorStyle} />
+        <div className={cn(tabIndicatorClass)} style={indicatorStyle} />
       </div>
-      <div className="tab-content">
+      <div className={cn(tabContentClass)}>
         {tabs.find((tab) => tab.value === activeTab)?.content}
       </div>
     </div>

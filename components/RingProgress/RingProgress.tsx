@@ -1,7 +1,6 @@
 import React from "react";
-import "./RingProgress.css";
 
-export interface RingProgressProps {
+interface RingProgressProps {
   value: number;
   size?: number;
   thickness?: number;
@@ -24,17 +23,20 @@ export const RingProgress: React.FC<RingProgressProps> = ({
   const offset = circumference - (clampedValue / 100) * circumference;
 
   return (
-    <div className="ring-progress" style={{ width: size, height: size }}>
-      <svg width={size} height={size}>
+    <div
+      className="relative inline-flex items-center justify-center"
+      style={{ width: size, height: size }}
+    >
+      <svg className="transform -rotate-90" width={size} height={size}>
         <circle
-          className="ring-background"
+          className="fill-none stroke-[#252627]"
           cx={size / 2}
           cy={size / 2}
           r={radius}
           strokeWidth={thickness}
         />
         <circle
-          className="ring-value"
+          className="fill-none transition-[stroke-dashoffset] duration-300 ease-in-out"
           cx={size / 2}
           cy={size / 2}
           r={radius}
@@ -45,7 +47,11 @@ export const RingProgress: React.FC<RingProgressProps> = ({
           style={{ stroke: color }}
         />
       </svg>
-      {label && <div className="ring-label">{label}</div>}
+      {label && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-sm font-medium">
+          {label}
+        </div>
+      )}
     </div>
   );
 };

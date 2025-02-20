@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
-import "../inputs.css";
+import {
+  cn,
+  defaultDescriptionClass,
+  defaultIconClass,
+  defaultInputClass,
+  defaultInputContainerClass,
+  defaultInputContentClass,
+  defaultLabelClass,
+} from "../../index";
 
 export interface PasswordInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   description?: string;
-  error?: string;
   required?: boolean;
   leftSection?: React.ReactNode;
+  hideToggle?: boolean;
 }
 
 export const PasswordInput: React.FC<PasswordInputProps> = ({
   label,
   description,
-  error,
   required,
   leftSection,
+  hideToggle = false,
   className,
   disabled,
   ...props
@@ -24,40 +32,42 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="input-wrapper">
+    <div className={defaultInputContainerClass}>
       {label && (
-        <label className="input-label">
+        <label className={defaultLabelClass}>
           {label}
-          {required && <span className="input-required">*</span>}
+          {required && <span className="text-red-600">*</span>}
         </label>
       )}
 
       <div
-        className={`
-          input-container
-          ${disabled ? "input-disabled" : ""}
-          ${error ? "input-error" : ""}
-          ${className || ""}
-        `}
+        className={cn(
+          defaultInputClass,
+          disabled && "opacity-60 cursor-not-allowed",
+          className
+        )}
       >
-        {leftSection && <div className="input-section">{leftSection}</div>}
+        {leftSection && <div className={defaultIconClass}>{leftSection}</div>}
+
         <input
           type={showPassword ? "text" : "password"}
-          className="input-field"
+          className={defaultInputContentClass}
           disabled={disabled}
           {...props}
         />
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="input-section"
-        >
-          {showPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
-        </button>
+
+        {!hideToggle && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className={cn(defaultIconClass, "hover:text-gray-50")}
+          >
+            {showPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
+          </button>
+        )}
       </div>
 
-      {description && <p className="input-description">{description}</p>}
-      {error && <p className="input-error-text">{error}</p>}
+      {description && <p className={defaultDescriptionClass}>{description}</p>}
     </div>
   );
 };

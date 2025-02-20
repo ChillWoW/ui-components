@@ -1,11 +1,20 @@
 import React from "react";
 import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
-import "../inputs.css";
+import { cn } from "../../index";
+import {
+  defaultButtonClass,
+  defaultButtonFirstChildClass,
+  defaultDescriptionClass,
+  defaultIconClass,
+  defaultInputClass,
+  defaultInputContainerClass,
+  defaultInputContentClass,
+  defaultLabelClass,
+} from "../index";
 
 export interface NumberInputProps {
   label?: string;
   description?: string;
-  error?: string;
   required?: boolean;
   min?: number;
   max?: number;
@@ -23,7 +32,6 @@ export interface NumberInputProps {
 export const NumberInput: React.FC<NumberInputProps> = ({
   label,
   description,
-  error,
   required,
   min,
   max,
@@ -62,25 +70,27 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     }
   };
 
+  const inputClasses = cn(
+    defaultInputClass,
+    disabled && "opacity-60 cursor-not-allowed",
+    className
+  );
+
   return (
-    <div className="input-wrapper">
+    <div className={defaultInputContainerClass}>
       {label && (
-        <label className="input-label">
+        <label className={defaultLabelClass}>
           {label}
-          {required && <span className="input-required">*</span>}
+          {required && <span className="text-red-600">*</span>}
         </label>
       )}
 
-      <div
-        className={`input-container ${disabled ? "input-disabled" : ""} ${
-          error ? "input-error" : ""
-        } ${className || ""}`}
-      >
-        {icon && <div className="input-section">{icon}</div>}
+      <div className={inputClasses}>
+        {icon && <div className={defaultIconClass}>{icon}</div>}
 
         <input
           type="number"
-          className="input-field"
+          className={defaultInputContentClass}
           value={value ?? ""}
           onChange={handleChange}
           min={min}
@@ -90,7 +100,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           {...props}
         />
 
-        <div className="number-controls">
+        <div className="flex flex-col border-l border-[#3e4249] h-full">
           <button
             type="button"
             onClick={increment}
@@ -98,7 +108,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
               disabled ||
               (max !== undefined && value !== undefined && value >= max)
             }
-            className="number-button"
+            className={cn(defaultButtonClass, defaultButtonFirstChildClass)}
           >
             <IconChevronUp size={16} />
           </button>
@@ -109,15 +119,14 @@ export const NumberInput: React.FC<NumberInputProps> = ({
               disabled ||
               (min !== undefined && value !== undefined && value <= min)
             }
-            className="number-button"
+            className={cn(defaultButtonClass, defaultButtonFirstChildClass)}
           >
             <IconChevronDown size={16} />
           </button>
         </div>
       </div>
 
-      {description && <p className="input-description">{description}</p>}
-      {error && <p className="input-error-text">{error}</p>}
+      {description && <p className={defaultDescriptionClass}>{description}</p>}
     </div>
   );
 };
