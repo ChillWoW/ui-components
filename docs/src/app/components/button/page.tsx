@@ -1,21 +1,21 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ComponentLayout } from "@/components/Layout";
 import { CodeDemo } from "@/components/Demo";
 import { DemoControls } from "@/components/Demo/DemoControls";
-import { Button, ButtonVariant } from "@/components/ui";
-import { useState, useEffect } from "react";
+import { Button, ButtonSize, ButtonVariant } from "@/components/ui";
 import { formatCode } from "@/utils/formatCode";
 import { DemoControl } from "@/types/demo";
-import { Slider } from "@/components/ui/Slider";
 import { IconPlus } from "@tabler/icons-react";
 
 export default function ButtonPage() {
     const [variant, setVariant] = useState<ButtonVariant>("filled");
     const [leftSection, setLeftSection] = useState(false);
     const [rightSection, setRightSection] = useState(false);
+    const [size, setSize] = useState<ButtonSize>("sm");
+    const [disabled, setDisabled] = useState(false);
     const [demoCode, setDemoCode] = useState("");
-    const [value, setValue] = useState(0);
 
     const controls: DemoControl[] = [
         {
@@ -31,6 +31,12 @@ export default function ButtonPage() {
             onChange: setRightSection
         },
         {
+            type: "switch",
+            label: "Disabled",
+            value: disabled,
+            onChange: setDisabled
+        },
+        {
             type: "select",
             label: "Variant",
             value: variant,
@@ -38,6 +44,19 @@ export default function ButtonPage() {
             options: [
                 { label: "Filled", value: "filled" },
                 { label: "Outline", value: "outline" }
+            ]
+        },
+        {
+            type: "select",
+            label: "Size",
+            value: size,
+            onChange: setSize,
+            options: [
+                { label: "Extra Small", value: "xs" },
+                { label: "Small", value: "sm" },
+                { label: "Medium", value: "md" },
+                { label: "Large", value: "lg" },
+                { label: "Extra Large", value: "xl" }
             ]
         }
     ];
@@ -56,6 +75,14 @@ export default function ButtonPage() {
                 props.push("rightSection={<IconPlus />}");
             }
 
+            if (disabled) {
+                props.push("disabled");
+            }
+
+            if (size) {
+                props.push(`size="${size}"`);
+            }
+
             return props.join(" ");
         };
 
@@ -70,7 +97,7 @@ export default function ButtonPage() {
     }`;
 
         formatCode(code).then(setDemoCode);
-    }, [variant, leftSection, rightSection]);
+    }, [variant, leftSection, rightSection, disabled, size]);
 
     return (
         <ComponentLayout
@@ -84,7 +111,9 @@ export default function ButtonPage() {
             }
         >
             <Button
-                variant="filled"
+                variant={variant}
+                size={size}
+                disabled={disabled}
                 leftSection={leftSection ? <IconPlus /> : undefined}
                 rightSection={rightSection ? <IconPlus /> : undefined}
             >
