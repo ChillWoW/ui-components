@@ -1,3 +1,4 @@
+import React from "react";
 import { cn } from "..";
 import { Avatar, AvatarProps } from "./Avatar";
 

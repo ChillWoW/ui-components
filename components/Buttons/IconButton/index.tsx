@@ -1,14 +1,14 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { cn } from "../../index";
 
-export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
-export type ButtonVariant = "filled" | "outline";
+export type IconButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type IconButtonVariant = "filled" | "outline";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     leftSection?: React.ReactNode;
     rightSection?: React.ReactNode;
-    variant?: ButtonVariant;
-    size?: ButtonSize;
+    variant?: IconButtonVariant;
+    size?: IconButtonSize;
     className?: string;
 }
 

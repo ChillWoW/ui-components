@@ -1,3 +1,5 @@
+import "./index.css";
+
 export * from "./Alert";
 export * from "./Avatars";
 export * from "./Badge";

@@ -1,4 +1,5 @@
-import { cn } from "@/components";
+import React from "react";
+import { cn } from "../..";
 
 export interface AlertTitleProps extends React.HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;

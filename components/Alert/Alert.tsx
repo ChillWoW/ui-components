@@ -1,3 +1,4 @@
+import React from "react";
 import { cn } from "..";
 
 export type AlertVariant = "success" | "error" | "warning" | "info";

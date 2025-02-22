@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { cn, Text } from "../index";
 import { CloseButton } from "./CloseButton";
