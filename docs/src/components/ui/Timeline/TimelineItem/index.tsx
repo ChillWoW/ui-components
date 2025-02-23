@@ -1,16 +1,6 @@
 import React from "react";
-import { cn } from "../index";
-
-interface TimelineItemProps {
-    children: React.ReactNode;
-    title?: React.ReactNode;
-    date?: string;
-    icon?: React.ReactNode;
-    bulletSize?: number;
-    bulletColor?: string;
-    className?: string;
-    active?: boolean;
-}
+import { cn } from "../../index";
+import { TimelineItemProps } from "../types";
 
 export const TimelineItem = ({
     children,
