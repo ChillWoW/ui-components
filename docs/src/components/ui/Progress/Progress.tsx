@@ -1,40 +1,48 @@
 import React from "react";
 import "./Progress.css";
 import { cn } from "..";
+import { ProgressProps } from "./types";
 
-export interface ProgressProps {
-    value: number;
-    color?: string;
-    size?: "xs" | "sm" | "md" | "lg" | "xl";
-    label?: string;
-    infoLabel?: string;
-    hint?: string;
-}
-
-export const Progress: React.FC<ProgressProps> = ({
+export const Progress = ({
     value,
     color = "white",
     size = "md",
-    label,
-    infoLabel,
-    hint
-}) => {
+    leftSideText,
+    rightSideText,
+    hint,
+    classNames
+}: ProgressProps) => {
     const clampedValue = Math.min(100, Math.max(0, value));
 
     return (
-        <div className="flex flex-col w-full gap-2">
-            {(label || infoLabel) && (
+        <div
+            className={cn("flex flex-col w-full gap-2", classNames?.container)}
+        >
+            {(leftSideText || rightSideText) && (
                 <div
-                    className={`flex w-full ${
-                        label ? "justify-between" : "justify-end"
-                    }`}
-                >
-                    {label && (
-                        <span className="text-sm text-white">{label}</span>
+                    className={cn(
+                        "flex w-full",
+                        leftSideText ? "justify-between" : "justify-end"
                     )}
-                    {infoLabel && (
-                        <span className="text-sm text-gray-500 flex self-end">
-                            {infoLabel}
+                >
+                    {leftSideText && (
+                        <span
+                            className={cn(
+                                "text-sm text-white",
+                                classNames?.leftSideText
+                            )}
+                        >
+                            {leftSideText}
+                        </span>
+                    )}
+                    {rightSideText && (
+                        <span
+                            className={cn(
+                                "text-sm text-gray-500 flex self-end",
+                                classNames?.rightSideText
+                            )}
+                        >
+                            {rightSideText}
                         </span>
                     )}
                 </div>
@@ -57,7 +65,11 @@ export const Progress: React.FC<ProgressProps> = ({
                     }}
                 />
             </div>
-            {hint && <span className="text-xs text-gray-500">{hint}</span>}
+            {hint && (
+                <span className={cn("text-xs text-gray-500", classNames?.hint)}>
+                    {hint}
+                </span>
+            )}
         </div>
     );
 };
