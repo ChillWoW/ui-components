@@ -1,24 +1,17 @@
 import React from "react";
 import { cn } from "..";
+import { SwitchProps } from "./types";
 
-export interface SwitchProps {
-    checked?: boolean;
-    onChange?: (checked: boolean) => void;
-    disabled?: boolean;
-    className?: string;
-    label?: string;
-    size?: "sm" | "md" | "lg";
-}
-
-export const Switch: React.FC<SwitchProps> = ({
+export const Switch = ({
     checked = false,
     onChange,
     disabled,
     className,
+    classNames,
     label,
     size = "md",
     ...props
-}) => {
+}: SwitchProps) => {
     const handleChange = () => {
         if (!disabled && onChange) {
             onChange(!checked);
@@ -26,6 +19,12 @@ export const Switch: React.FC<SwitchProps> = ({
     };
 
     const sizeClasses = {
+        xs: {
+            wrapper: "w-6 h-[18px]",
+            thumb: "w-[14px] h-[14px]",
+            thumbTranslate: "translate-x-[14px]",
+            label: "text-xs"
+        },
         sm: {
             wrapper: "w-8 h-[18px]",
             thumb: "w-[14px] h-[14px]",
@@ -43,6 +42,12 @@ export const Switch: React.FC<SwitchProps> = ({
             thumb: "w-[26px] h-[26px]",
             thumbTranslate: "translate-x-[26px]",
             label: "text-base"
+        },
+        xl: {
+            wrapper: "w-16 h-[36px]",
+            thumb: "w-[30px] h-[30px]",
+            thumbTranslate: "translate-x-[30px]",
+            label: "text-lg"
         }
     };
 
@@ -52,6 +57,7 @@ export const Switch: React.FC<SwitchProps> = ({
                 className={cn(
                     "flex items-center gap-2 select-none",
                     disabled && "opacity-60 cursor-not-allowed",
+                    classNames?.wrapper,
                     className
                 )}
                 onClick={handleChange}
@@ -77,7 +83,8 @@ export const Switch: React.FC<SwitchProps> = ({
                             "absolute inline-block rounded-full bg-white transition-transform duration-200 ease-in-out",
                             sizeClasses[size].thumb,
                             "top-[2px] left-[2px]",
-                            checked && sizeClasses[size].thumbTranslate
+                            checked && sizeClasses[size].thumbTranslate,
+                            classNames?.thumb
                         )}
                     />
                 </div>
@@ -85,7 +92,8 @@ export const Switch: React.FC<SwitchProps> = ({
                     <span
                         className={cn(
                             "text-white font-medium",
-                            sizeClasses[size].label
+                            sizeClasses[size].label,
+                            classNames?.label
                         )}
                     >
                         {label}
