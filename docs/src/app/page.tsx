@@ -21,8 +21,8 @@ export default function Home() {
                         React
                     </Text>
                     <Text align="center" size="md" className="text-white">
-                        Flue is a React library designed to make making websites
-                        way easier
+                        Flue is a React library designed to make the process of
+                        making websites way easier
                     </Text>
                 </div>
                 <div className="flex items-center justify-center gap-4">
