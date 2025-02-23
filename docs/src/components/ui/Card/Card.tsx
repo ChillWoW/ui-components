@@ -1,20 +1,13 @@
 import React from "react";
 import { cn } from "..";
-
-type CardRadius = "sm" | "md" | "lg" | "xl" | "2xl";
-
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-    withBorder?: boolean;
-    radius?: CardRadius;
-    children: React.ReactNode;
-    className?: string;
-}
+import { CardProps } from "./types";
 
 export const Card = ({
     withBorder = true,
     radius = "md",
     children,
     className,
+    classNames,
     ...props
 }: CardProps) => {
     return (
@@ -23,11 +16,12 @@ export const Card = ({
                 "flex flex-col bg-[#252627] overflow-hidden",
                 withBorder && "border border-[#3e4249]",
                 radius && `rounded-${radius}`,
+                classNames?.container,
                 className
             )}
             {...props}
         >
-            <div className="p-4">{children}</div>
+            <div className={cn("p-4", classNames?.content)}>{children}</div>
         </div>
     );
 };
