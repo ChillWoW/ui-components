@@ -1,18 +1,8 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { cn } from "../../index";
+import { ButtonProps } from "./types";
 
-export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
-export type ButtonVariant = "filled" | "outline";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    leftSection?: React.ReactNode;
-    rightSection?: React.ReactNode;
-    variant?: ButtonVariant;
-    size?: ButtonSize;
-    className?: string;
-}
-
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
     children,
     leftSection,
     rightSection,
@@ -20,8 +10,9 @@ export const Button: React.FC<ButtonProps> = ({
     variant = "filled",
     size = "sm",
     disabled,
+    classNames,
     ...props
-}) => {
+}: ButtonProps) => {
     const buttonClass =
         "inline-flex items-center justify-center gap-2 rounded-lg font-medium cursor-pointer relative whitespace-nowrap select-none";
 
@@ -44,14 +35,23 @@ export const Button: React.FC<ButtonProps> = ({
         sizeClasses[size],
         variantClasses[variant],
         disabled && "opacity-60 cursor-not-allowed pointer-events-none",
+        classNames?.container,
         className
     );
 
     return (
         <button className={buttonClasses} disabled={disabled} {...props}>
-            {leftSection && <span>{leftSection}</span>}
+            {leftSection && (
+                <span className={cn(classNames?.leftSection)}>
+                    {leftSection}
+                </span>
+            )}
             {children}
-            {rightSection && <span>{rightSection}</span>}
+            {rightSection && (
+                <span className={cn(classNames?.rightSection)}>
+                    {rightSection}
+                </span>
+            )}
         </button>
     );
 };
