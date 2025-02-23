@@ -2,10 +2,14 @@
 
 import { Navbar } from "@/components/Navbar";
 import { Button, Text } from "@/components/ui";
+import { Rating } from "@/components/ui/Rating";
 import { IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+    const [rating, setRating] = useState(0);
+
     return (
         <main className="min-h-screen bg-dark-900 flex flex-col">
             <Navbar />
