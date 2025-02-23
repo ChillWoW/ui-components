@@ -70,7 +70,7 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls }) => {
                                     >
                                         {control.options?.map(
                                             (option, optionIndex) => (
-                                                <RadioGroupItem
+                                                <RadioGroup.Item
                                                     key={optionIndex}
                                                     value={option.value}
                                                     label={option.label}
