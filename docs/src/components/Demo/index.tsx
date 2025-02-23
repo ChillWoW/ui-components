@@ -18,14 +18,20 @@ export const CodeDemo = ({
 
     return (
         <div className="flex flex-col gap-4">
+            {/* Controls Section */}
             {controls && (
                 <Card className="bg-gradient-to-br from-[#1a1b1e] to-[#2c2e33] border-[#3e4249]/50 backdrop-blur-sm p-4">
-                    <div className="flex flex-col gap-2">{controls}</div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {controls}
+                    </div>
                 </Card>
             )}
 
+            {/* Code Section */}
             <div className="relative group">
-                <Text weight="semibold">Code</Text>
+                <Text weight="semibold" className="mb-2">
+                    Code
+                </Text>
                 <Highlight
                     code={code}
                     language={language}
@@ -40,25 +46,23 @@ export const CodeDemo = ({
                     }) => (
                         <pre
                             ref={preRef}
-                            className={`${className} relative rounded-lg p-4 overflow-x-auto bg-[#1e1e1e] border border-[#3e4249]/50 backdrop-blur-sm`}
+                            className={`${className} relative rounded-lg p-4 overflow-x-auto bg-[#1e1e1e] border border-[#3e4249]/50 backdrop-blur-sm text-sm md:text-base`}
                             style={style}
                         >
-                            {tokens.map((line, i) => {
-                                const { key, ...lineProps } = getLineProps({
-                                    line
-                                });
-                                return (
-                                    <div key={i} {...lineProps}>
-                                        {line.map((token, j) => {
-                                            const { key, ...tokenProps } =
-                                                getTokenProps({ token });
-                                            return (
-                                                <span key={j} {...tokenProps} />
-                                            );
-                                        })}
-                                    </div>
-                                );
-                            })}
+                            {tokens.map((line, i) => (
+                                <div
+                                    key={i}
+                                    {...getLineProps({ line })}
+                                    className="whitespace-pre-wrap break-all sm:break-normal"
+                                >
+                                    {line.map((token, j) => (
+                                        <span
+                                            key={j}
+                                            {...getTokenProps({ token })}
+                                        />
+                                    ))}
+                                </div>
+                            ))}
                         </pre>
                     )}
                 </Highlight>

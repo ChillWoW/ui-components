@@ -5,7 +5,8 @@ import {
     ColorPicker,
     RadioGroup,
     RadioGroupItem,
-    Text
+    Text,
+    Slider
 } from "@/components/ui";
 import { DemoControl } from "@/types/demo";
 
@@ -79,6 +80,19 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls }) => {
                                         )}
                                     </RadioGroup>
                                 </div>
+                            </div>
+                        );
+                    case "slider":
+                        return (
+                            <div key={index} className="flex flex-col gap-2">
+                                <Text>{control.label}</Text>
+                                <Slider
+                                    value={control.value}
+                                    onChange={control.onChange}
+                                    min={control.min}
+                                    max={control.max}
+                                    step={control.step}
+                                />
                             </div>
                         );
                     default:

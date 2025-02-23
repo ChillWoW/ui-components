@@ -65,6 +65,15 @@ const tableData = [
     }
 ];
 
+const sizeValues: ButtonSize[] = ["xs", "sm", "md", "lg", "xl"];
+const sizeMap: Record<ButtonSize, number> = {
+    xs: 0,
+    sm: 1,
+    md: 2,
+    lg: 3,
+    xl: 4
+};
+
 export default function ButtonPage() {
     const [variant, setVariant] = useState<ButtonVariant>("filled");
     const [leftSection, setLeftSection] = useState(false);
@@ -103,17 +112,13 @@ export default function ButtonPage() {
             ]
         },
         {
-            type: "select",
+            type: "slider",
             label: "Size",
-            value: size,
-            onChange: setSize,
-            options: [
-                { label: "Extra Small", value: "xs" },
-                { label: "Small", value: "sm" },
-                { label: "Medium", value: "md" },
-                { label: "Large", value: "lg" },
-                { label: "Extra Large", value: "xl" }
-            ]
+            value: sizeMap[size],
+            onChange: (value) => setSize(sizeValues[value]),
+            min: 0,
+            max: 4,
+            step: 1
         }
     ];
 
