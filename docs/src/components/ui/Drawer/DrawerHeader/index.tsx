@@ -1,6 +1,6 @@
 import { cn } from "../..";
 import { DrawerHeaderProps } from "../types";
-import { CloseButton } from "../CloseButton";
+import { CloseButton } from "../../_utils";
 
 export const DrawerHeader = ({
     children,
