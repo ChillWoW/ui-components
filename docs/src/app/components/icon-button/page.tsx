@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { ComponentLayout } from "@/components/Layout";
 import { CodeDemo } from "@/components/Demo";
 import { DemoControls } from "@/components/Demo/DemoControls";
-import { Button, ButtonSize, ButtonVariant } from "@/components/ui";
+import { IconButton, IconButtonSize, IconButtonVariant } from "@/components/ui";
 import { formatCode } from "@/utils/formatCode";
 import { DemoControl } from "@/types/demo";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconUser } from "@tabler/icons-react";
 
 const tableColumns = [
     {
@@ -66,10 +66,10 @@ const tableData = [
 ];
 
 export default function ButtonPage() {
-    const [variant, setVariant] = useState<ButtonVariant>("filled");
+    const [variant, setVariant] = useState<IconButtonVariant>("filled");
     const [leftSection, setLeftSection] = useState(false);
     const [rightSection, setRightSection] = useState(false);
-    const [size, setSize] = useState<ButtonSize>("sm");
+    const [size, setSize] = useState<IconButtonSize>("sm");
     const [disabled, setDisabled] = useState(false);
     const [demoCode, setDemoCode] = useState("");
 
@@ -161,8 +161,8 @@ function Demo() {
 
     return (
         <ComponentLayout
-            title="Button"
-            description="A simple button component"
+            title="IconButton"
+            description="A simple button component with an icon"
             usage={
                 <CodeDemo
                     code={demoCode}
@@ -175,15 +175,15 @@ function Demo() {
                 data: tableData
             }}
         >
-            <Button
+            <IconButton
                 variant={variant}
                 size={size}
                 disabled={disabled}
                 leftSection={leftSection ? <IconPlus /> : undefined}
                 rightSection={rightSection ? <IconPlus /> : undefined}
             >
-                Click me
-            </Button>
+                <IconUser />
+            </IconButton>
         </ComponentLayout>
     );
 }
