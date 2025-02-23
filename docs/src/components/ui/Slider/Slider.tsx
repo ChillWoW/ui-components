@@ -113,7 +113,7 @@ export const Slider: React.FC<SliderProps> = ({
                             }}
                         >
                             {mark.label && (
-                                <span className="mt-1 text-xs text-[#909296]">
+                                <span className="mt-1 text-xs text-white">
                                     {mark.label}
                                 </span>
                             )}

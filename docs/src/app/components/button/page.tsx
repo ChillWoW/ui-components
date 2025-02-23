@@ -102,7 +102,7 @@ export default function ButtonPage() {
             onChange: setDisabled
         },
         {
-            type: "select",
+            type: "button-group",
             label: "Variant",
             value: variant,
             onChange: setVariant,
@@ -118,7 +118,15 @@ export default function ButtonPage() {
             onChange: (value) => setSize(sizeValues[value]),
             min: 0,
             max: 4,
-            step: 1
+            step: 1,
+            marks: [
+                { value: 0, label: "xs" },
+                { value: 1, label: "sm" },
+                { value: 2, label: "md" },
+                { value: 3, label: "lg" },
+                { value: 4, label: "xl" }
+            ],
+            stickToMarks: true
         }
     ];
 

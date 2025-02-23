@@ -6,7 +6,9 @@ import {
     RadioGroup,
     RadioGroupItem,
     Text,
-    Slider
+    Slider,
+    Button,
+    cn
 } from "@/components/ui";
 import { DemoControl } from "@/types/demo";
 
@@ -92,7 +94,52 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls }) => {
                                     min={control.min}
                                     max={control.max}
                                     step={control.step}
+                                    marks={control.marks}
+                                    stickToMarks={control.stickToMarks}
                                 />
+                            </div>
+                        );
+                    case "button-group":
+                        return (
+                            <div key={index} className="flex flex-col gap-2">
+                                <Text>{control.label}</Text>
+                                <div className="flex">
+                                    {control.options?.map(
+                                        (option, optionIndex) => (
+                                            <Button
+                                                key={optionIndex}
+                                                size="xs"
+                                                className={cn(
+                                                    "flex-1",
+                                                    optionIndex === 0 &&
+                                                        "rounded-r-none",
+                                                    optionIndex ===
+                                                        control.options!
+                                                            .length -
+                                                            1 &&
+                                                        "rounded-l-none",
+                                                    optionIndex !== 0 &&
+                                                        optionIndex !==
+                                                            control.options!
+                                                                .length -
+                                                                1 &&
+                                                        "rounded-none border-l-0",
+                                                    optionIndex !==
+                                                        control.options!
+                                                            .length -
+                                                            1 && "border-r-0"
+                                                )}
+                                                onClick={() =>
+                                                    control.onChange(
+                                                        option.value
+                                                    )
+                                                }
+                                            >
+                                                {option.label}
+                                            </Button>
+                                        )
+                                    )}
+                                </div>
                             </div>
                         );
                     default:

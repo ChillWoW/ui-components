@@ -65,6 +65,15 @@ const tableData = [
     }
 ];
 
+const sizeValues: IconButtonSize[] = ["xs", "sm", "md", "lg", "xl"];
+const sizeMap: Record<IconButtonSize, number> = {
+    xs: 0,
+    sm: 1,
+    md: 2,
+    lg: 3,
+    xl: 4
+};
+
 export default function ButtonPage() {
     const [variant, setVariant] = useState<IconButtonVariant>("filled");
     const [leftSection, setLeftSection] = useState(false);
@@ -93,7 +102,7 @@ export default function ButtonPage() {
             onChange: setDisabled
         },
         {
-            type: "select",
+            type: "button-group",
             label: "Variant",
             value: variant,
             onChange: setVariant,
@@ -103,17 +112,21 @@ export default function ButtonPage() {
             ]
         },
         {
-            type: "select",
+            type: "slider",
             label: "Size",
-            value: size,
-            onChange: setSize,
-            options: [
-                { label: "Extra Small", value: "xs" },
-                { label: "Small", value: "sm" },
-                { label: "Medium", value: "md" },
-                { label: "Large", value: "lg" },
-                { label: "Extra Large", value: "xl" }
-            ]
+            value: sizeMap[size],
+            onChange: (value) => setSize(sizeValues[value]),
+            min: 0,
+            max: 4,
+            step: 1,
+            marks: [
+                { value: 0, label: "xs" },
+                { value: 1, label: "sm" },
+                { value: 2, label: "md" },
+                { value: 3, label: "lg" },
+                { value: 4, label: "xl" }
+            ],
+            stickToMarks: true
         }
     ];
 
