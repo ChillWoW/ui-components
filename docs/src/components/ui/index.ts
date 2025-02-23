@@ -4,6 +4,7 @@ export * from "./Badge";
 export * from "./Buttons";
 export * from "./Card";
 export * from "./Checkbox";
+export * from "./Drawer";
 export * from "./Inputs";
 export * from "./Kbd";
 export * from "./Loader";
