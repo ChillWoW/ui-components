@@ -1,10 +1,5 @@
 import React from "react";
-
-export interface TableBodyProps
-    extends React.HTMLAttributes<HTMLTableSectionElement> {
-    children: React.ReactNode;
-    className?: string;
-}
+import { TableBodyProps } from "../types";
 
 export const TableBody: React.FC<TableBodyProps> = ({
     children,

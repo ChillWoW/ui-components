@@ -1,17 +1,12 @@
 import React from "react";
 import { cn } from "..";
+import { TableProps } from "./types";
+import { TableBody } from "./TableBody";
+import { TableCell } from "./TableCell";
+import { TableHead } from "./TableHead";
+import { TableRow } from "./TableRow";
 
-export interface TableProps
-    extends React.TableHTMLAttributes<HTMLTableElement> {
-    children: React.ReactNode;
-    className?: string;
-}
-
-export const Table: React.FC<TableProps> = ({
-    children,
-    className,
-    ...props
-}) => {
+export const Table = ({ children, className, ...props }: TableProps) => {
     return (
         <div className="w-full overflow-x-auto">
             <table
@@ -26,3 +21,8 @@ export const Table: React.FC<TableProps> = ({
         </div>
     );
 };
+
+Table.Body = TableBody;
+Table.Cell = TableCell;
+Table.Head = TableHead;
+Table.Row = TableRow;
