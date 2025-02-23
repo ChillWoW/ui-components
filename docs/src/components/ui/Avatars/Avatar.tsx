@@ -1,22 +1,13 @@
 import React from "react";
 import { cn } from "..";
-
-export interface AvatarProps {
-    src?: string;
-    content?: any;
-    size?: "xs" | "sm" | "md" | "lg";
-    className?: string;
-    badge?: {
-        position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
-        color?: string;
-    };
-}
+import { AvatarProps } from "./types";
 
 export const Avatar = ({
     src,
     content,
     size = "md",
     className,
+    classNames,
     badge,
     ...props
 }: AvatarProps) => {
@@ -38,21 +29,35 @@ export const Avatar = ({
     };
 
     return (
-        <div className={cn(avatarClass, sizeClass[size], className)} {...props}>
+        <div
+            className={cn(
+                avatarClass,
+                sizeClass[size],
+                classNames?.container,
+                className
+            )}
+            {...props}
+        >
             {src ? (
                 <img
-                    className="w-full h-full object-cover"
+                    className={cn(
+                        "w-full h-full object-cover",
+                        classNames?.image
+                    )}
                     src={src}
                     alt="avatar"
                 />
             ) : (
-                <span className="text-sm">{content}</span>
+                <span className={cn("text-sm", classNames?.content)}>
+                    {content}
+                </span>
             )}
             {badge && (
                 <div
                     className={cn(
                         "absolute flex items-center justify-center h-3 w-3 rounded-full text-[10px] px-1 ring-2 ring-white",
-                        badgePositionClass[badge.position || "top-right"]
+                        badgePositionClass[badge.position || "top-right"],
+                        classNames?.badge
                     )}
                     style={{ backgroundColor: badge.color || "#228be6" }}
                 />
