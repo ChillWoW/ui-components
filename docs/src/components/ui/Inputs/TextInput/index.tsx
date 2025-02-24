@@ -15,7 +15,6 @@ export interface TextInputProps
   description?: string;
   required?: boolean;
   leftSection?: React.ReactNode;
-  hideToggle?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -23,7 +22,6 @@ export const TextInput: React.FC<TextInputProps> = ({
   description,
   required,
   leftSection,
-  hideToggle = false,
   className,
   disabled,
   ...props
