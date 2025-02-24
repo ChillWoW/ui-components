@@ -1,11 +1,6 @@
 import React from "react";
 import { cn } from "../..";
-
-export interface TableRowProps
-    extends React.HTMLAttributes<HTMLTableRowElement> {
-    children: React.ReactNode;
-    className?: string;
-}
+import { TableRowProps } from "../types";
 
 export const TableRow: React.FC<TableRowProps> = ({
     children,

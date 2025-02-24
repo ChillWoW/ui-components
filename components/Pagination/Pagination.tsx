@@ -1,22 +1,16 @@
 import React from "react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { cn } from "..";
+import { PaginationProps } from "./types";
 
-export interface PaginationProps {
-    total: number;
-    page: number;
-    onChange: (page: number) => void;
-    siblings?: number;
-    className?: string;
-}
-
-export const Pagination: React.FC<PaginationProps> = ({
+export const Pagination = ({
     total,
     page,
     onChange,
     siblings = 1,
-    className
-}) => {
+    className,
+    classNames
+}: PaginationProps) => {
     const getRange = (start: number, end: number) => {
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     };
@@ -59,14 +53,21 @@ export const Pagination: React.FC<PaginationProps> = ({
         "flex min-w-[32px] h-[32px] items-center justify-center cursor-pointer user-select-none px-[8px] rounded-md",
         "border border-[#3e4249] bg-[#252627] text-[#bbb] text-sm",
         "hover:not(:disabled):not(.pagination-dots):hover:bg-[#333538] hover:text-white",
-        "disabled:opacity-60 disabled:cursor-not-allowed"
+        "disabled:opacity-60 disabled:cursor-not-allowed",
+        classNames?.button
     );
-    const paginationButtonActiveClass = "border-[#727477] text-white";
+    const paginationButtonActiveClass = cn(
+        "border-[#727477] text-white",
+        classNames?.activeButton
+    );
 
-    const paginationDotsClass = "cursor-default text-[#bbb]";
+    const paginationDotsClass = cn(
+        "cursor-default text-[#bbb]",
+        classNames?.dots
+    );
 
     return (
-        <div className={cn(paginationClass, className)}>
+        <div className={cn(paginationClass, className, classNames?.container)}>
             <button
                 className={paginationButtonClass}
                 onClick={() => page > 1 && onChange(page - 1)}

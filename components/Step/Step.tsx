@@ -1,28 +1,8 @@
 import React from "react";
 import { cn } from "..";
+import { StepProps } from "./types";
 
-export interface StepItem {
-    label: string;
-    description?: string;
-    icon?: React.ReactNode;
-}
-
-export interface StepProps {
-    steps: StepItem[];
-    active: number;
-    onChange?: (step: number) => void;
-    variant?: "default" | "outline";
-    size?: "sm" | "md" | "lg";
-    orientation?: "horizontal" | "vertical";
-    withNumbers?: boolean;
-    completedIcon?: React.ReactNode;
-    className?: string;
-    disabled?: boolean;
-    allowClick?: boolean;
-    allowClickOnCompleted?: boolean;
-}
-
-export const Step: React.FC<StepProps> = ({
+export const Step = ({
     steps,
     active,
     onChange,
@@ -32,10 +12,11 @@ export const Step: React.FC<StepProps> = ({
     withNumbers = true,
     completedIcon,
     className,
+    classNames,
     disabled,
     allowClick = false,
     allowClickOnCompleted = false
-}) => {
+}: StepProps) => {
     const handleStepClick = (index: number) => {
         if (disabled) return;
         if (!allowClick) return;
@@ -93,6 +74,7 @@ export const Step: React.FC<StepProps> = ({
                     : "flex-row items-center justify-center",
                 sizeClasses[size].container,
                 disabled && "opacity-60 cursor-not-allowed",
+                classNames?.container,
                 className
             )}
         >
@@ -114,7 +96,8 @@ export const Step: React.FC<StepProps> = ({
                                     variantClasses[variant].completed,
                                 index > active &&
                                     variantClasses[variant].pending,
-                                disabled && "cursor-not-allowed"
+                                disabled && "cursor-not-allowed",
+                                classNames?.step
                             )}
                             onClick={() => handleStepClick(index)}
                         >
@@ -129,7 +112,8 @@ export const Step: React.FC<StepProps> = ({
                                     "font-medium",
                                     index === active && "text-gray-200",
                                     index < active && "text-emerald-500",
-                                    index > active && "text-gray-400"
+                                    index > active && "text-gray-400",
+                                    classNames?.label
                                 )}
                             >
                                 {step.label}
@@ -138,7 +122,8 @@ export const Step: React.FC<StepProps> = ({
                                 <span
                                     className={cn(
                                         sizeClasses[size].description,
-                                        "text-gray-400"
+                                        "text-gray-400",
+                                        classNames?.description
                                     )}
                                 >
                                     {step.description}
@@ -156,7 +141,8 @@ export const Step: React.FC<StepProps> = ({
                                 sizeClasses[size].separator,
                                 index < active
                                     ? variantClasses[variant].separator
-                                    : variantClasses[variant].pendingSeparator
+                                    : variantClasses[variant].pendingSeparator,
+                                classNames?.separator
                             )}
                         />
                     )}

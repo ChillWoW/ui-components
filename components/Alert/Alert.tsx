@@ -1,22 +1,14 @@
 import React from "react";
-import { cn } from "..";
+import { AlertDescription, AlertTitle, cn } from "..";
+import { AlertProps } from "./types";
 
-export type AlertVariant = "success" | "error" | "warning" | "info";
-
-export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-    children: React.ReactNode;
-    className?: string;
-    variant?: AlertVariant;
-    icon?: React.ReactNode;
-}
-
-export const Alert: React.FC<AlertProps> = ({
+export const Alert = ({
     children,
     className,
     variant = "info",
     icon,
     ...props
-}) => {
+}: AlertProps) => {
     const variantStyles = {
         success: "border-emerald-600/20 bg-emerald-600/10 text-emerald-600",
         error: "border-red-600/20 bg-red-600/10 text-red-600",
@@ -40,3 +32,6 @@ export const Alert: React.FC<AlertProps> = ({
         </div>
     );
 };
+
+Alert.Title = AlertTitle;
+Alert.Description = AlertDescription;

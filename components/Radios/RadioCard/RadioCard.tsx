@@ -1,64 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "../..";
+import { RadioCardContext } from "./context";
+import { RadioCardHeader } from "./RadioCardHeader";
+import { RadioCardItem } from "./RadioCardItem";
+import { RadioCardProps } from "./types";
 
-export interface RadioCardProps {
-    label?: string;
-    defaultValue?: string;
-    value?: string;
-    onChange?: (value: string) => void;
-    className?: string;
-    children: React.ReactNode;
-}
+export const RadioCard = ({
+    defaultValue,
+    value,
+    onChange,
+    children,
+    className,
+    classNames
+}: RadioCardProps) => {
+    const [selectedValue, setSelectedValue] = useState(value ?? defaultValue);
 
-export const RadioCard = React.forwardRef<HTMLDivElement, RadioCardProps>(
-    (
-        { className, label, defaultValue, value, onChange, children, ...props },
-        ref
-    ) => {
-        const [groupValue, setGroupValue] = React.useState(
-            value || defaultValue
-        );
+    useEffect(() => {
+        if (value !== undefined) {
+            setSelectedValue(value);
+        }
+    }, [value]);
 
-        React.useEffect(() => {
-            if (value !== undefined) {
-                setGroupValue(value);
-            }
-        }, [value]);
+    const handleChange = (newValue: string) => {
+        if (value === undefined) {
+            setSelectedValue(newValue);
+        }
+        onChange?.(newValue);
+    };
 
-        const handleChange = (newValue: string) => {
-            if (value === undefined) {
-                setGroupValue(newValue);
-            }
-            onChange?.(newValue);
-        };
-
-        return (
+    return (
+        <RadioCardContext.Provider
+            value={{
+                selectedValue,
+                onChange: handleChange,
+                classNames
+            }}
+        >
             <div
-                ref={ref}
-                className={cn("flex flex-col gap-3", className)}
-                {...props}
-            >
-                {label && (
-                    <div className="text-sm font-semibold text-white">
-                        {label}
-                    </div>
+                className={cn(
+                    "flex flex-col gap-2 p-4 rounded-lg",
+                    "border border-[#3e4249] bg-[#252627]",
+                    "transition-colors duration-200 hover:border-[#53575e]",
+                    className
                 )}
-                <div className="flex flex-wrap gap-3">
+            >
+                {React.Children.map(children, (child) => {
+                    if (
+                        React.isValidElement(child) &&
+                        child.type === RadioCardHeader
+                    ) {
+                        return child;
+                    }
+                    return null;
+                })}
+                <div className={cn("flex gap-2 flex-col")}>
                     {React.Children.map(children, (child) => {
-                        if (!React.isValidElement(child)) return null;
-                        return React.cloneElement(child, {
-                            //@ts-ignore
-                            checked: child.props.value === groupValue,
-                            //@ts-ignore
-                            disabled: child.props.disabled,
-                            //@ts-ignore
-                            onChange: () => handleChange(child.props.value)
-                        });
+                        if (
+                            React.isValidElement(child) &&
+                            child.type !== RadioCardHeader
+                        ) {
+                            return React.cloneElement(child, {
+                                //@ts-ignore
+                                checked: child.props.value === selectedValue,
+                                //@ts-ignore
+                                onChange: () => handleChange(child.props.value)
+                            });
+                        }
+                        return null;
                     })}
                 </div>
             </div>
-        );
-    }
-);
+        </RadioCardContext.Provider>
+    );
+};
 
-RadioCard.displayName = "RadioCard";
+RadioCard.Header = RadioCardHeader;
+RadioCard.Item = RadioCardItem;

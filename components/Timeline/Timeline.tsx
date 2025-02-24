@@ -1,18 +1,9 @@
 import React from "react";
 import { cn } from "..";
+import { TimelineProps } from "./types";
+import { TimelineItem } from "./TimelineItem";
 
-interface TimelineProps {
-    children: React.ReactNode;
-    className?: string;
-    align?: "left" | "right" | "center";
-    active?: number;
-    bulletSize?: number;
-    color?: string;
-    lineWidth?: number;
-    reverseActive?: boolean;
-}
-
-export const Timeline: React.FC<TimelineProps> = ({
+export const Timeline = ({
     children,
     className,
     align = "left",
@@ -21,7 +12,7 @@ export const Timeline: React.FC<TimelineProps> = ({
     color = "#3e4249",
     lineWidth = 2,
     reverseActive = false
-}) => {
+}: TimelineProps) => {
     const items = React.Children.toArray(children);
     const activeItem = active ?? items.length;
 
@@ -58,3 +49,5 @@ export const Timeline: React.FC<TimelineProps> = ({
         </div>
     );
 };
+
+Timeline.Item = TimelineItem;

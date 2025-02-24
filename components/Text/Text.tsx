@@ -1,18 +1,6 @@
 import React from "react";
 import { cn } from "..";
-
-export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
-    size?: "xs" | "sm" | "md" | "lg" | "xl" | number;
-    color?: string;
-    weight?: "bold" | "semibold" | "normal" | "light" | number;
-    align?: "left" | "center" | "right";
-    italic?: boolean;
-    underline?: boolean;
-    dimmed?: boolean;
-    component?: any;
-    className?: string;
-    children?: React.ReactNode;
-}
+import { TextProps } from "./types";
 
 export const Text: React.FC<TextProps> = ({
     size = "md",
@@ -65,7 +53,6 @@ export const Text: React.FC<TextProps> = ({
             )}
             style={{
                 ...style,
-                // Only apply color through style if no color class is present
                 color: hasColorClass ? undefined : color,
                 fontSize: typeof size === "number" ? size : undefined,
                 fontWeight: typeof weight === "number" ? weight : undefined

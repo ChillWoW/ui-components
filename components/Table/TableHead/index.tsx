@@ -1,10 +1,5 @@
 import React from "react";
-
-export interface TableHeadProps
-    extends React.HTMLAttributes<HTMLTableSectionElement> {
-    children: React.ReactNode;
-    className?: string;
-}
+import { TableHeadProps } from "../types";
 
 export const TableHead: React.FC<TableHeadProps> = ({
     children,

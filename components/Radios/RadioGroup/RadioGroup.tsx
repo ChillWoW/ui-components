@@ -1,13 +1,13 @@
 import React from "react";
 import { cn } from "../..";
+import { RadioGroupItem } from "./RadioGroupItem";
+import { RadioGroupProps } from "./types";
 
-export interface RadioGroupProps {
-    defaultValue?: string;
-    value?: string;
-    onChange?: (value: string) => void;
-    className?: string;
-    children: React.ReactNode;
-}
+type RadioGroupComponent = React.ForwardRefExoticComponent<
+    RadioGroupProps & React.RefAttributes<HTMLDivElement>
+> & {
+    Item: typeof RadioGroupItem;
+};
 
 export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
     ({ className, defaultValue, value, onChange, children, ...props }, ref) => {
@@ -48,6 +48,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
             </div>
         );
     }
-);
+) as RadioGroupComponent;
 
 RadioGroup.displayName = "RadioGroup";
+RadioGroup.Item = RadioGroupItem;

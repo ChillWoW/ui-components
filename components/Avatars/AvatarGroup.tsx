@@ -1,14 +1,7 @@
 import React from "react";
 import { cn } from "..";
-import { Avatar, AvatarProps } from "./Avatar";
-
-export interface AvatarGroupProps {
-    avatars: AvatarProps[];
-    limit?: number;
-    spacing?: number;
-    size?: AvatarProps["size"];
-    className?: string;
-}
+import { Avatar } from "./Avatar";
+import { AvatarGroupProps } from "./types";
 
 export const AvatarGroup = ({
     avatars,

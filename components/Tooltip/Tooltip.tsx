@@ -2,15 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../index";
-
-export interface TooltipProps {
-    children: React.ReactNode;
-    label: string | React.ReactNode;
-    position?: "top" | "bottom" | "left" | "right";
-    delay?: number;
-    withArrow?: boolean;
-    className?: string;
-}
+import { TooltipProps } from "./types";
 
 export const Tooltip: React.FC<TooltipProps> = ({
     children,
