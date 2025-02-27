@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { cn } from "../../index";
 import { TextInputProps } from "../types";
-import { IconEye } from "@tabler/icons-react";
-import { IconEyeOff } from "@tabler/icons-react";
+import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
 export const PasswordInput = ({
   label,
@@ -34,7 +33,6 @@ export const PasswordInput = ({
         <label
           className={cn(
             "text-sm text-white font-semibold ml-2 flex items-center gap-1",
-
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
@@ -60,19 +58,12 @@ export const PasswordInput = ({
         )}
 
         <input
-          type="text"
+          type={showPassword ? "text" : "password"}
           className={cn(
             inputContentClass,
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.input
           )}
-          disabled={disabled}
-          {...props}
-        />
-
-        <input
-          type={showPassword ? "text" : "password"}
-          className={inputContentClass}
           disabled={disabled}
           {...props}
         />
