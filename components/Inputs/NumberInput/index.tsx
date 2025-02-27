@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { cn } from "../../index";
 import { NumberInputProps } from "../types";
@@ -16,16 +16,48 @@ export const NumberInput = ({
   disabled,
   className,
   classNames,
+  allowDecimals = false,
+  allowEmpty = false,
   ...props
 }: NumberInputProps) => {
+  const [inputValue, setInputValue] = useState<string>(
+    value !== undefined ? String(value) : ""
+  );
+
+  // Update internal state when external value changes
+  React.useEffect(() => {
+    if (value !== undefined) {
+      setInputValue(String(value));
+    }
+  }, [value]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(e.target.value);
-    if (!isNaN(newValue) && onChange) {
-      const boundedValue = Math.min(
-        max ?? newValue,
-        Math.max(min ?? newValue, newValue)
-      );
-      onChange(boundedValue);
+    const newInputValue = e.target.value;
+
+    // Allow empty input if allowEmpty is true
+    if (newInputValue === "" && allowEmpty) {
+      setInputValue("");
+      onChange?.(0);
+      return;
+    }
+
+    // Validate input based on whether decimals are allowed
+    const pattern = allowDecimals ? /^-?\d*\.?\d*$/ : /^-?\d*$/;
+
+    if (pattern.test(newInputValue)) {
+      setInputValue(newInputValue);
+
+      // Only call onChange if the value is a valid number
+      if (newInputValue !== "" && newInputValue !== "-") {
+        const newValue = parseFloat(newInputValue);
+        if (!isNaN(newValue) && onChange) {
+          const boundedValue = Math.min(
+            max ?? newValue,
+            Math.max(min ?? newValue, newValue)
+          );
+          onChange(boundedValue);
+        }
+      }
     }
   };
 
@@ -42,6 +74,14 @@ export const NumberInput = ({
     const newValue = value - step;
     if (min === undefined || newValue >= min) {
       onChange(newValue);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow backspace to clear the input if allowEmpty is true
+    if (e.key === "Backspace" && allowEmpty && inputValue.length === 1) {
+      setInputValue("");
+      onChange?.(0);
     }
   };
 
@@ -86,14 +126,16 @@ export const NumberInput = ({
         )}
 
         <input
-          type="number"
+          type="text"
+          inputMode={allowDecimals ? "decimal" : "numeric"}
           className={cn(
             "flex border-none bg-transparent px-3 py-1 text-sm outline-none w-full text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.input
           )}
-          value={value ?? ""}
+          value={inputValue}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           min={min}
           max={max}
           step={step}
@@ -101,7 +143,7 @@ export const NumberInput = ({
           {...props}
         />
 
-        <div className="flex flex-col border-l border-[#3e4249] h-full">
+        <div className="flex flex-col">
           <button
             type="button"
             onClick={increment}
