@@ -1,58 +1,77 @@
 import React from "react";
-import {
-  cn,
-  defaultDescriptionClass,
-  defaultIconClass,
-  defaultInputClass,
-  defaultInputContainerClass,
-  defaultInputContentClass,
-  defaultLabelClass,
-} from "../../index";
+import { cn, defaultDescriptionClass } from "../../index";
+import { TextInputProps } from "../types";
 
-export interface TextInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  description?: string;
-  required?: boolean;
-  leftSection?: React.ReactNode;
-}
-
-export const TextInput: React.FC<TextInputProps> = ({
+export const TextInput = ({
   label,
-  description,
+  hint,
   required,
   leftSection,
   className,
   disabled,
+  classNames,
   ...props
-}) => {
+}: TextInputProps) => {
+  const defaultClass =
+    "flex flex-col items-start text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
+
+  const inputClass =
+    "flex items-center border border-[#3e4249] rounded-md bg-[#252627] overflow-hidden";
+
+  const leftSectionClass =
+    "pl-3 flex items-center justify-center text-gray-300";
+
+  const inputContentClass =
+    "flex border-none bg-transparent px-3 py-2 text-sm outline-none w-full text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
+
   return (
-    <div className={defaultInputContainerClass}>
+    <div className={cn(defaultClass, classNames?.container)}>
       {label && (
-        <label className={defaultLabelClass}>
+        <label
+          className={cn(
+            "text-sm text-white font-semibold ml-2 flex items-center gap-1",
+
+            disabled && "opacity-60 cursor-not-allowed",
+            classNames?.label
+          )}
+        >
           {label}
-          {required && <span className="text-red-600">*</span>}
+          {required && (
+            <span className={cn("text-red-600", classNames?.required)}>*</span>
+          )}
         </label>
       )}
 
       <div
         className={cn(
-          defaultInputClass,
+          inputClass,
           disabled && "opacity-60 cursor-not-allowed",
           className
         )}
       >
-        {leftSection && <div className={defaultIconClass}>{leftSection}</div>}
+        {leftSection && (
+          <div className={cn(leftSectionClass, classNames?.leftSection)}>
+            {leftSection}
+          </div>
+        )}
 
         <input
           type="text"
-          className={defaultInputContentClass}
+          className={cn(
+            inputContentClass,
+            disabled && "opacity-60 cursor-not-allowed",
+            classNames?.input
+          )}
           disabled={disabled}
           {...props}
         />
       </div>
 
-      {description && <p className={defaultDescriptionClass}>{description}</p>}
+      {hint && (
+        <p className={cn("text-xs text-gray-300 ml-2", classNames?.hint)}>
+          {hint}
+        </p>
+      )}
     </div>
   );
 };

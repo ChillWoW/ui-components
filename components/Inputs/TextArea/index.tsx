@@ -1,4 +1,4 @@
-import React, { TextareaHTMLAttributes } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   defaultDescriptionClass,
   defaultIconClass,
@@ -8,54 +8,118 @@ import {
 } from "../..";
 import { defaultLabelClass } from "../..";
 import { cn } from "../../index";
+import { TextAreaProps } from "../types";
 
-export interface TextAreaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string;
-  description?: string;
-  error?: string;
-  required?: boolean;
-  leftSection?: React.ReactNode;
-}
-
-export const TextArea: React.FC<TextAreaProps> = ({
+export const TextArea = ({
   label,
-  description,
-  error,
+  hint,
   required,
   leftSection,
   className,
   disabled,
+  value,
+  onChange,
+  autoAdjust = true,
+  classNames,
   ...props
-}) => {
-  const inputClass = "resize-none min-h-[80px]";
+}: TextAreaProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [textareaHeight, setTextareaHeight] = useState<number | undefined>(
+    undefined
+  );
+
+  const adjustHeight = () => {
+    if (!autoAdjust) return;
+
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    textarea.style.height = "auto";
+
+    const newHeight = Math.max(80, textarea.scrollHeight);
+    textarea.style.height = `${newHeight}px`;
+    setTextareaHeight(newHeight);
+  };
+
+  useEffect(() => {
+    if (autoAdjust) {
+      adjustHeight();
+    }
+  }, [value, autoAdjust]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (onChange) {
+      onChange(e);
+    }
+    adjustHeight();
+  };
+
+  const inputClass = cn(
+    "resize-none",
+    autoAdjust && "transition-height duration-200",
+    autoAdjust && textareaHeight ? `h-[${textareaHeight}px]` : "min-h-[80px]"
+  );
 
   return (
-    <div className={defaultInputContainerClass}>
+    <div
+      className={cn(
+        "flex flex-col items-start text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+        classNames?.container
+      )}
+    >
       {label && (
-        <label className={defaultLabelClass}>
+        <label
+          className={cn(
+            "text-sm text-white font-semibold ml-2 flex items-center gap-1",
+            disabled && "opacity-60 cursor-not-allowed",
+            classNames?.label
+          )}
+        >
           {label}
-          {required && <span className="input-required">*</span>}
+          {required && (
+            <span className={cn("text-red-600", classNames?.required)}>*</span>
+          )}
         </label>
       )}
 
       <div
         className={cn(
-          defaultInputClass,
+          "flex items-center border border-[#3e4249] rounded-md bg-[#252627] overflow-hidden",
           disabled && "opacity-60 cursor-not-allowed",
           className
         )}
       >
-        {leftSection && <div className={defaultIconClass}>{leftSection}</div>}
+        {leftSection && (
+          <div
+            className={cn(
+              "pl-3 flex items-center justify-center text-gray-300",
+              classNames?.leftSection
+            )}
+          >
+            {leftSection}
+          </div>
+        )}
         <textarea
-          className={cn(defaultInputContentClass, inputClass)}
+          ref={textareaRef}
+          className={cn(
+            "flex border-none bg-transparent px-3 py-2 text-sm outline-none w-full text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+            disabled && "opacity-60 cursor-not-allowed",
+            classNames?.input,
+            inputClass
+          )}
           disabled={disabled}
+          value={value}
+          onChange={handleChange}
+          rows={autoAdjust ? 1 : undefined}
           {...props}
         />
       </div>
 
-      {description && <p className={defaultDescriptionClass}>{description}</p>}
-      {error && <p className="text-red-600">{error}</p>}
+      {hint && (
+        <p className={cn("text-xs text-gray-300 ml-2", classNames?.hint)}>
+          {hint}
+        </p>
+      )}
     </div>
   );
 };
