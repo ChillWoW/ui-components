@@ -109,10 +109,7 @@ export const SelectInput = ({
 
         <div className="flex-1 px-3 py-2 text-sm">
           <span
-            className={cn(
-              !selectedOption ? "text-[#727b8e]" : "text-white",
-              classNames?.selectedOption
-            )}
+            className={cn(!selectedOption ? "text-[#727b8e]" : "text-white")}
           >
             {selectedOption ? selectedOption.label : placeholder}
           </span>
