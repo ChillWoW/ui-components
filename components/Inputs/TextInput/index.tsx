@@ -46,6 +46,7 @@ export const TextInput = ({
         className={cn(
           inputClass,
           disabled && "opacity-60 cursor-not-allowed",
+          classNames?.container,
           className
         )}
       >

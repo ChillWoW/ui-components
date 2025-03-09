@@ -110,6 +110,8 @@ export interface NumberInputProps
   disabled?: boolean;
   className?: string;
   classNames?: NumberInputClassNames;
+  allowEmpty?: boolean;
+  allowDecimals?: boolean;
 }
 
 export interface NumberInputClassNames {
