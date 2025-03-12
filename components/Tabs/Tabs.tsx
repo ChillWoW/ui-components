@@ -32,6 +32,13 @@ export const Tabs = ({
     updateIndicator();
   }, [activeTab]);
 
+  useEffect(() => {
+    window.addEventListener("resize", updateIndicator);
+    return () => {
+      window.removeEventListener("resize", updateIndicator);
+    };
+  }, []);
+
   const updateIndicator = () => {
     const currentTab =
       tabsRef.current[tabs.findIndex((tab) => tab.value === activeTab)];
@@ -51,7 +58,7 @@ export const Tabs = ({
 
   return (
     <div
-      className={cn("flex flex-col w-full", classNames?.container, className)}
+      className={cn("flex flex-col w-full", className, classNames?.container)}
     >
       <div
         className={cn(
