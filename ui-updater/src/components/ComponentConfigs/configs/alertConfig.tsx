@@ -3,6 +3,7 @@ import { Alert, AlertVariant } from "@/components/ui/Alert";
 import { Text, RadioGroup, Switch } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -82,4 +83,33 @@ export const alertConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        variant: {
+          type: "string",
+          default: "info",
+          description: "Determines the color and style of the alert",
+          possibleValues: ["success", "error", "warning", "info"],
+        },
+        icon: {
+          type: "ReactNode | boolean",
+          default: false,
+          description:
+            "Icon displayed at the start of the alert. If true, default icon will be used based on variant.",
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the alert",
+        },
+        children: {
+          type: "ReactNode",
+          required: true,
+          description:
+            "Content of the alert. Can include Alert.Title and Alert.Description components.",
+        },
+      }}
+    />
+  ),
 };

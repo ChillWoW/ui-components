@@ -9,6 +9,7 @@ import {
   Button,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -24,6 +25,10 @@ const selectInputClasses = {
 
 export const avatarConfig: ComponentConfigType = {
   defaultProps: {
+    src: "https://github.com/shadcn.png",
+    placeholder: "HI",
+    showImage: true,
+    showPlaceholder: false,
     size: "md",
     shape: "circle",
     showBadge: false,
@@ -35,7 +40,8 @@ export const avatarConfig: ComponentConfigType = {
 
   renderComponent: (props) => (
     <Avatar
-      src="https://github.com/shadcn.png"
+      src={props.showImage ? props.src : undefined}
+      placeholder={props.showPlaceholder ? props.placeholder : undefined}
       size={props.size}
       shape={props.shape}
       color={props.color}
@@ -141,7 +147,107 @@ export const avatarConfig: ComponentConfigType = {
             />
           </div>
         </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Other
+          </Text>
+          <Switch
+            label="Show Image"
+            checked={props.showImage}
+            onChange={(checked) =>
+              setProps({
+                ...props,
+                showImage: checked,
+              })
+            }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Placeholder (Turns off image)"
+            checked={props.showPlaceholder}
+            onChange={(checked) =>
+              setProps({
+                ...props,
+                showPlaceholder: checked,
+                showImage: props.showImage && !checked,
+              })
+            }
+            classNames={switchClasses}
+          />
+        </div>
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        src: {
+          type: "string",
+          description: "Image of the avatar",
+        },
+        placeholder: {
+          type: "string",
+          description: "Placeholder of the avatar if no image is provided",
+        },
+        size: {
+          type: "string",
+          default: "md",
+          description: "Determines the size of the avatar",
+          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+        },
+        shape: {
+          type: "string",
+          default: "circle",
+          description: "Determines the shape of the avatar",
+          possibleValues: ["circle", "rounded"],
+        },
+        color: {
+          type: "string",
+          description: "Color of the avatar background",
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the avatar",
+        },
+        classNames: {
+          type: "object",
+          description: "Additional CSS classes to apply to the avatar",
+          properties: {
+            container: {
+              type: "string",
+              description: "Container of the avatar",
+            },
+            image: {
+              type: "string",
+              description: "Image of the avatar",
+            },
+            placeholder: {
+              type: "string",
+              description: "Placeholder of the avatar",
+            },
+            badge: {
+              type: "string",
+              description: "Badge of the avatar",
+            },
+          },
+        },
+        badge: {
+          type: "object",
+          description: "Determines the position and color of the badge",
+          properties: {
+            position: {
+              type: "string",
+              description: "Determines the position of the badge",
+            },
+            color: {
+              type: "string",
+              description: "Determines the color of the badge",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };

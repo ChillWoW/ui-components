@@ -12,16 +12,19 @@
     "@tabler/icons-react": "^3.30.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.4",
+    "highlight.js": "^11.11.1",
     "mongoose": "^8.10.0",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-syntax-highlighter": "^15.6.1",
     "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
