@@ -1,0 +1,50 @@
+.tooltip-trigger {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: fixed;
+    z-index: 1000;
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    pointer-events: none;
+    max-width: 200px;
+    text-align: center;
+    background-color: #252627;
+    color: #ffffff;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tooltip-arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #252627;
+    transform: rotate(45deg);
+}
+
+.tooltip-arrow-top {
+    bottom: -4px;
+    left: 50%;
+    margin-left: -4px;
+}
+
+.tooltip-arrow-bottom {
+    top: -4px;
+    left: 50%;
+    margin-left: -4px;
+}
+
+.tooltip-arrow-left {
+    right: -4px;
+    top: 50%;
+    margin-top: -4px;
+}
+
+.tooltip-arrow-right {
+    left: -4px;
+    top: 50%;
+    margin-top: -4px;
+}
