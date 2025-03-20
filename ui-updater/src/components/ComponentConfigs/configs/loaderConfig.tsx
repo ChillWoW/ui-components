@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, Kbd, Loader, Slider } from "@/components/ui";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -62,4 +63,34 @@ export const loaderConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        size: {
+          type: "number",
+          description: "Determines the size of the loader",
+        },
+        speed: {
+          type: "number",
+          description:
+            "Determines the speed of the loader. The lower the number, the faster the loader.",
+        },
+        className: {
+          type: "string",
+          description: "Determines the class name of the loader",
+        },
+        classNames: {
+          type: "object",
+          description: "Determines the class name of the loader",
+          properties: {
+            container: {
+              type: "string",
+              description: "Determines the class name of the loader container",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };

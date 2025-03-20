@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Button,
-  ButtonSize,
-  ButtonVariant,
-} from "@/components/ui/Buttons/Button";
+import { Button } from "@/components/ui/Buttons/Button";
 import {
   Text,
   SelectInput,
@@ -14,6 +10,7 @@ import {
 } from "@/components/ui";
 import { IconUser, IconUserCheck } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -144,4 +141,88 @@ export const badgeConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the badge",
+        },
+        size: {
+          type: "string",
+          default: "md",
+          description: "Determines the size of the badge",
+          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+        },
+        variant: {
+          type: "string",
+          default: "filled",
+          description: "Determines the color and style of the badge",
+          possibleValues: ["filled", "outline", "dot"],
+        },
+        shape: {
+          type: "string",
+          default: "rounded",
+          description: "Determines the shape of the badge",
+          possibleValues: ["rounded", "pill"],
+        },
+        leftSection: {
+          type: "ReactNode",
+          description: "Determines the left section of the badge",
+        },
+        rightSection: {
+          type: "ReactNode",
+          description: "Determines the right section of the badge",
+        },
+        color: {
+          type: "string",
+          description: "Determines the color of the badge (only for filled)",
+        },
+        asLink: {
+          type: "boolean",
+          description: "Determines if the badge is a link",
+        },
+        href: {
+          type: "string",
+          description: "Determines the href of the badge (link only)",
+        },
+        target: {
+          type: "string",
+          description: "Determines the target of the badge (link only)",
+        },
+        onClick: {
+          type: "function",
+          description: "Determines the function when clicking the badge",
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the badge",
+        },
+        classNames: {
+          type: "object",
+          description: "Additional CSS classes to apply to the badge",
+          properties: {
+            container: {
+              type: "string",
+              description: "Container of the badge",
+            },
+            leftSection: {
+              type: "string",
+              description: "Left section of the badge",
+            },
+            rightSection: {
+              type: "string",
+              description: "Right section of the badge",
+            },
+            dot: {
+              type: "string",
+              description: "Dot of the badge",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };

@@ -26,85 +26,106 @@ interface InfoPanelProps {
 
 export const InfoPanel: React.FC<InfoPanelProps> = ({ propInfo }) => {
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-5">
       {Object.entries(propInfo).map(([propName, info]) => (
-        <Card key={propName} className="p-3 bg-dark-800 border border-dark-600">
-          <Text size="sm" weight="bold" className="text-white mb-1">
-            {propName}
-            {info.required && <span className="text-red-500 ml-1">*</span>}
-          </Text>
-
-          <div className="flex flex-col gap-1">
-            <Text size="xs" className="text-gray-400">
-              Type: <span className="text-blue-400">{info.type}</span>
+        <Card
+          key={propName}
+          className="p-4 bg-dark-800 border border-dark-600 shadow-md"
+        >
+          <div className="flex items-center mb-2">
+            <Text size="sm" weight="bold" className="text-white">
+              {propName}
             </Text>
-
-            {info.default !== undefined && (
-              <Text size="xs" className="text-gray-400">
-                Default:{" "}
-                <code className="bg-dark-700 px-1 py-0.5 rounded">
-                  {String(info.default)}
-                </code>
-              </Text>
+            {info.required && (
+              <span className="text-red-500 ml-1 text-xs font-bold rounded-full px-1.5">
+                required
+              </span>
             )}
+            <div className="ml-auto">
+              <span className="bg-dark-600 px-2 py-0.5 rounded-full text-xs text-blue-400">
+                {info.type}
+              </span>
+            </div>
+          </div>
 
+          <div className="space-y-3">
             {info.description && (
-              <Text size="xs" className="text-gray-400 mt-1">
+              <Text size="xs" className="text-gray-300 leading-relaxed">
                 {info.description}
               </Text>
             )}
 
-            {info.possibleValues && (
-              <div className="mt-1">
-                <Text size="xs" className="text-gray-400">
-                  Possible values:
-                </Text>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {info.possibleValues.map((value: string) => (
-                    <code
-                      key={value}
-                      className="bg-dark-700 px-1.5 py-0.5 rounded text-xs"
-                    >
-                      {value}
-                    </code>
-                  ))}
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              {info.default !== undefined && (
+                <div className="flex items-center">
+                  <Text size="xs" className="text-gray-400 mr-1">
+                    Default:
+                  </Text>
+                  <code className="bg-dark-700 px-1.5 py-0.5 rounded text-xs text-teal-300">
+                    {String(info.default)}
+                  </code>
                 </div>
-              </div>
-            )}
+              )}
+
+              {info.possibleValues && info.possibleValues.length > 0 && (
+                <div className="flex items-center flex-wrap gap-1">
+                  <Text size="xs" className="text-gray-400 mr-1">
+                    Options:
+                  </Text>
+                  <div className="flex flex-wrap gap-1">
+                    {info.possibleValues.map((value: string) => (
+                      <code
+                        key={value}
+                        className="bg-dark-700 px-1.5 py-0.5 rounded text-xs text-purple-300"
+                      >
+                        {value}
+                      </code>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {info.properties && (
-              <div className="mt-2">
-                <Text size="xs" className="text-gray-400 font-semibold">
+              <div className="mt-3 pt-2 border-t border-dark-600">
+                <Text size="xs" className="text-gray-300 font-semibold mb-2">
                   Properties:
                 </Text>
-                <div className="ml-2 mt-1 border-l-2 border-dark-600 pl-2 space-y-2">
+                <div className="ml-2 pl-3 border-l-2 border-dark-500 space-y-3">
                   {Object.entries(info.properties).map(
                     ([propName, propInfo]) => (
-                      <div key={propName} className="space-y-0.5">
-                        <Text size="xs" className="text-gray-300">
-                          {propName}:
-                        </Text>
-                        <div className="ml-2">
-                          <Text size="xs" className="text-gray-400">
-                            Type:{" "}
-                            <span className="text-blue-400">
-                              {propInfo.type}
-                            </span>
+                      <div
+                        key={propName}
+                        className="bg-dark-700 rounded-md p-2"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <Text size="xs" className="text-white font-medium">
+                            {propName}
                           </Text>
-                          {propInfo.description && (
-                            <Text size="xs" className="text-gray-400">
-                              {propInfo.description}
-                            </Text>
-                          )}
-                          {propInfo.default !== undefined && (
-                            <Text size="xs" className="text-gray-400">
-                              Default:{" "}
-                              <code className="bg-dark-700 px-1 py-0.5 rounded">
-                                {String(propInfo.default)}
-                              </code>
-                            </Text>
-                          )}
+                          <span className="bg-dark-600 px-1.5 py-0.5 rounded-full text-xs text-blue-400">
+                            {propInfo.type}
+                          </span>
                         </div>
+
+                        {propInfo.description && (
+                          <Text
+                            size="xs"
+                            className="text-gray-300 mb-1 leading-relaxed"
+                          >
+                            {propInfo.description}
+                          </Text>
+                        )}
+
+                        {propInfo.default !== undefined && (
+                          <div className="flex items-center">
+                            <Text size="xs" className="text-gray-400 mr-1">
+                              Default:
+                            </Text>
+                            <code className="bg-dark-600 px-1.5 py-0.5 rounded text-xs text-teal-300">
+                              {String(propInfo.default)}
+                            </code>
+                          </div>
+                        )}
                       </div>
                     )
                   )}

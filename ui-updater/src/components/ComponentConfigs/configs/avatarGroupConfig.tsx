@@ -9,6 +9,7 @@ import {
   NumberInput,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -190,4 +191,45 @@ export const avatarGroupConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        avatars: {
+          type: "array",
+          description: "Array of avatars",
+        },
+        limit: {
+          type: "number",
+          description:
+            "Determines the number of avatars to show, other avatars will be hidden and shown as +N",
+        },
+        spacing: {
+          type: "number",
+          description: "Determines the spacing between avatars",
+        },
+        size: {
+          type: "string",
+          default: "md",
+          description: "Determines the size of the avatar",
+          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+        },
+        shape: {
+          type: "string",
+          default: "circle",
+          description: "Determines the shape of the avatar",
+          possibleValues: ["circle", "rounded"],
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the avatar",
+        },
+        overlapFrom: {
+          type: "string",
+          description: "Determines the position of the overlap",
+          possibleValues: ["left", "right"],
+        },
+      }}
+    />
+  ),
 };

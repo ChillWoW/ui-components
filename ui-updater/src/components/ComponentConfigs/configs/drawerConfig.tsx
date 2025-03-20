@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, Switch, Drawer, RadioGroup, Button } from "@/components/ui";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -104,4 +105,55 @@ export const drawerConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the drawer",
+        },
+        open: {
+          type: "boolean",
+          description: "Determines if the drawer is open",
+        },
+        onClose: {
+          type: "function",
+          description: "Determines the function when the drawer is closed",
+        },
+        position: {
+          type: "string",
+          description: "Determines the position of the drawer",
+          possibleValues: ["left", "right"],
+        },
+        className: {
+          type: "string",
+          description: "Determines the class name of the drawer",
+        },
+        classNames: {
+          type: "object",
+          description: "Determines the class name of the drawer",
+          properties: {
+            container: {
+              type: "string",
+              description: "Determines the class name of the drawer container",
+            },
+            overlay: {
+              type: "string",
+              description: "Determines the class name of the drawer overlay",
+            },
+            content: {
+              type: "string",
+              description: "Determines the class name of the drawer content",
+            },
+            header: {
+              type: "string",
+              description: "Determines the class name of the drawer header",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };

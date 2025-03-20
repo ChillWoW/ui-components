@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, Switch, Checkbox } from "@/components/ui";
+import {
+  Text,
+  Switch,
+  Checkbox,
+  Progress,
+  SelectInput,
+  Slider,
+} from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
 
@@ -15,21 +22,25 @@ const selectInputClasses = {
   selectedOption: "bg-dark-700",
 };
 
-export const checkboxConfig: ComponentConfigType = {
+export const progressConfig: ComponentConfigType = {
   defaultProps: {
-    checked: false,
-    disabled: false,
-    showLabel: true,
-    label: "Checkbox",
-    required: false,
+    size: "md",
+    value: 0,
+    color: "blue",
+    leftSideText: "0%",
+    rightSideText: "100%",
+    hint: "This is a hint",
+    showHint: false,
   },
 
   renderComponent: (props) => (
-    <Checkbox
-      checked={props.checked}
-      disabled={props.disabled}
-      label={props.showLabel ? props.label : undefined}
-      required={props.required}
+    <Progress
+      size={props.size}
+      value={props.value}
+      color={props.color}
+      leftSideText={props.leftSideText}
+      rightSideText={props.rightSideText}
+      hint={props.showHint ? props.hint : undefined}
     />
   ),
 
@@ -53,35 +64,59 @@ export const checkboxConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Label / Required
+            Size
           </Text>
-          <Switch
-            label="Show Label"
-            checked={props.showLabel}
-            onChange={(checked) => setProps({ ...props, showLabel: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Required"
-            checked={props.required}
-            onChange={(checked) => setProps({ ...props, required: checked })}
-            classNames={switchClasses}
+          <SelectInput
+            options={[
+              { value: "xs", label: "xs" },
+              { value: "sm", label: "sm" },
+              { value: "md", label: "md" },
+              { value: "lg", label: "lg" },
+              { value: "xl", label: "xl" },
+            ]}
+            value={props.size}
+            onChange={(value: any) => setProps({ ...props, size: value })}
+            classNames={selectInputClasses}
           />
         </div>
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Color
+          </Text>
+          <SelectInput
+            options={[
+              { value: "yellow", label: "Yellow" },
+              { value: "orange", label: "Orange" },
+              { value: "red", label: "Red" },
+              { value: "pink", label: "Pink" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+              { value: "purple", label: "Purple" },
+            ]}
+            value={props.color}
+            onChange={(value) => setProps({ ...props, color: value })}
+            classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Value
+          </Text>
+          <Slider
+            value={props.value}
+            onChange={(value: any) => setProps({ ...props, value: value })}
+          />
+        </div>
+
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Other
           </Text>
           <Switch
-            label="Disabled"
-            checked={props.disabled}
-            onChange={(checked) => setProps({ ...props, disabled: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Required"
-            checked={props.required}
-            onChange={(checked) => setProps({ ...props, required: checked })}
+            label="Show Hint"
+            checked={props.showHint}
+            onChange={(checked) => setProps({ ...props, showHint: checked })}
             classNames={switchClasses}
           />
         </div>

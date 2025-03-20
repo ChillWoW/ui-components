@@ -21,6 +21,23 @@ const COMPONENT_OPTIONS = [
   { value: "textInput", label: "Text Input" },
   { value: "kbd", label: "Kbd" },
   { value: "loader", label: "Loader" },
+  { value: "menu", label: "Menu" },
+  { value: "modal", label: "Modal" },
+  { value: "pagination", label: "Pagination" },
+  { value: "progress", label: "Progress" },
+  { value: "radio", label: "Radio" },
+  { value: "radioCard", label: "Radio Card" },
+  { value: "radioGroup", label: "Radio Group" },
+  { value: "rating", label: "Rating" },
+  { value: "ringProgress", label: "Ring Progress" },
+  { value: "slider", label: "Slider" },
+  { value: "step", label: "Step" },
+  { value: "switch", label: "Switch" },
+  { value: "table", label: "Table" },
+  { value: "tabs", label: "Tabs" },
+  { value: "text", label: "Text" },
+  { value: "timeline", label: "Timeline" },
+  { value: "tooltip", label: "Tooltip" },
 ];
 
 export interface ComponentSelectorProps {

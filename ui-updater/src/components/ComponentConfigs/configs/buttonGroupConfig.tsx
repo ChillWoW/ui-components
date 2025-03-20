@@ -8,6 +8,7 @@ import {
   ButtonGroup,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -123,4 +124,42 @@ export const buttonGroupConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the button group",
+        },
+        variant: {
+          type: "string",
+          default: "filled",
+          description: "Determines the variant of the button group",
+          possibleValues: ["filled", "outline"],
+        },
+        size: {
+          type: "string",
+          default: "sm",
+          description: "Determines the size of the button group",
+          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+        },
+        orientation: {
+          type: "string",
+          default: "horizontal",
+          description: "Determines the orientation of the button group",
+          possibleValues: ["horizontal", "vertical"],
+        },
+        disabled: {
+          type: "boolean",
+          description: "Determines if the button group is disabled",
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the button group",
+        },
+      }}
+    />
+  ),
 };

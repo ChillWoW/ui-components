@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, Kbd } from "@/components/ui";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -46,4 +47,30 @@ export const kbdConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the kbd",
+        },
+        className: {
+          type: "string",
+          description: "Determines the class name of the kbd",
+        },
+        classNames: {
+          type: "object",
+          description: "Determines the class name of the kbd",
+          properties: {
+            container: {
+              type: "string",
+              description: "Determines the class name of the kbd container",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };

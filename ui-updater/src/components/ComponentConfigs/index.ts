@@ -17,6 +17,23 @@ import { textAreaConfig } from "./configs/textAreaConfig";
 import { textInputConfig } from "./configs/textInputConfig";
 import { kbdConfig } from "./configs/kbdConfig";
 import { loaderConfig } from "./configs/loaderConfig";
+import { menuConfig } from "./configs/menuConfig";
+import { modalConfig } from "./configs/modalConfig";
+import { paginationConfig } from "./configs/paginationConfig";
+import { progressConfig } from "./configs/progressConfig";
+import { radioCardConfig } from "./configs/radioCardConfig";
+import { radioConfig } from "./configs/radioConfig";
+import { radioGroupConfig } from "./configs/radioGroupConfig";
+import { ratingConfig } from "./configs/ratingConfig";
+import { ringProgressConfig } from "./configs/ringProgressConfig";
+import { sliderConfig } from "./configs/sliderConfig";
+import { stepConfig } from "./configs/stepConfig";
+import { switchConfig } from "./configs/switchConfig";
+import { tableConfig } from "./configs/tableConfig";
+import { tabsConfig } from "./configs/tabsConfig";
+import { textConfig } from "./configs/textConfig";
+import { timelineConfig } from "./configs/timelineConfig";
+import { tooltipConfig } from "./configs/tooltipConfig";
 
 export const componentConfigs = {
   alert: alertConfig,
@@ -38,6 +55,23 @@ export const componentConfigs = {
   textInput: textInputConfig,
   kbd: kbdConfig,
   loader: loaderConfig,
+  menu: menuConfig,
+  modal: modalConfig,
+  pagination: paginationConfig,
+  progress: progressConfig,
+  radio: radioConfig,
+  radioCard: radioCardConfig,
+  radioGroup: radioGroupConfig,
+  rating: ratingConfig,
+  ringProgress: ringProgressConfig,
+  slider: sliderConfig,
+  step: stepConfig,
+  switch: switchConfig,
+  table: tableConfig,
+  tabs: tabsConfig,
+  text: textConfig,
+  timeline: timelineConfig,
+  tooltip: tooltipConfig,
 };
 
 export type ComponentConfigType = {

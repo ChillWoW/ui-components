@@ -3,6 +3,7 @@ import { Alert, AlertVariant } from "@/components/ui/Alert";
 import { Text, RadioGroup, Switch, Card, SelectInput } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -81,4 +82,44 @@ export const cardConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the card",
+        },
+        withBorder: {
+          type: "boolean",
+          description: "Determines if the card has a border",
+        },
+        radius: {
+          type: "string",
+          default: "md",
+          description: "Determines the radius of the card",
+          possibleValues: ["sm", "md", "lg", "xl", "2xl"],
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the card",
+        },
+        classNames: {
+          type: "object",
+          description: "Additional CSS classes to apply to the card",
+          properties: {
+            container: {
+              type: "string",
+              description: "Container of the card",
+            },
+            content: {
+              type: "string",
+              description: "Content of the card",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };

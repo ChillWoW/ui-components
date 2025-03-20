@@ -13,6 +13,7 @@ export * from "./Modal";
 export * from "./Pagination";
 export * from "./Progress";
 export * from "./Radios";
+export * from "./Rating";
 export * from "./RingProgress";
 export * from "./Slider";
 export * from "./Step";
@@ -28,5 +29,5 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }

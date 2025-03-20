@@ -7,6 +7,7 @@ import {
 import { Text, SelectInput, RadioGroup, Switch } from "@/components/ui";
 import { IconUser, IconUserCheck } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
+import { InfoPanel } from "../InfoPanel";
 
 const switchClasses = {
   track: "bg-dark-700",
@@ -118,4 +119,62 @@ export const buttonConfig: ComponentConfigType = {
       </div>
     );
   },
+
+  infoPanel: () => (
+    <InfoPanel
+      propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the button",
+        },
+        size: {
+          type: "string",
+          default: "md",
+          description: "Determines the size of the button",
+          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+        },
+        variant: {
+          type: "string",
+          default: "filled",
+          description: "Determines the variant of the button",
+          possibleValues: ["filled", "outline"],
+        },
+        disabled: {
+          type: "boolean",
+          description: "Determines if the button is disabled",
+        },
+        leftSection: {
+          type: "ReactNode",
+          description: "Determines the left section of the button",
+        },
+        rightSection: {
+          type: "ReactNode",
+          description: "Determines the right section of the button",
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the button",
+        },
+        classNames: {
+          type: "object",
+          description: "Additional CSS classes to apply to the button",
+          properties: {
+            container: {
+              type: "string",
+              description: "Container of the button",
+            },
+            leftSection: {
+              type: "string",
+              description: "Left section of the button",
+            },
+            rightSection: {
+              type: "string",
+              description: "Right section of the button",
+            },
+          },
+        },
+      }}
+    />
+  ),
 };
