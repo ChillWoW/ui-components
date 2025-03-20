@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { SelectInput } from "@/components/ui/Inputs";
+import { useSearchParams } from "next/navigation";
 
 const COMPONENT_OPTIONS = [
   { value: "alert", label: "Alert" },
@@ -52,7 +53,20 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
   const handleComponentChange = (value: string) => {
     setSelectedComponent(value);
     onComponentChange(value);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("component", value);
+    window.history.pushState({}, "", url);
   };
+
+  const url = useSearchParams();
+  const component = url.get("component");
+
+  useEffect(() => {
+    if (component) {
+      handleComponentChange(component);
+    }
+  }, [component]);
 
   return (
     <div className="w-full max-w-md">
