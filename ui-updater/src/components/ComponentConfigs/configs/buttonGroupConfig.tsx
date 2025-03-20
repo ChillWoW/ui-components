@@ -73,42 +73,28 @@ export const buttonGroupConfig: ComponentConfigType = {
             ]}
             value={props.size}
             onChange={(value) => setProps({ ...props, size: value })}
+            classNames={selectInputClasses}
           />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Variant
-          </Text>
-          <RadioGroup
-            value={props.variant}
-            onChange={(value) => setProps({ ...props, variant: value })}
-          >
-            <RadioGroup.Item value="filled" label="Filled" />
-            <RadioGroup.Item value="outline" label="Outline" />
-          </RadioGroup>
         </div>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Orientation
           </Text>
-          <ButtonGroup
-            children={[
-              <Button
-                onClick={() =>
-                  setProps({ ...props, orientation: "horizontal" })
-                }
-              >
-                Horizontal
-              </Button>,
-              <Button
-                onClick={() => setProps({ ...props, orientation: "vertical" })}
-              >
-                Vertical
-              </Button>,
-            ]}
-          />
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, orientation: "horizontal" })}
+              className={`${props.orientation === "horizontal" && "bg-dark-500"}`}
+            >
+              Horizontal
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, orientation: "vertical" })}
+              className={`${props.orientation === "vertical" && "bg-dark-500"}`}
+            >
+              Vertical
+            </Button>
+          </ButtonGroup>
         </div>
         <div className="flex flex-col gap-2">
           <Text size="sm" weight="bold">

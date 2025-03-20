@@ -75,6 +75,7 @@ export const buttonConfig: ComponentConfigType = {
             ]}
             value={props.size}
             onChange={(value) => setProps({ ...props, size: value })}
+            classNames={selectInputClasses}
           />
         </div>
 

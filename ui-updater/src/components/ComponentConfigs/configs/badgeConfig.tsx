@@ -32,6 +32,7 @@ export const badgeConfig: ComponentConfigType = {
     leftSection: false,
     rightSection: false,
     asLink: false,
+    color: "gray",
   },
 
   renderComponent: (props) => (
@@ -44,6 +45,7 @@ export const badgeConfig: ComponentConfigType = {
       asLink={props.asLink}
       href={props.asLink && "https://chillwow.org"}
       target={props.asLink && "_blank"}
+      color={props.color}
     >
       Sample Badge
     </Badge>
@@ -85,6 +87,27 @@ export const badgeConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
+            Background color
+          </Text>
+          <SelectInput
+            options={[
+              { value: "gray", label: "Gray" },
+              { value: "yellow", label: "Yellow" },
+              { value: "orange", label: "Orange" },
+              { value: "red", label: "Red" },
+              { value: "pink", label: "Pink" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+              { value: "purple", label: "Purple" },
+            ]}
+            value={props.color}
+            onChange={(value) => setProps({ ...props, color: value })}
+            classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
             Variant
           </Text>
           <RadioGroup
@@ -101,16 +124,20 @@ export const badgeConfig: ComponentConfigType = {
           <Text size="sm" weight="bold">
             Shape
           </Text>
-          <ButtonGroup
-            children={[
-              <Button onClick={() => setProps({ ...props, shape: "rounded" })}>
-                Rounded
-              </Button>,
-              <Button onClick={() => setProps({ ...props, shape: "pill" })}>
-                Pill
-              </Button>,
-            ]}
-          />
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, shape: "rounded" })}
+              className={`${props.shape === "rounded" && "bg-dark-500"} w-full`}
+            >
+              Rounded
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, shape: "pill" })}
+              className={`${props.shape === "pill" && "bg-dark-500"} w-full`}
+            >
+              Pill
+            </Button>
+          </ButtonGroup>
         </div>
 
         <div className="flex flex-col gap-2">

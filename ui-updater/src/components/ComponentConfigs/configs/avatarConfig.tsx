@@ -27,6 +27,7 @@ export const avatarConfig: ComponentConfigType = {
   defaultProps: {
     src: "https://github.com/shadcn.png",
     placeholder: "HI",
+    color: "gray",
     showImage: true,
     showPlaceholder: false,
     size: "md",
@@ -86,6 +87,27 @@ export const avatarConfig: ComponentConfigType = {
             ]}
             value={props.size}
             onChange={(value) => setProps({ ...props, size: value })}
+            classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Background color
+          </Text>
+          <SelectInput
+            options={[
+              { value: "gray", label: "Gray" },
+              { value: "yellow", label: "Yellow" },
+              { value: "orange", label: "Orange" },
+              { value: "red", label: "Red" },
+              { value: "pink", label: "Pink" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+              { value: "purple", label: "Purple" },
+            ]}
+            value={props.color}
+            onChange={(value) => setProps({ ...props, color: value })}
             classNames={selectInputClasses}
           />
         </div>

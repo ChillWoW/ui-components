@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert, AlertVariant } from "@/components/ui/Alert";
-import { Text, RadioGroup, Switch } from "@/components/ui";
+import { Text, RadioGroup, Switch, SelectInput } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
@@ -21,12 +21,24 @@ export const alertConfig: ComponentConfigType = {
   defaultProps: {
     icon: false,
     variant: "info",
+    closeable: false,
+    compact: false,
+    withBorder: true,
+    radius: "md",
+    shadow: false,
+    iconPosition: "center",
   },
 
   renderComponent: (props) => (
     <Alert
       variant={props.variant as AlertVariant}
       icon={props.icon && <IconAlertCircle />}
+      closeable={props.closeable}
+      compact={props.compact}
+      withBorder={props.withBorder}
+      radius={props.radius}
+      shadow={props.shadow}
+      iconPosition={props.icon ? props.iconPosition : undefined}
     >
       <Alert.Title>Alert Title</Alert.Title>
       <Alert.Description>
@@ -56,7 +68,7 @@ export const alertConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Default variants
+            Variants
           </Text>
           <RadioGroup
             value={props.variant}
@@ -69,14 +81,71 @@ export const alertConfig: ComponentConfigType = {
           </RadioGroup>
         </div>
 
+        {props.icon && (
+          <div className="flex flex-col gap-1">
+            <Text size="sm" weight="bold">
+              Icon Position
+            </Text>
+            <RadioGroup
+              value={props.iconPosition}
+              onChange={(value) => setProps({ ...props, iconPosition: value })}
+            >
+              <RadioGroup.Item value="top" label="Top" />
+              <RadioGroup.Item value="center" label="Center" />
+              <RadioGroup.Item value="bottom" label="Bottom" />
+            </RadioGroup>
+          </div>
+        )}
+
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Other
+            Radius
+          </Text>
+          <SelectInput
+            value={props.radius}
+            onChange={(value) => setProps({ ...props, radius: value })}
+            classNames={selectInputClasses}
+            options={[
+              { label: "None", value: "none" },
+              { label: "Sm", value: "sm" },
+              { label: "Md", value: "md" },
+              { label: "Lg", value: "lg" },
+              { label: "Full", value: "full" },
+            ]}
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Options
           </Text>
           <Switch
             label="Icon"
             checked={props.icon}
             onChange={(checked) => setProps({ ...props, icon: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Closeable"
+            checked={props.closeable}
+            onChange={(checked) => setProps({ ...props, closeable: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Compact"
+            checked={props.compact}
+            onChange={(checked) => setProps({ ...props, compact: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="With Border"
+            checked={props.withBorder}
+            onChange={(checked) => setProps({ ...props, withBorder: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Shadow"
+            checked={props.shadow}
+            onChange={(checked) => setProps({ ...props, shadow: checked })}
             classNames={switchClasses}
           />
         </div>
@@ -87,6 +156,15 @@ export const alertConfig: ComponentConfigType = {
   infoPanel: () => (
     <InfoPanel
       propInfo={{
+        children: {
+          type: "ReactNode",
+          required: true,
+          description: "Content of the alert",
+        },
+        onClose: {
+          type: "function",
+          description: "Function to handle the close event",
+        },
         variant: {
           type: "string",
           default: "info",
@@ -94,20 +172,48 @@ export const alertConfig: ComponentConfigType = {
           possibleValues: ["success", "error", "warning", "info"],
         },
         icon: {
-          type: "ReactNode | boolean",
+          type: "ReactNode",
+          description: "Icon displayed at the start of the alert",
+        },
+        iconPosition: {
+          type: "string",
+          default: "center",
+          description: "Position of the icon",
+          possibleValues: ["top", "center", "bottom"],
+        },
+        closeable: {
+          type: "boolean",
+          default: true,
+          description: "Whether the alert is closeable",
+        },
+        closeIcon: {
+          type: "ReactNode",
+          description: "Custom close icon",
+        },
+        compact: {
+          type: "boolean",
           default: false,
-          description:
-            "Icon displayed at the start of the alert. If true, default icon will be used based on variant.",
+          description: "Whether the alert is compact",
+        },
+        withBorder: {
+          type: "boolean",
+          default: true,
+          description: "Whether the alert has a border",
+        },
+        radius: {
+          type: "string",
+          default: "md",
+          description: "Radius of the alert",
+          possibleValues: ["none", "sm", "md", "lg", "full"],
+        },
+        shadow: {
+          type: "boolean",
+          default: false,
+          description: "Whether the alert has a shadow",
         },
         className: {
           type: "string",
           description: "Additional CSS classes to apply to the alert",
-        },
-        children: {
-          type: "ReactNode",
-          required: true,
-          description:
-            "Content of the alert. Can include Alert.Title and Alert.Description components.",
         },
       }}
     />

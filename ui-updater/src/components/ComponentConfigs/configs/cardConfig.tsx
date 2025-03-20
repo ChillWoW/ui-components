@@ -1,7 +1,5 @@
 import React from "react";
-import { Alert, AlertVariant } from "@/components/ui/Alert";
-import { Text, RadioGroup, Switch, Card, SelectInput } from "@/components/ui";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { Text, Switch, Card, SelectInput } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
 
@@ -21,17 +19,29 @@ export const cardConfig: ComponentConfigType = {
   defaultProps: {
     withBorder: false,
     radius: "md",
+    shadow: false,
+    padding: "md",
+    hover: false,
   },
 
   renderComponent: (props) => (
     <Card
-      className="bg-dark-800"
+      className="bg-dark-900"
       withBorder={props.withBorder}
       radius={props.radius}
+      shadow={props.shadow}
+      padding={props.padding}
+      hover={props.hover}
     >
-      <div className="p-4">
-        <Text>Card Content</Text>
-      </div>
+      <img
+        className="rounded-t-lg w-full h-[252px] object-cover"
+        src="https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg"
+        alt="Image"
+      />
+      <p className="text-base text-center">
+        Some quick example text to build on the card title and make up the bulk
+        of the card's content.
+      </p>
     </Card>
   ),
 
@@ -59,9 +69,11 @@ export const cardConfig: ComponentConfigType = {
           </Text>
           <SelectInput
             options={[
+              { value: "none", label: "none" },
               { value: "sm", label: "sm" },
               { value: "md", label: "md" },
               { value: "lg", label: "lg" },
+              { value: "full", label: "full" },
             ]}
             value={props.radius}
             onChange={(value) => setProps({ ...props, radius: value })}
@@ -76,6 +88,18 @@ export const cardConfig: ComponentConfigType = {
             label="With Border"
             checked={props.withBorder}
             onChange={(checked) => setProps({ ...props, withBorder: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="With Shadow"
+            checked={props.shadow}
+            onChange={(checked) => setProps({ ...props, shadow: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="With Hover"
+            checked={props.hover}
+            onChange={(checked) => setProps({ ...props, hover: checked })}
             classNames={switchClasses}
           />
         </div>
@@ -97,9 +121,29 @@ export const cardConfig: ComponentConfigType = {
         },
         radius: {
           type: "string",
-          default: "md",
           description: "Determines the radius of the card",
-          possibleValues: ["sm", "md", "lg", "xl", "2xl"],
+          possibleValues: ["none", "sm", "md", "lg", "full"],
+          default: "md",
+        },
+        shadow: {
+          type: "boolean",
+          default: false,
+          description: "Determines if the card has a shadow",
+        },
+        hover: {
+          type: "boolean",
+          default: false,
+          description: "Determines if the card has a hover effect",
+        },
+        padding: {
+          type: "string",
+          description: "Determines the padding of the card",
+          default: "md",
+          possibleValues: ["xs", "sm", "md", "lg", "xl", "none"],
+        },
+        onClick: {
+          type: "function",
+          description: "Function that is called when the card is clicked",
         },
         className: {
           type: "string",
