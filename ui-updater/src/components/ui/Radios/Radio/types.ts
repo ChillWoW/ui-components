@@ -1,14 +1,22 @@
+export type RadioSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type RadioVariant = "filled" | "outline" | "subtle";
+export type RadioLabelPosition = "left" | "right";
+
 export interface RadioClassNames {
     container?: string;
-    title?: string;
+    label?: string;
     radio?: string;
 }
 
 export interface RadioProps
-    extends React.InputHTMLAttributes<HTMLInputElement> {
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
     checked?: boolean;
     disabled?: boolean;
-    title?: string;
+    label?: string;
     className?: string;
     classNames?: RadioClassNames;
+    size?: RadioSize;
+    variant?: RadioVariant;
+    labelPosition?: RadioLabelPosition;
+    value?: string | number;
 }

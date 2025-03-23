@@ -1,6 +1,4 @@
-export interface LoaderClassNames {
-    container?: string;
-}
+export type LoaderVariant = "spinner" | "dots" | "pulse" | "bars";
 
 export interface LoaderProps {
     size?: number;
@@ -10,5 +8,5 @@ export interface LoaderProps {
     strokeLength?: number;
     bgOpacity?: number;
     className?: string;
-    classNames?: LoaderClassNames;
+    variant?: LoaderVariant;
 }

@@ -10,7 +10,11 @@ export const Progress = ({
     leftSideText,
     rightSideText,
     hint,
-    classNames
+    classNames,
+    showLabel = true,
+    radius = "md",
+    trackColor = "#252627",
+    labelPosition = "top"
 }: ProgressProps) => {
     const clampedValue = Math.min(100, Math.max(0, value));
 
@@ -18,11 +22,12 @@ export const Progress = ({
         <div
             className={cn("flex flex-col w-full gap-2", classNames?.container)}
         >
-            {(leftSideText || rightSideText) && (
+            {showLabel && (leftSideText || rightSideText) && (
                 <div
                     className={cn(
                         "flex w-full",
-                        leftSideText ? "justify-between" : "justify-end"
+                        leftSideText ? "justify-between" : "justify-end",
+                        labelPosition === "bottom" && "order-last"
                     )}
                 >
                     {leftSideText && (
@@ -38,7 +43,7 @@ export const Progress = ({
                     {rightSideText && (
                         <span
                             className={cn(
-                                "text-sm text-gray-500 flex self-end",
+                                "text-sm text-white flex self-end",
                                 classNames?.rightSideText
                             )}
                         >
@@ -56,12 +61,22 @@ export const Progress = ({
                     "h-4": size === "xl"
                 })}
             >
-                <div className="absolute inset-0 bg-[#252627] rounded-[2px]" />
+                <div
+                    className={cn(
+                        "absolute inset-0 rounded-[2px]",
+                        radius && `rounded-${radius}`,
+                        classNames?.track
+                    )}
+                    style={{
+                        backgroundColor: trackColor
+                    }}
+                />
                 <div
                     className="absolute inset-0 rounded-[2px] transition-all duration-300"
                     style={{
                         width: `${clampedValue}%`,
-                        backgroundColor: color
+                        backgroundColor: color,
+                        borderRadius: `${radius}px`
                     }}
                 />
             </div>
