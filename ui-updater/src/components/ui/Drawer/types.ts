@@ -1,3 +1,5 @@
+export type DrawerPosition = "left" | "right";
+
 export interface DrawerClassNames {
     container?: string;
     overlay?: string;
@@ -19,9 +21,14 @@ export interface DrawerContentProps {
 export interface DrawerProps {
     open: boolean;
     onClose: () => void;
-    position?: "left" | "right";
+    position?: DrawerPosition;
     canClose?: boolean;
     children: React.ReactNode;
     className?: string;
     classNames?: DrawerClassNames;
+    width?: string | number;
+    disableScroll?: boolean;
+    closeOnOverlayClick?: boolean;
+    animationDuration?: number;
+    overlayAnimationDuration?: number;
 }

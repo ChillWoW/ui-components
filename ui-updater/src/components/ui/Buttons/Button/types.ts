@@ -1,12 +1,14 @@
 import { ButtonHTMLAttributes } from "react";
 
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
-export type ButtonVariant = "filled" | "outline";
+export type ButtonVariant = "filled" | "outline" | "subtle" | "link";
+export type ButtonRadius = "none" | "sm" | "md" | "lg" | "full";
 
 export interface ButtonClassNames {
     container?: string;
     leftSection?: string;
     rightSection?: string;
+    active?: string;
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,6 +16,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     rightSection?: React.ReactNode;
     variant?: ButtonVariant;
     size?: ButtonSize;
+    disabled?: boolean;
     className?: string;
     classNames?: ButtonClassNames;
+    color?: string;
+    fullWidth?: boolean;
+    isLoading?: boolean;
+    active?: boolean;
+    radius?: ButtonRadius;
 }

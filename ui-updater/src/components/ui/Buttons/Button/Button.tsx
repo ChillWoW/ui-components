@@ -11,6 +11,11 @@ export const Button = ({
     size = "sm",
     disabled,
     classNames,
+    color,
+    fullWidth,
+    isLoading,
+    active,
+    radius = "md",
     ...props
 }: ButtonProps) => {
     const buttonClass =
@@ -27,27 +32,55 @@ export const Button = ({
     const variantClasses = {
         filled: "bg-[#252627] border border-[#3e4249] text-white hover:bg-[#333538]",
         outline:
-            "bg-transparent border border-[#4a515e] text-white hover:bg-[#e9ecef]"
+            "bg-transparent border border-[#4a515e] text-white hover:border-[#8e939f] hover:bg-[#3a3d42]/30",
+        subtle: "bg-transparent text-white hover:bg-[#3a3d42]/30 border-transparent",
+        link: "bg-transparent text-white hover:underline border-transparent p-0 h-auto"
+    };
+
+    const radiusClasses = {
+        none: "rounded-none",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        full: "rounded-full"
     };
 
     const buttonClasses = cn(
         buttonClass,
         sizeClasses[size],
         variantClasses[variant],
+        radiusClasses[radius],
+        color && `bg-[${color}]`,
+        fullWidth && "w-full",
+        active && "!bg-opacity-80 ring-2 ring-opacity-30" && classNames?.active,
+        (disabled || isLoading) &&
+            "opacity-60 cursor-not-allowed pointer-events-none",
         disabled && "opacity-60 cursor-not-allowed pointer-events-none",
         classNames?.container,
         className
     );
 
     return (
-        <button className={buttonClasses} disabled={disabled} {...props}>
-            {leftSection && (
-                <span className={cn(classNames?.leftSection)}>
-                    {leftSection}
-                </span>
+        <button
+            className={buttonClasses}
+            disabled={disabled || isLoading}
+            {...props}
+        >
+            {isLoading ? (
+                <span
+                    className="mr-2 inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
+                    role="status"
+                    aria-label="loading"
+                ></span>
+            ) : (
+                leftSection && (
+                    <span className={cn(classNames?.leftSection)}>
+                        {leftSection}
+                    </span>
+                )
             )}
             {children}
-            {rightSection && (
+            {!isLoading && rightSection && (
                 <span className={cn(classNames?.rightSection)}>
                     {rightSection}
                 </span>

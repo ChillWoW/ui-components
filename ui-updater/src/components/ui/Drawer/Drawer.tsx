@@ -12,7 +12,12 @@ export const Drawer = ({
     position = "left",
     canClose = true,
     className,
-    classNames
+    classNames,
+    width = "320px",
+    disableScroll = true,
+    closeOnOverlayClick = true,
+    animationDuration = 0.3,
+    overlayAnimationDuration = 0.1
 }: DrawerProps) => {
     useEffect(() => {
         if (!open || !canClose) return;
@@ -26,6 +31,21 @@ export const Drawer = ({
         document.addEventListener("keydown", handleEscape);
         return () => document.removeEventListener("keydown", handleEscape);
     }, [open, canClose, onClose]);
+
+    useEffect(() => {
+        if (!disableScroll) return;
+
+        if (open) {
+            const originalStyle = window.getComputedStyle(
+                document.body
+            ).overflow;
+            document.body.style.overflow = "hidden";
+
+            return () => {
+                document.body.style.overflow = originalStyle;
+            };
+        }
+    }, [open, disableScroll]);
 
     const slideVariants = {
         left: {
@@ -46,27 +66,45 @@ export const Drawer = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.1 }}
+                        transition={{
+                            duration: overlayAnimationDuration,
+                            ease: "linear"
+                        }}
                         className={cn(
                             "fixed inset-0 bg-black/50 backdrop-blur-[2px] z-[200]",
                             classNames?.overlay
                         )}
-                        onClick={canClose ? onClose : undefined}
+                        onClick={
+                            canClose && closeOnOverlayClick
+                                ? onClose
+                                : undefined
+                        }
+                        style={{
+                            willChange: "opacity"
+                        }}
                     />
                     <motion.div
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
                         variants={slideVariants[position]}
-                        transition={{ type: "tween", duration: 0.3 }}
+                        transition={{
+                            type: "tween",
+                            duration: animationDuration,
+                            ease: "easeOut"
+                        }}
                         className={cn(
-                            "fixed top-0 bottom-0 z-[1000] w-[320px] bg-[#252627] border-[#3e4249]",
+                            "fixed top-0 bottom-0 z-[1000] bg-[#252627] border-[#3e4249]",
                             position === "left"
                                 ? "left-0 border-r"
                                 : "right-0 border-l",
                             classNames?.container,
                             className
                         )}
+                        style={{
+                            width,
+                            willChange: "transform"
+                        }}
                     >
                         <DrawerContent>{children}</DrawerContent>
                     </motion.div>
