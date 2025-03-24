@@ -81,8 +81,8 @@ const TableDemo = ({
         ? sortDirection === "asc"
           ? "desc"
           : sortDirection === "desc"
-            ? null
-            : "asc"
+          ? null
+          : "asc"
         : "asc";
 
     setSortColumn(column);
@@ -343,14 +343,13 @@ export const tableConfig: ComponentConfigType = {
             <SelectInput
               value={props.variant}
               onChange={(value) => setProps({ ...props, variant: value })}
-              options={[
-                { label: "Default", value: "default" },
-                { label: "Primary", value: "primary" },
-                { label: "Secondary", value: "secondary" },
-                { label: "Tertiary", value: "tertiary" },
-              ]}
               classNames={selectInputClasses}
-            />
+            >
+              <SelectInput.Option value="default" label="Default" />
+              <SelectInput.Option value="primary" label="Primary" />
+              <SelectInput.Option value="secondary" label="Secondary" />
+              <SelectInput.Option value="tertiary" label="Tertiary" />
+            </SelectInput>
           </div>
         </div>
 

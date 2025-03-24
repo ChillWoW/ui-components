@@ -8,7 +8,12 @@ import {
   NumberInput,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
-import { activeButtonClass, buttonClass, switchClasses } from "./index";
+import {
+  activeButtonClass,
+  buttonClass,
+  numberInputClass,
+  switchClasses,
+} from "./index";
 
 export const colorPickerConfig: ComponentConfigType = {
   defaultProps: {
@@ -79,6 +84,7 @@ export const colorPickerConfig: ComponentConfigType = {
             onChange={(value) => setProps({ ...props, swatchesPerRow: value })}
             min={1}
             max={10}
+            classNames={numberInputClass}
           />
         </div>
 

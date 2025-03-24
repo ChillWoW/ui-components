@@ -202,8 +202,8 @@ export const ColorPicker = ({
       format === "hex"
         ? "#ffffff"
         : format === "rgb"
-          ? "rgb(255, 255, 255)"
-          : "rgba(255, 255, 255, 1)";
+        ? "rgb(255, 255, 255)"
+        : "rgba(255, 255, 255, 1)";
 
     setTextValue(defaultColor);
     setIsValidColor(true);
@@ -270,7 +270,7 @@ export const ColorPicker = ({
             <input
               id={colorPickerId}
               type="color"
-              value={value.startsWith("#") ? value : "#ffffff"}
+              value={value && value.startsWith("#") ? value : "#ffffff"}
               onChange={handleColorInputChange}
               disabled={disabled}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
@@ -289,8 +289,8 @@ export const ColorPicker = ({
               format === "hex"
                 ? "#RRGGBB"
                 : format === "rgb"
-                  ? "rgb(r,g,b)"
-                  : "rgba(r,g,b,a)"
+                ? "rgb(r,g,b)"
+                : "rgba(r,g,b,a)"
             }
             className={cn(
               "flex-1 px-3 py-2 text-sm outline-none text-white border-none bg-transparent",

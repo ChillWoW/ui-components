@@ -22,4 +22,16 @@ export const numberInputClass = {
   controlsContainer: "bg-dark-800",
   incrementButton: "bg-dark-800 hover:bg-dark-700",
   decrementButton: "bg-dark-800 hover:bg-dark-700",
-}
+};
+
+export const textInputClass = {
+  input: "bg-dark-800 w-full",
+  inputContainer: "w-full",
+  leftSection: "bg-dark-800 text-gray-400",
+  rightSection: "bg-dark-800 text-gray-400",
+};
+
+export const sliderClass = {
+  track: "bg-dark-800",
+  tooltip: "bg-dark-800",
+};

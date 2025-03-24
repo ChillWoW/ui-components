@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { cn } from "../../index";
-import { TextInputProps } from "../types";
+import { PasswordInputProps } from "../types";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
-
-interface PasswordInputProps extends Omit<TextInputProps, "rightSection"> {
-  eyeIcon?: {
-    show?: React.ReactNode;
-    hide?: React.ReactNode;
-  };
-}
 
 export const PasswordInput = ({
   label,
@@ -25,37 +18,31 @@ export const PasswordInput = ({
 }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  // Generate id for input if not provided for accessibility
   const inputId =
     id || label
       ? `password-input-${label?.replace(/\s+/g, "-").toLowerCase()}`
       : undefined;
 
-  // Consolidated class names
   const inputClass = cn(
     "flex items-center border rounded-md overflow-hidden transition-colors bg-[#252627]",
     error ? "border-red-500" : "border-[#3e4249]",
     disabled && "opacity-60 cursor-not-allowed",
-    classNames?.inputWrapper
+    classNames?.inputContainer
   );
 
   const sectionClass =
     "flex items-center justify-center bg-[#252627] text-gray-300";
 
-  // Determine which eye icons to use
   const showIcon = eyeIcon?.show || <IconEye size={18} />;
   const hideIcon = eyeIcon?.hide || <IconEyeOff size={18} />;
 
-  // Handle change to avoid circular references
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (props.onChange) {
       const value = e.target.value;
-      // Call onChange with just the value instead of the entire event
       props.onChange(value as any);
     }
   };
 
-  // Filter out the onChange prop to prevent circular references
   const { onChange, ...otherProps } = props;
 
   return (

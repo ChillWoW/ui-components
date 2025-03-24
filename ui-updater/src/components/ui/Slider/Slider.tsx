@@ -20,7 +20,7 @@ export const Slider: React.FC<SliderProps> = ({
   tooltipAlways = false,
   thumbLabel,
   thumbChildren,
-  classNames = {},
+  classNames,
 }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(tooltipAlways);
   const [tooltipValue, setTooltipValue] = useState(value);
@@ -87,14 +87,14 @@ export const Slider: React.FC<SliderProps> = ({
     if (!label) return null;
 
     return (
-      <div className={cn("text-sm text-white mb-1", classNames.label)}>
+      <div className={cn("text-sm text-white mb-1", classNames?.label)}>
         {label}
       </div>
     );
   };
 
   return (
-    <div className={cn("relative w-full", className, classNames.root)}>
+    <div className={cn("relative w-full", className, classNames?.root)}>
       {labelPosition === "top" && renderLabel()}
 
       <div className="relative">
@@ -110,7 +110,7 @@ export const Slider: React.FC<SliderProps> = ({
                   className={cn(
                     "absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white transition-colors duration-200",
                     isEdgeMark && (position === 0 ? "ml-[4px]" : "-ml-[4px]"),
-                    classNames.mark
+                    classNames?.mark
                   )}
                   style={{
                     left: `${position}%`,
@@ -142,7 +142,7 @@ export const Slider: React.FC<SliderProps> = ({
             "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[#3e4249] [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10",
             "[&::-webkit-slider-thumb]:hover:border-[#53575e]",
             disabled && "opacity-60 cursor-not-allowed pointer-events-none",
-            classNames.track
+            classNames?.track
           )}
           style={{
             background: disabled
@@ -155,7 +155,7 @@ export const Slider: React.FC<SliderProps> = ({
           <div
             className={cn(
               "absolute top-1/2 transform -translate-y-1/2",
-              classNames.thumb
+              classNames?.thumb
             )}
             style={{ left: `${valuePercentage}%` }}
           >
@@ -167,7 +167,7 @@ export const Slider: React.FC<SliderProps> = ({
           <div
             className={cn(
               "absolute bottom-full mb-1 transform -translate-x-1/2 text-xs text-white",
-              classNames.thumbLabel
+              classNames?.thumbLabel
             )}
             style={{ left: `${valuePercentage}%` }}
           >
@@ -191,10 +191,7 @@ export const Slider: React.FC<SliderProps> = ({
             >
               {mark.label && (
                 <span
-                  className={cn(
-                    "mt-1 text-xs text-white",
-                    classNames.markLabel
-                  )}
+                  className={cn("mt-1 text-xs text-white", classNames?.markLabel)}
                 >
                   {mark.label}
                 </span>
@@ -208,7 +205,7 @@ export const Slider: React.FC<SliderProps> = ({
         <div
           className={cn(
             "absolute -top-8 transform -translate-x-1/2 bg-[#252627] text-white text-xs px-2 py-1 rounded-md border border-[#3e4249] shadow-lg",
-            classNames.tooltip
+            classNames?.tooltip
           )}
           style={{
             left: `${getPercentage(tooltipValue)}%`,

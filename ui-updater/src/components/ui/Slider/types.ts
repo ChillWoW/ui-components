@@ -7,7 +7,7 @@ export interface SliderMarks {
   label?: React.ReactNode;
 }
 
-export interface ProgressClassNames {
+export interface SliderClassNames {
   root?: string;
   track?: string;
   thumb?: string;
@@ -37,5 +37,5 @@ export interface SliderProps {
   tooltipAlways?: boolean;
   thumbLabel?: React.ReactNode;
   thumbChildren?: React.ReactNode;
-  classNames?: ProgressClassNames;
+  classNames?: SliderClassNames;
 }

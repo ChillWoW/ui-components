@@ -116,15 +116,14 @@ export const radioCardConfig: ComponentConfigType = {
           <SelectInput
             value={props.size}
             onChange={(size) => setProps({ ...props, size })}
-            options={[
-              { value: "xs", label: "xs" },
-              { value: "sm", label: "sm" },
-              { value: "md", label: "md" },
-              { value: "lg", label: "lg" },
-              { value: "xl", label: "xl" },
-            ]}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">

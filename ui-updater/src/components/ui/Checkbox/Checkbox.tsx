@@ -58,9 +58,9 @@ export const Checkbox = ({
   };
 
   const variantClasses = {
-    filled: "border border-[#3e4249]",
+    filled: "border border-[#3e4249] bg-[#1e1f21]",
     outline: "border-2 border-[#3e4249] bg-transparent checked:bg-transparent",
-    subtle: "bg-[#2a2b2c] border border-[#3e4249]",
+    subtle: "bg-[#2a2b2c] border border-[#3e4249] checked:bg-[#2a2b2c]",
   };
 
   const checkboxDisabledClass = "cursor-not-allowed opacity-60";

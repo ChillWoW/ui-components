@@ -6,11 +6,19 @@ import {
   Switch,
   SelectInput,
   NumberInput,
+  ButtonGroup,
+  Button,
 } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-import { switchClasses, selectInputClasses } from "./index";
+import {
+  switchClasses,
+  selectInputClasses,
+  buttonClass,
+  activeButtonClass,
+  numberInputClass,
+} from "./index";
 
 export const textConfig: ComponentConfigType = {
   defaultProps: {
@@ -54,19 +62,18 @@ export const textConfig: ComponentConfigType = {
             Size
           </Text>
           <SelectInput
-            options={[
-              { label: "xs", value: "xs" },
-              { label: "sm", value: "sm" },
-              { label: "md", value: "md" },
-              { label: "lg", value: "lg" },
-              { label: "xl", value: "xl" },
-              { label: "2xl", value: "2xl" },
-              { label: "3xl", value: "3xl" },
-            ]}
             value={props.size}
             onChange={(value) => setProps({ ...props, size: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
+            <SelectInput.Option value="2xl" label="2xl" />
+            <SelectInput.Option value="3xl" label="3xl" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -74,22 +81,21 @@ export const textConfig: ComponentConfigType = {
             Color
           </Text>
           <SelectInput
-            options={[
-              { value: "white", label: "White" },
-              { value: "black", label: "Black" },
-              { value: "gray", label: "Gray" },
-              { value: "blue", label: "Blue" },
-              { value: "red", label: "Red" },
-              { value: "green", label: "Green" },
-              { value: "yellow", label: "Yellow" },
-              { value: "purple", label: "Purple" },
-              { value: "pink", label: "Pink" },
-              { value: "orange", label: "Orange" },
-            ]}
             value={props.color}
             onChange={(value) => setProps({ ...props, color: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="white" label="White" />
+            <SelectInput.Option value="black" label="Black" />
+            <SelectInput.Option value="gray" label="Gray" />
+            <SelectInput.Option value="blue" label="Blue" />
+            <SelectInput.Option value="red" label="Red" />
+            <SelectInput.Option value="green" label="Green" />
+            <SelectInput.Option value="yellow" label="Yellow" />
+            <SelectInput.Option value="purple" label="Purple" />
+            <SelectInput.Option value="pink" label="Pink" />
+            <SelectInput.Option value="orange" label="Orange" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -97,32 +103,47 @@ export const textConfig: ComponentConfigType = {
             Weight
           </Text>
           <SelectInput
-            options={[
-              { value: "bold", label: "Bold" },
-              { value: "semibold", label: "Semibold" },
-              { value: "normal", label: "Normal" },
-              { value: "light", label: "Light" },
-            ]}
             value={props.weight}
             onChange={(value) => setProps({ ...props, weight: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="bold" label="Bold" />
+            <SelectInput.Option value="semibold" label="Semibold" />
+            <SelectInput.Option value="normal" label="Normal" />
+            <SelectInput.Option value="light" label="Light" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Align
           </Text>
-          <SelectInput
-            options={[
-              { value: "left", label: "Left" },
-              { value: "center", label: "Center" },
-              { value: "right", label: "Right" },
-            ]}
-            value={props.align}
-            onChange={(value) => setProps({ ...props, align: value })}
-            classNames={selectInputClasses}
-          />
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, align: "left" })}
+              className={`${buttonClass} ${
+                props.align === "left" && activeButtonClass
+              }`}
+            >
+              Left
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, align: "center" })}
+              className={`${buttonClass} ${
+                props.align === "center" && activeButtonClass
+              }`}
+            >
+              Center
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, align: "right" })}
+              className={`${buttonClass} ${
+                props.align === "right" && activeButtonClass
+              }`}
+            >
+              Right
+            </Button>
+          </ButtonGroup>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -130,16 +151,15 @@ export const textConfig: ComponentConfigType = {
             Transform
           </Text>
           <SelectInput
-            options={[
-              { value: "normal", label: "Normal" },
-              { value: "uppercase", label: "Uppercase" },
-              { value: "lowercase", label: "Lowercase" },
-              { value: "capitalize", label: "Capitalize" },
-            ]}
             value={props.transform}
             onChange={(value) => setProps({ ...props, transform: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="normal" label="Normal" />
+            <SelectInput.Option value="uppercase" label="Uppercase" />
+            <SelectInput.Option value="lowercase" label="Lowercase" />
+            <SelectInput.Option value="capitalize" label="Capitalize" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -154,11 +174,7 @@ export const textConfig: ComponentConfigType = {
             min={-2}
             max={10}
             step={0.1}
-            classNames={{
-              input: "bg-dark-800",
-              incrementButton: "bg-dark-800",
-              decrementButton: "bg-dark-800",
-            }}
+            classNames={numberInputClass}
           />
         </div>
 
@@ -173,11 +189,7 @@ export const textConfig: ComponentConfigType = {
             min={0}
             max={10}
             allowEmpty={true}
-            classNames={{
-              input: "bg-dark-800",
-              incrementButton: "bg-dark-800",
-              decrementButton: "bg-dark-800",
-            }}
+            classNames={numberInputClass}
           />
         </div>
 

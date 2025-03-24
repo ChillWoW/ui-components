@@ -27,7 +27,7 @@ export const TextInput = ({
     "flex items-center border rounded-md overflow-hidden transition-colors bg-[#252627]",
     error ? "border-red-500" : "border-[#3e4249]",
     disabled && "opacity-60 cursor-not-allowed",
-    classNames?.inputWrapper
+    classNames?.inputContainer
   );
 
   const sectionClass =

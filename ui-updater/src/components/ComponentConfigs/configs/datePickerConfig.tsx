@@ -9,7 +9,7 @@ import {
 } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
-import { switchClasses } from "./index";
+import { activeButtonClass, buttonClass, switchClasses } from "./index";
 
 export const datePickerConfig: ComponentConfigType = {
   defaultProps: {
@@ -70,7 +70,31 @@ export const datePickerConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Other
+            Weeks first day
+          </Text>
+
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, firstDayOfWeek: 0 })}
+              className={`${buttonClass} ${
+                props.firstDayOfWeek === 0 && activeButtonClass
+              }`}
+            >
+              Sunday
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, firstDayOfWeek: 1 })}
+              className={`${buttonClass} ${
+                props.firstDayOfWeek === 1 && activeButtonClass
+              }`}
+            >
+              Monday
+            </Button>
+          </ButtonGroup>
+        </div>
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Options
           </Text>
           <Switch
             label="Disabled"
@@ -116,20 +140,6 @@ export const datePickerConfig: ComponentConfigType = {
             onChange={(checked) => setProps({ ...props, clearable: checked })}
             classNames={switchClasses}
           />
-          <ButtonGroup>
-            <Button
-              onClick={() => setProps({ ...props, firstDayOfWeek: 0 })}
-              className={props.firstDayOfWeek === 0 ? "bg-dark-700" : ""}
-            >
-              Sunday
-            </Button>
-            <Button
-              onClick={() => setProps({ ...props, firstDayOfWeek: 1 })}
-              className={props.firstDayOfWeek === 1 ? "bg-dark-700" : ""}
-            >
-              Monday
-            </Button>
-          </ButtonGroup>
         </div>
       </div>
     );

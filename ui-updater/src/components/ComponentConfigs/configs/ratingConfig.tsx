@@ -17,6 +17,7 @@ import {
   selectInputClasses,
   buttonClass,
   activeButtonClass,
+  numberInputClass,
 } from "./index";
 
 export const ratingConfig: ComponentConfigType = {
@@ -82,6 +83,7 @@ export const ratingConfig: ComponentConfigType = {
             min={0}
             max={props.maxRating}
             step={props.allowHalf ? 0.5 : 1}
+            classNames={numberInputClass}
           />
         </div>
 
@@ -100,24 +102,7 @@ export const ratingConfig: ComponentConfigType = {
             }
             min={1}
             max={10}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Size
-          </Text>
-          <SelectInput
-            options={[
-              { value: "xs", label: "xs" },
-              { value: "sm", label: "sm" },
-              { value: "md", label: "md" },
-              { value: "lg", label: "lg" },
-              { value: "xl", label: "xl" },
-            ]}
-            value={props.size}
-            onChange={(value) => setProps({ ...props, size: value })}
-            classNames={selectInputClasses}
+            classNames={numberInputClass}
           />
         </div>
 
@@ -126,19 +111,18 @@ export const ratingConfig: ComponentConfigType = {
             Color
           </Text>
           <SelectInput
-            options={[
-              { value: "yellow", label: "Yellow" },
-              { value: "orange", label: "Orange" },
-              { value: "red", label: "Red" },
-              { value: "pink", label: "Pink" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-              { value: "purple", label: "Purple" },
-            ]}
             value={props.color}
             onChange={(value) => setProps({ ...props, color: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="yellow" label="Yellow" />
+            <SelectInput.Option value="orange" label="Orange" />
+            <SelectInput.Option value="red" label="Red" />
+            <SelectInput.Option value="pink" label="Pink" />
+            <SelectInput.Option value="blue" label="Blue" />
+            <SelectInput.Option value="green" label="Green" />
+            <SelectInput.Option value="purple" label="Purple" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -146,20 +130,36 @@ export const ratingConfig: ComponentConfigType = {
             Empty Color
           </Text>
           <SelectInput
-            options={[
-              { value: "", label: "None" },
-              { value: "yellow", label: "Yellow" },
-              { value: "orange", label: "Orange" },
-              { value: "red", label: "Red" },
-              { value: "pink", label: "Pink" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-              { value: "purple", label: "Purple" },
-            ]}
             value={props.emptyColor}
             onChange={(value) => setProps({ ...props, emptyColor: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="" label="None" />
+            <SelectInput.Option value="yellow" label="Yellow" />
+            <SelectInput.Option value="orange" label="Orange" />
+            <SelectInput.Option value="red" label="Red" />
+            <SelectInput.Option value="pink" label="Pink" />
+            <SelectInput.Option value="blue" label="Blue" />
+            <SelectInput.Option value="green" label="Green" />
+            <SelectInput.Option value="purple" label="Purple" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Size
+          </Text>
+          <SelectInput
+            value={props.size}
+            onChange={(value) => setProps({ ...props, size: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">

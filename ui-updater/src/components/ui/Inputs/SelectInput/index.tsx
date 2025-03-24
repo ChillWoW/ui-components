@@ -189,8 +189,6 @@ export const SelectInput = ({
               </button>
             )}
 
-            {/*
-              OLD ICON
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -198,24 +196,9 @@ export const SelectInput = ({
               strokeWidth="1.2"
               stroke="currentColor"
               className={cn(
-                "h-4 w-4 text-slate-400 transition-transform",
+                "h-5 w-5 text-slate-400 transition-transform",
                 isOpen && "transform rotate-180"
               )}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-              />
-            </svg>*/}
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.2"
-              stroke="currentColor"
-              className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-400"
             >
               <path
                 strokeLinecap="round"

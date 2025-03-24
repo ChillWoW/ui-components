@@ -10,22 +10,7 @@ import {
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
 import { IconInfoCircle } from "@tabler/icons-react";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  thumb: "bg-white",
-  checked: {
-    track: "bg-blue-600",
-    thumb: "bg-white",
-  },
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-700",
-  option: "hover:bg-dark-600",
-  selectedOption: "bg-dark-600",
-};
+import { switchClasses } from "./index";
 
 export const tooltipConfig: ComponentConfigType = {
   defaultProps: {
@@ -89,24 +74,6 @@ export const tooltipConfig: ComponentConfigType = {
             <RadioGroup.Item value="bottom" label="Bottom" />
             <RadioGroup.Item value="left" label="Left" />
           </RadioGroup>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Delay (ms)
-          </Text>
-          <SelectInput
-            options={[
-              { value: "0", label: "0" },
-              { value: "100", label: "100" },
-              { value: "300", label: "300" },
-              { value: "500", label: "500" },
-              { value: "1000", label: "1000" },
-            ]}
-            value={props.delay}
-            onChange={(value) => setProps({ ...props, delay: Number(value) })}
-            classNames={selectInputClasses}
-          />
         </div>
 
         <div className="flex flex-col gap-1">

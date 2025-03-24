@@ -8,7 +8,7 @@ import {
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-import { switchClasses, selectInputClasses } from "./index";
+import { switchClasses, selectInputClasses, numberInputClass } from "./index";
 
 export const sliderConfig: ComponentConfigType = {
   defaultProps: {
@@ -69,17 +69,23 @@ export const sliderConfig: ComponentConfigType = {
           Slider Properties
         </Text>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Current Value: {props.value}
+            Color
           </Text>
-          <Slider
-            value={props.value}
-            onChange={(value) => setProps({ ...props, value })}
-            min={props.min}
-            max={props.max}
-            step={props.step}
-          />
+          <SelectInput
+            value={props.color}
+            onChange={(value) => setProps({ ...props, color: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="blue" label="Blue" />
+            <SelectInput.Option value="red" label="Red" />
+            <SelectInput.Option value="green" label="Green" />
+            <SelectInput.Option value="yellow" label="Yellow" />
+            <SelectInput.Option value="purple" label="Purple" />
+            <SelectInput.Option value="pink" label="Pink" />
+            <SelectInput.Option value="orange" label="Orange" />
+          </SelectInput>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -97,6 +103,7 @@ export const sliderConfig: ComponentConfigType = {
                 })
               }
               max={props.max - 1}
+              classNames={numberInputClass}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -113,8 +120,22 @@ export const sliderConfig: ComponentConfigType = {
                 })
               }
               min={props.min + 1}
+              classNames={numberInputClass}
             />
           </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Text size="sm" weight="bold">
+            Current Value: {props.value}
+          </Text>
+          <Slider
+            value={props.value}
+            onChange={(value) => setProps({ ...props, value })}
+            min={props.min}
+            max={props.max}
+            step={props.step}
+          />
         </div>
 
         <div className="flex flex-col gap-1">
@@ -127,25 +148,6 @@ export const sliderConfig: ComponentConfigType = {
             min={1}
             max={100}
             step={1}
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Color
-          </Text>
-          <SelectInput
-            options={[
-              { value: "blue", label: "Blue" },
-              { value: "red", label: "Red" },
-              { value: "green", label: "Green" },
-              { value: "yellow", label: "Yellow" },
-              { value: "purple", label: "Purple" },
-              { value: "pink", label: "Pink" },
-              { value: "orange", label: "Orange" },
-            ]}
-            value={props.color}
-            onChange={(value) => setProps({ ...props, color: value })}
-            classNames={selectInputClasses}
           />
         </div>
 

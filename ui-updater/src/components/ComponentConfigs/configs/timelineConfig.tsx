@@ -7,6 +7,8 @@ import {
   Timeline,
   Slider,
   NumberInput,
+  ButtonGroup,
+  Button,
 } from "@/components/ui";
 import {
   IconCircle,
@@ -19,7 +21,12 @@ import {
 } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-import { switchClasses, selectInputClasses } from "./index";
+import {
+  switchClasses,
+  selectInputClasses,
+  activeButtonClass,
+  buttonClass,
+} from "./index";
 
 export const timelineConfig: ComponentConfigType = {
   defaultProps: {
@@ -171,32 +178,100 @@ export const timelineConfig: ComponentConfigType = {
           <Text size="sm" weight="bold">
             Bullet Shape
           </Text>
-          <SelectInput
-            options={[
-              { value: "circle", label: "Circle" },
-              { value: "square", label: "Square" },
-              { value: "diamond", label: "Diamond" },
-            ]}
-            value={props.bulletShape}
-            onChange={(value) => setProps({ ...props, bulletShape: value })}
-            classNames={selectInputClasses}
-          />
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, bulletShape: "circle" })}
+              className={`${buttonClass} ${
+                props.bulletShape === "circle" && activeButtonClass
+              }`}
+            >
+              Circle
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, bulletShape: "square" })}
+              className={`${buttonClass} ${
+                props.bulletShape === "square" && activeButtonClass
+              }`}
+            >
+              Square
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, bulletShape: "diamond" })}
+              className={`${buttonClass} ${
+                props.bulletShape === "diamond" && activeButtonClass
+              }`}
+            >
+              Diamond
+            </Button>
+          </ButtonGroup>
         </div>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Line Style
           </Text>
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, lineStyle: "solid" })}
+              className={`${buttonClass} ${
+                props.lineStyle === "solid" && activeButtonClass
+              }`}
+            >
+              Solid
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, lineStyle: "dashed" })}
+              className={`${buttonClass} ${
+                props.lineStyle === "dashed" && activeButtonClass
+              }`}
+            >
+              Dashed
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, lineStyle: "dotted" })}
+              className={`${buttonClass} ${
+                props.lineStyle === "dotted" && activeButtonClass
+              }`}
+            >
+              Dotted
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Color
+          </Text>
           <SelectInput
-            options={[
-              { value: "solid", label: "Solid" },
-              { value: "dashed", label: "Dashed" },
-              { value: "dotted", label: "Dotted" },
-            ]}
-            value={props.lineStyle}
-            onChange={(value) => setProps({ ...props, lineStyle: value })}
+            value={props.color}
+            onChange={(value) => setProps({ ...props, color: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="blue" label="Blue" />
+            <SelectInput.Option value="red" label="Red" />
+            <SelectInput.Option value="green" label="Green" />
+            <SelectInput.Option value="yellow" label="Yellow" />
+            <SelectInput.Option value="gray" label="Gray" />
+            <SelectInput.Option value="purple" label="Purple" />
+            <SelectInput.Option value="indigo" label="Indigo" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Active Step
+          </Text>
+          <SelectInput
+            value={props.active}
+            onChange={(value) => setProps({ ...props, active: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="0" label="Step 1" />
+            <SelectInput.Option value="1" label="Step 2" />
+            <SelectInput.Option value="2" label="Step 3" />
+            <SelectInput.Option value="3" label="Step 4" />
+            <SelectInput.Option value="4" label="All Steps" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -209,45 +284,6 @@ export const timelineConfig: ComponentConfigType = {
             step={1}
             value={props.lineWidth}
             onChange={(value) => setProps({ ...props, lineWidth: value })}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Color
-          </Text>
-          <SelectInput
-            options={[
-              { value: "blue", label: "Blue" },
-              { value: "red", label: "Red" },
-              { value: "green", label: "Green" },
-              { value: "yellow", label: "Yellow" },
-              { value: "gray", label: "Gray" },
-              { value: "purple", label: "Purple" },
-              { value: "indigo", label: "Indigo" },
-              { value: "pink", label: "Pink" },
-            ]}
-            value={props.color}
-            onChange={(value) => setProps({ ...props, color: value })}
-            classNames={selectInputClasses}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Active Step
-          </Text>
-          <SelectInput
-            options={[
-              { value: "0", label: "Step 1" },
-              { value: "1", label: "Step 2" },
-              { value: "2", label: "Step 3" },
-              { value: "3", label: "Step 4" },
-              { value: "4", label: "All Steps" },
-            ]}
-            value={props.active}
-            onChange={(value) => setProps({ ...props, active: value })}
-            classNames={selectInputClasses}
           />
         </div>
 

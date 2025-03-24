@@ -15,6 +15,7 @@ import {
   buttonClass,
   activeButtonClass,
   numberInputClass,
+  sliderClass,
 } from "./index";
 
 export const avatarGroupConfig: ComponentConfigType = {
@@ -167,6 +168,7 @@ export const avatarGroupConfig: ComponentConfigType = {
             ]}
             stickToMarks
             showTooltip
+            classNames={sliderClass}
           />
         </div>
 

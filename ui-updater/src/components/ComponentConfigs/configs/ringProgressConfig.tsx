@@ -52,6 +52,25 @@ export const ringProgressConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
+            Color
+          </Text>
+          <SelectInput
+            value={props.color}
+            onChange={(value) => setProps({ ...props, color: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="yellow" label="Yellow" />
+            <SelectInput.Option value="orange" label="Orange" />
+            <SelectInput.Option value="red" label="Red" />
+            <SelectInput.Option value="pink" label="Pink" />
+            <SelectInput.Option value="blue" label="Blue" />
+            <SelectInput.Option value="green" label="Green" />
+            <SelectInput.Option value="purple" label="Purple" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
             Size
           </Text>
           <Slider
@@ -59,26 +78,6 @@ export const ringProgressConfig: ComponentConfigType = {
             onChange={(value: any) => setProps({ ...props, size: value })}
             max={300}
             min={10}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Color
-          </Text>
-          <SelectInput
-            options={[
-              { value: "yellow", label: "Yellow" },
-              { value: "orange", label: "Orange" },
-              { value: "red", label: "Red" },
-              { value: "pink", label: "Pink" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-              { value: "purple", label: "Purple" },
-            ]}
-            value={props.color}
-            onChange={(value) => setProps({ ...props, color: value })}
-            classNames={selectInputClasses}
           />
         </div>
 

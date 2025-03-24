@@ -1,19 +1,7 @@
 import React from "react";
-import { Text, Switch, PinInput, Alert, TextInput } from "@/components/ui";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { Text, Switch, PinInput, TextInput } from "@/components/ui";
 import { ComponentConfigType } from "../index";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  activeTrack: "bg-dark-100",
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-800",
-  option: "bg-dark-800 hover:bg-dark-700 text-white",
-  selectedOption: "bg-dark-700",
-};
+import { textInputClass, switchClasses } from "./index";
 
 export const pinInputConfig: ComponentConfigType = {
   defaultProps: {
@@ -68,12 +56,13 @@ export const pinInputConfig: ComponentConfigType = {
           <TextInput
             value={props.placeholder}
             onChange={(value) => setProps({ ...props, placeholder: value })}
+            classNames={textInputClass}
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Other
+            Options
           </Text>
           <Switch
             label="Disabled"

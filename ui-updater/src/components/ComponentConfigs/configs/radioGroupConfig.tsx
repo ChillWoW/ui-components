@@ -59,16 +59,15 @@ export const radioGroupConfig: ComponentConfigType = {
             Size
           </Text>
           <SelectInput
-            options={[
-              { value: "xs", label: "xs" },
-              { value: "sm", label: "sm" },
-              { value: "md", label: "md" },
-              { value: "lg", label: "lg" },
-            ]}
             value={props.size}
             onChange={(value) => setProps({ ...props, size: value })}
             classNames={selectInputClasses}
-          />
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">

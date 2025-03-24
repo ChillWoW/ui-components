@@ -130,17 +130,17 @@ const ComponentCard = () => {
     const componentJSX = config.generateCode
       ? config.generateCode(currentProps)
       : React.isValidElement(
-            config.renderComponent(currentProps, updateCurrentProps)
-          )
-        ? React.Children.toArray(
-            config.renderComponent(currentProps, updateCurrentProps)
-          ).map((child) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child);
-            }
-            return child;
-          })[0]
-        : config.renderComponent(currentProps, updateCurrentProps);
+          config.renderComponent(currentProps, updateCurrentProps)
+        )
+      ? React.Children.toArray(
+          config.renderComponent(currentProps, updateCurrentProps)
+        ).map((child) => {
+          if (React.isValidElement(child)) {
+            return React.cloneElement(child);
+          }
+          return child;
+        })[0]
+      : config.renderComponent(currentProps, updateCurrentProps);
 
     const componentStr = getComponentString(componentJSX);
     code += componentStr;
@@ -224,7 +224,7 @@ const ComponentCard = () => {
           <div className="p-4">{renderPropsPanel()}</div>
         </Card>
 
-        <Card className="md:col-span-2 bg-dark-800 border-dark-600 min-h-[300px] flex flex-col">
+        <Card className="md:col-span-2 bg-dark-800 border-dark-600 h-fit flex flex-col">
           <div className="flex items-center justify-center gap-2">
             <Button
               onClick={() => setActiveTab("preview")}

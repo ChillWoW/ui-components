@@ -15,7 +15,7 @@ export interface TextInputProps
 
 export interface TextInputClassNames {
   container?: string;
-  inputWrapper?: string;
+  inputContainer?: string;
   label?: string;
   hint?: string;
   required?: string;

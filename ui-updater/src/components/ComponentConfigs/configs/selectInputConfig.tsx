@@ -33,7 +33,7 @@ export const selectInputConfig: ComponentConfigType = {
   },
 
   renderComponent: (props, setProps) => (
-    <div className="space-y-2">
+    <div className="space-y-2 w-64">
       <SelectInput
         value={props.value}
         onChange={(value) => setProps({ ...props, value })}
@@ -47,7 +47,6 @@ export const selectInputConfig: ComponentConfigType = {
         searchable={props.searchable}
         size={props.size}
         leftSection={props.leftSection && <IconAlertCircle />}
-        className="w-full"
       >
         <SelectInput.Option value="option1" label="Option 1" />
         <SelectInput.Option value="option2" label="Option 2" />
@@ -84,30 +83,6 @@ export const selectInputConfig: ComponentConfigType = {
         >
           Select Input Properties
         </Text>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Label / Hint / Required
-          </Text>
-          <Switch
-            label="Show Label"
-            checked={props.showLabel}
-            onChange={(checked) => setProps({ ...props, showLabel: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Show Hint"
-            checked={props.showHint}
-            onChange={(checked) => setProps({ ...props, showHint: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Required"
-            checked={props.required}
-            onChange={(checked) => setProps({ ...props, required: checked })}
-            classNames={switchClasses}
-          />
-        </div>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
@@ -154,7 +129,7 @@ export const selectInputConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Other
+            Options
           </Text>
           <Switch
             label="Disabled"
@@ -163,14 +138,29 @@ export const selectInputConfig: ComponentConfigType = {
             classNames={switchClasses}
           />
           <Switch
+            label="Show Label"
+            checked={props.showLabel}
+            onChange={(checked) => setProps({ ...props, showLabel: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Hint"
+            checked={props.showHint}
+            onChange={(checked) => setProps({ ...props, showHint: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Required"
+            checked={props.required}
+            onChange={(checked) => setProps({ ...props, required: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
             label="Left Section"
             checked={props.leftSection}
             onChange={(checked) => setProps({ ...props, leftSection: checked })}
             classNames={switchClasses}
           />
-          <Button onClick={() => setProps({ ...props, value: "" })}>
-            Clear
-          </Button>
         </div>
       </div>
     );
