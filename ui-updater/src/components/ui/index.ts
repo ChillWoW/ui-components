@@ -2,6 +2,7 @@ export * from "./Alert";
 export * from "./Avatars";
 export * from "./Badge";
 export * from "./Buttons";
+export * from "./Breadcrumb";
 export * from "./Card";
 export * from "./Checkbox";
 export * from "./Drawer";
@@ -29,5 +30,5 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+    return twMerge(clsx(inputs));
 }
