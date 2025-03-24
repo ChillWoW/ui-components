@@ -1,32 +1,14 @@
 import React, { useState } from "react";
-import { Alert, AlertVariant } from "@/components/ui/Alert";
 import {
   Text,
-  RadioGroup,
   Switch,
-  Card,
-  SelectInput,
-  Checkbox,
   ColorPicker,
-  TextInput,
   ButtonGroup,
   Button,
   NumberInput,
 } from "@/components/ui";
-import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  activeTrack: "bg-dark-100",
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-800",
-  option: "bg-dark-800 hover:bg-dark-700 text-white",
-  selectedOption: "bg-dark-700",
-};
+import { activeButtonClass, buttonClass, switchClasses } from "./index";
 
 export const colorPickerConfig: ComponentConfigType = {
   defaultProps: {
@@ -42,6 +24,7 @@ export const colorPickerConfig: ComponentConfigType = {
     swatches: ["#000000", "#FFFFFF", "#FF0000", "#00FF00", "#0000FF"],
     swatchesPerRow: 4,
     allowEyeDropper: false,
+    error: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -56,6 +39,7 @@ export const colorPickerConfig: ComponentConfigType = {
       swatches={props.showSwatches ? props.swatches : undefined}
       swatchesPerRow={props.swatchesPerRow}
       allowEyeDropper={props.allowEyeDropper}
+      error={props.error && "Error"}
     />
   ),
 
@@ -76,30 +60,6 @@ export const colorPickerConfig: ComponentConfigType = {
         >
           Color Picker Properties
         </Text>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Label / Hint / Required
-          </Text>
-          <Switch
-            label="Show Label"
-            checked={props.showLabel}
-            onChange={(checked) => setProps({ ...props, showLabel: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Show Hint"
-            checked={props.showHint}
-            onChange={(checked) => setProps({ ...props, showHint: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Required"
-            checked={props.required}
-            onChange={(checked) => setProps({ ...props, required: checked })}
-            classNames={switchClasses}
-          />
-        </div>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
@@ -124,12 +84,69 @@ export const colorPickerConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Other
+            Format
+          </Text>
+
+          <ButtonGroup fullWidth>
+            <Button
+              onClick={() => setProps({ ...props, format: "hex" })}
+              className={`${buttonClass} ${
+                props.format === "hex" && activeButtonClass
+              }`}
+            >
+              Hex
+            </Button>
+            <Button
+              className={`${buttonClass} ${
+                props.format === "rgb" && activeButtonClass
+              }`}
+              onClick={() => setProps({ ...props, format: "rgb" })}
+            >
+              RGB
+            </Button>
+            <Button
+              className={`${buttonClass} ${
+                props.format === "rgba" && activeButtonClass
+              }`}
+              onClick={() => setProps({ ...props, format: "rgba" })}
+            >
+              RGBA
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Options
           </Text>
           <Switch
             label="Disabled"
             checked={props.disabled}
             onChange={(checked) => setProps({ ...props, disabled: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Label"
+            checked={props.showLabel}
+            onChange={(checked) => setProps({ ...props, showLabel: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Hint"
+            checked={props.showHint}
+            onChange={(checked) => setProps({ ...props, showHint: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Required"
+            checked={props.required}
+            onChange={(checked) => setProps({ ...props, required: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
             classNames={switchClasses}
           />
           <Switch
@@ -140,26 +157,6 @@ export const colorPickerConfig: ComponentConfigType = {
             }
             classNames={switchClasses}
           />
-          <ButtonGroup>
-            <Button
-              onClick={() => setProps({ ...props, format: "hex" })}
-              className={props.format === "hex" ? "bg-dark-700" : ""}
-            >
-              Hex
-            </Button>
-            <Button
-              className={props.format === "rgb" ? "bg-dark-700" : ""}
-              onClick={() => setProps({ ...props, format: "rgb" })}
-            >
-              RGB
-            </Button>
-            <Button
-              className={props.format === "rgba" ? "bg-dark-700" : ""}
-              onClick={() => setProps({ ...props, format: "rgba" })}
-            >
-              RGBA
-            </Button>
-          </ButtonGroup>
         </div>
       </div>
     );

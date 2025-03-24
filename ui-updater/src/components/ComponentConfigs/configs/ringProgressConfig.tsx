@@ -2,26 +2,13 @@ import React from "react";
 import {
   Text,
   Switch,
-  Checkbox,
-  Progress,
   SelectInput,
   Slider,
   RingProgress,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  activeTrack: "bg-dark-100",
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-800",
-  option: "bg-dark-800 hover:bg-dark-700 text-white",
-  selectedOption: "bg-dark-700",
-};
+import { switchClasses, selectInputClasses } from "./index";
 
 export const ringProgressConfig: ComponentConfigType = {
   defaultProps: {

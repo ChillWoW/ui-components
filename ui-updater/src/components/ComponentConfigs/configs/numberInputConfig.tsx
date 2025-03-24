@@ -20,8 +20,13 @@ export const numberInputConfig: ComponentConfigType = {
     value: 0,
     disabled: false,
     label: "Number Input",
+    hint: "Enter a number",
     required: false,
-    icon: false,
+    leftSection: false,
+    rightSection: false,
+    showLabel: true,
+    showHint: true,
+    error: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -31,7 +36,9 @@ export const numberInputConfig: ComponentConfigType = {
       disabled={props.disabled}
       label={props.label}
       required={props.required}
-      icon={props.icon && <IconAlertCircle />}
+      leftSection={props.leftSection && <IconAlertCircle />}
+      error={props.error && "Error"}
+      hint={props.showHint ? props.hint : undefined}
     />
   ),
 
@@ -50,12 +57,12 @@ export const numberInputConfig: ComponentConfigType = {
           align="center"
           className="border-b border-dark-500 pb-1"
         >
-          Checkbox Properties
+          Number Input Properties
         </Text>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Other
+            Options
           </Text>
           <Switch
             label="Disabled"
@@ -64,9 +71,33 @@ export const numberInputConfig: ComponentConfigType = {
             classNames={switchClasses}
           />
           <Switch
+            label="Left Section"
+            checked={props.leftSection}
+            onChange={(checked) => setProps({ ...props, leftSection: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Label"
+            checked={props.showLabel}
+            onChange={(checked) => setProps({ ...props, showLabel: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Hint"
+            checked={props.showHint}
+            onChange={(checked) => setProps({ ...props, showHint: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
             label="Required"
             checked={props.required}
             onChange={(checked) => setProps({ ...props, required: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
             classNames={switchClasses}
           />
         </div>

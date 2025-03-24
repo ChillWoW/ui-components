@@ -1,5 +1,5 @@
-import { useRef, useState, KeyboardEvent } from "react";
-import { cn, Text } from "../..";
+import { useRef, useState, KeyboardEvent, useCallback, useMemo } from "react";
+import { cn } from "../..";
 import { PinInputProps } from "../types";
 
 export const PinInput = ({
@@ -13,113 +13,215 @@ export const PinInput = ({
   placeholder = "○",
   allowLetters = false,
   classNames,
+  error,
+  value: externalValue,
   ...props
 }: PinInputProps) => {
-  const [values, setValues] = useState<string[]>(Array(length).fill(""));
+  // Create state from external value if provided, otherwise use empty array
+  const [internalValues, setInternalValues] = useState<string[]>(() => {
+    if (externalValue) {
+      const valueArray = (externalValue as string).split("").slice(0, length);
+      return [...valueArray, ...Array(length - valueArray.length).fill("")];
+    }
+    return Array(length).fill("");
+  });
+
+  // Use the controlled value if provided, otherwise use internal state
+  const values = externalValue
+    ? (externalValue as string)
+        .split("")
+        .slice(0, length)
+        .concat(Array(length - (externalValue as string).length).fill(""))
+    : internalValues;
+
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const focusInput = (index: number) => {
-    if (index >= 0 && index < length) {
-      inputRefs.current[index]?.focus();
-    }
-  };
+  // Memoize the input pattern
+  const pattern = useMemo(
+    () => (allowLetters ? /^[0-9a-zA-Z]$/ : /^[0-9]$/),
+    [allowLetters]
+  );
 
-  const handleChange = (index: number, value: string) => {
-    const digit = value.slice(-1);
+  const focusInput = useCallback(
+    (index: number) => {
+      if (index >= 0 && index < length) {
+        inputRefs.current[index]?.focus();
+      }
+    },
+    [length]
+  );
 
-    const pattern = allowLetters ? /^[0-9a-zA-Z]$/ : /^[0-9]$/;
-
-    if (digit.match(pattern)) {
-      const newValues = [...values];
-      newValues[index] = digit;
-      setValues(newValues);
+  const updateValues = useCallback(
+    (newValues: string[]) => {
+      setInternalValues(newValues);
       onChange?.(newValues.join(""));
+    },
+    [onChange]
+  );
 
-      if (index < length - 1) {
+  const handleChange = useCallback(
+    (index: number, value: string) => {
+      const digit = value.slice(-1);
+
+      if (digit.match(pattern)) {
+        const newValues = [...values];
+        newValues[index] = digit;
+        updateValues(newValues);
+
+        if (index < length - 1) {
+          focusInput(index + 1);
+        }
+      }
+    },
+    [values, pattern, length, focusInput, updateValues]
+  );
+
+  const handleKeyDown = useCallback(
+    (index: number, e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Backspace") {
+        if (values[index] === "") {
+          focusInput(index - 1);
+        } else {
+          const newValues = [...values];
+          newValues[index] = "";
+          updateValues(newValues);
+        }
+      } else if (e.key === "ArrowLeft") {
+        focusInput(index - 1);
+      } else if (e.key === "ArrowRight") {
         focusInput(index + 1);
       }
-    }
-  };
+    },
+    [values, focusInput, updateValues]
+  );
 
-  const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace") {
-      if (values[index] === "") {
-        focusInput(index - 1);
-      } else {
-        const newValues = [...values];
-        newValues[index] = "";
-        setValues(newValues);
-        onChange?.(newValues.join(""));
-      }
-    } else if (e.key === "ArrowLeft") {
-      focusInput(index - 1);
-    } else if (e.key === "ArrowRight") {
-      focusInput(index + 1);
-    }
-  };
+  const handlePaste = useCallback(
+    (e: React.ClipboardEvent) => {
+      e.preventDefault();
+      const pastedData = e.clipboardData.getData("text").slice(0, length);
 
-  const handlePaste = (e: React.ClipboardEvent) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").slice(0, length);
+      const pastedPattern = allowLetters ? /[0-9a-zA-Z]/g : /\d/g;
+      const validChars = pastedData.match(pastedPattern) || [];
 
-    const pattern = allowLetters ? /[0-9a-zA-Z]/g : /\d/g;
-    const validChars = pastedData.match(pattern) || [];
+      const newValues = [...values];
+      validChars.forEach((char, index) => {
+        if (index < length) {
+          newValues[index] = char;
+        }
+      });
 
-    const newValues = [...values];
-    validChars.forEach((char, index) => {
-      if (index < length) {
-        newValues[index] = char;
-      }
-    });
+      updateValues(newValues);
+      focusInput(Math.min(validChars.length, length - 1));
+    },
+    [values, allowLetters, length, updateValues, focusInput]
+  );
 
-    setValues(newValues);
-    onChange?.(newValues.join(""));
-    focusInput(Math.min(validChars.length, length - 1));
-  };
-
-  return (
-    <div
-      className={cn(
+  const containerClasses = useMemo(
+    () =>
+      cn(
         "flex gap-2",
         disabled && "opacity-60 cursor-not-allowed",
         classNames?.container
-      )}
-    >
+      ),
+    [disabled, classNames?.container]
+  );
+
+  const inputClasses = useMemo(
+    () =>
+      cn(
+        "w-10 h-10 text-center rounded-lg bg-[#252627] border border-[#3e4249]",
+        "text-white text-xl font-medium outline-none",
+        "transition-all duration-200",
+        "focus:border-[#3e4249]",
+        error && "border-red-500",
+        disabled && "cursor-not-allowed",
+        classNames?.input,
+        className
+      ),
+    [disabled, error, classNames?.input, className]
+  );
+
+  // Create inputs array once
+  const inputs = useMemo(
+    () =>
+      Array.from({ length }).map((_, index) => (
+        <input
+          key={index}
+          ref={(el) => {
+            inputRefs.current[index] = el;
+          }}
+          type="text"
+          inputMode={allowLetters ? "text" : "numeric"}
+          pattern={allowLetters ? "[0-9a-zA-Z]" : "[0-9]*"}
+          maxLength={1}
+          value={mask ? (values[index] ? "•" : "") : values[index]}
+          placeholder={placeholder}
+          onChange={(e) => handleChange(index, e.target.value)}
+          onKeyDown={(e) => handleKeyDown(index, e)}
+          onPaste={handlePaste}
+          className={inputClasses}
+          disabled={disabled}
+          aria-invalid={!!error}
+          {...props}
+        />
+      )),
+    [
+      length,
+      allowLetters,
+      mask,
+      values,
+      placeholder,
+      inputClasses,
+      disabled,
+      error,
+      props,
+      handleChange,
+      handleKeyDown,
+      handlePaste,
+    ]
+  );
+
+  // Generate a unique ID for accessibility
+  const inputId = useMemo(
+    () =>
+      label
+        ? `pin-input-${label.replace(/\s+/g, "-").toLowerCase()}`
+        : `pin-input-${Math.random().toString(36).substring(2, 9)}`,
+    [label]
+  );
+
+  return (
+    <div className={containerClasses}>
       <div className="flex flex-col gap-1">
-        {label && <label className="text-white">{label}</label>}
-        <div className="flex gap-2">
-          {Array.from({ length }).map((_, index) => (
-            <input
-              key={index}
-              ref={(el) => {
-                inputRefs.current[index] = el;
-              }}
-              type="text"
-              inputMode={allowLetters ? "text" : "numeric"}
-              pattern={allowLetters ? "[0-9a-zA-Z]" : "[0-9]*"}
-              maxLength={1}
-              value={mask ? (values[index] ? "•" : "") : values[index]}
-              placeholder={placeholder}
-              onChange={(e) => handleChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              onPaste={handlePaste}
-              className={cn(
-                "w-10 h-10 text-center rounded-lg bg-[#252627] border border-[#3e4249]",
-                "text-white text-xl font-medium outline-none",
-                "transition-all duration-200",
-                "focus:border-[#3e4249]",
-                disabled && "cursor-not-allowed",
-                classNames?.input,
-                className
-              )}
-              {...props}
-            />
-          ))}
-        </div>
-        {hint && (
-          <Text size="sm" className={cn("text-gray-400", classNames?.hint)}>
-            {hint}
-          </Text>
+        {label && (
+          <label
+            htmlFor={inputId}
+            className={cn(
+              "text-sm font-semibold ml-1 flex items-center gap-1 text-white",
+              disabled && "opacity-60 cursor-not-allowed",
+              classNames?.label
+            )}
+          >
+            {label}
+            {props.required && (
+              <span className={cn("text-red-600", classNames?.required)}>
+                *
+              </span>
+            )}
+          </label>
+        )}
+        <div className="flex gap-2">{inputs}</div>
+        {(error || hint) && (
+          <p
+            id={`${inputId}-description`}
+            className={cn(
+              "text-xs ml-1",
+              error ? "text-red-400" : "text-gray-300",
+              classNames?.hint
+            )}
+          >
+            {error || hint}
+          </p>
         )}
       </div>
     </div>

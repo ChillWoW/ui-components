@@ -30,6 +30,7 @@ export const Badge = ({
   };
 
   const shapeClasses = {
+    square: "rounded-none",
     rounded: "rounded-md",
     pill: "rounded-full",
   };

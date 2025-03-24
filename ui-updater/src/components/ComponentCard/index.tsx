@@ -127,7 +127,6 @@ const ComponentCard = () => {
 
     code += `const MyComponent = () => (\n`;
 
-    // Check if the component has a custom generateCode function
     const componentJSX = config.generateCode
       ? config.generateCode(currentProps)
       : React.isValidElement(
@@ -221,7 +220,7 @@ const ComponentCard = () => {
 
       <div className="w-full max-w-6xl">{renderComponentError()}</div>
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="md:col-span-1 bg-dark-800 border-dark-600 max-h-[650px]">
+        <Card className="md:col-span-1 bg-dark-800 border-dark-600 h-fit">
           <div className="p-4">{renderPropsPanel()}</div>
         </Card>
 

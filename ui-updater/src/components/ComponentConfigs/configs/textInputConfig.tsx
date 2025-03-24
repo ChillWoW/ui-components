@@ -25,6 +25,8 @@ export const textInputConfig: ComponentConfigType = {
     hint: "Enter your text",
     required: false,
     leftSection: false,
+    rightSection: false,
+    error: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -36,6 +38,8 @@ export const textInputConfig: ComponentConfigType = {
       required={props.required}
       hint={props.showHint ? props.hint : undefined}
       leftSection={props.leftSection && <IconAlertCircle />}
+      rightSection={props.rightSection && <IconAlertCircle />}
+      error={props.error && "Error"}
     />
   ),
 
@@ -54,13 +58,33 @@ export const textInputConfig: ComponentConfigType = {
           align="center"
           className="border-b border-dark-500 pb-1"
         >
-          Password Input Properties
+          Text Input Properties
         </Text>
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Label / Hint / Required
+            Options
           </Text>
+          <Switch
+            label="Disabled"
+            checked={props.disabled}
+            onChange={(checked) => setProps({ ...props, disabled: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Left Section"
+            checked={props.leftSection}
+            onChange={(checked) => setProps({ ...props, leftSection: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Right Section"
+            checked={props.rightSection}
+            onChange={(checked) =>
+              setProps({ ...props, rightSection: checked })
+            }
+            classNames={switchClasses}
+          />
           <Switch
             label="Show Label"
             checked={props.showLabel}
@@ -79,22 +103,10 @@ export const textInputConfig: ComponentConfigType = {
             onChange={(checked) => setProps({ ...props, required: checked })}
             classNames={switchClasses}
           />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Other
-          </Text>
           <Switch
-            label="Disabled"
-            checked={props.disabled}
-            onChange={(checked) => setProps({ ...props, disabled: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Left Section"
-            checked={props.leftSection}
-            onChange={(checked) => setProps({ ...props, leftSection: checked })}
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
             classNames={switchClasses}
           />
         </div>

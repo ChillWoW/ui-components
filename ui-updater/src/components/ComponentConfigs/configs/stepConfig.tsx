@@ -10,24 +10,8 @@ import {
 import { IconCheck } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
+import { switchClasses, selectInputClasses } from "./index";
 
-const switchClasses = {
-  track: "bg-dark-700",
-  thumb: "bg-white",
-  checked: {
-    track: "bg-blue-600",
-    thumb: "bg-white",
-  },
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-700",
-  option: "hover:bg-dark-600",
-  selectedOption: "bg-dark-600",
-};
-
-// Define the steps array outside to ensure it's always available
 const defaultSteps = [
   {
     label: "Account Setup",

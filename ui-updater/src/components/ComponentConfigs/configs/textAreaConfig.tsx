@@ -25,6 +25,7 @@ export const textAreaConfig: ComponentConfigType = {
     disabled: false,
     leftSection: false,
     autoAdjust: false,
+    error: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -33,6 +34,7 @@ export const textAreaConfig: ComponentConfigType = {
       label={props.showLabel ? props.label : undefined}
       required={props.required}
       hint={props.showHint ? props.hint : undefined}
+      error={props.error && "Error"}
       autoAdjust={props.autoAdjust}
       leftSection={props.leftSection && <IconAlertCircle />}
     />
@@ -58,8 +60,14 @@ export const textAreaConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Label / Hint / Required
+            Options
           </Text>
+          <Switch
+            label="Disabled"
+            checked={props.disabled}
+            onChange={(checked) => setProps({ ...props, disabled: checked })}
+            classNames={switchClasses}
+          />
           <Switch
             label="Show Label"
             checked={props.showLabel}
@@ -78,16 +86,10 @@ export const textAreaConfig: ComponentConfigType = {
             onChange={(checked) => setProps({ ...props, required: checked })}
             classNames={switchClasses}
           />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Other
-          </Text>
           <Switch
-            label="Disabled"
-            checked={props.disabled}
-            onChange={(checked) => setProps({ ...props, disabled: checked })}
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
             classNames={switchClasses}
           />
           <Switch

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   IconCalendar,
   IconChevronLeft,
@@ -35,35 +35,52 @@ export const DatePicker = ({
   yearRange = 10,
   classNames,
   leftSection,
+  error,
 }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(value || new Date());
+  const [currentMonth, setCurrentMonth] = useState(() => value || new Date());
   const [viewMode, setViewMode] = useState<"days" | "months" | "years">("days");
   const containerRef = useRef<HTMLDivElement>(null);
   const [dropdownStyle, setDropdownStyle] = useState({});
 
-  // Adjust weekdays based on firstDayOfWeek
-  const baseWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const weekDays =
-    firstDayOfWeek === 1
+  // Memoize weekdays to avoid recalculating on every render
+  const weekDays = useMemo(() => {
+    const baseWeekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return firstDayOfWeek === 1
       ? [...baseWeekDays.slice(1), baseWeekDays[0]]
       : baseWeekDays;
+  }, [firstDayOfWeek]);
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  // Memoize months
+  const months = useMemo(
+    () => [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    []
+  );
 
+  // Memoize years
+  const years = useMemo(
+    () =>
+      Array.from(
+        { length: yearRange * 2 + 1 },
+        (_, i) => currentMonth.getFullYear() - yearRange + i
+      ),
+    [currentMonth, yearRange]
+  );
+
+  // Update dropdown position when opened
   useEffect(() => {
     if (isOpen && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
@@ -74,6 +91,13 @@ export const DatePicker = ({
       });
     }
   }, [isOpen]);
+
+  // Update current month when value changes externally
+  useEffect(() => {
+    if (value) {
+      setCurrentMonth(value);
+    }
+  }, [value]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -86,14 +110,17 @@ export const DatePicker = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isOpen]);
 
+  // Format date based on format prop
   const formatDate = (date: Date): string => {
     if (!date) return "";
 
-    // Basic formatting based on the format prop
     if (format === "yyyy-MM-dd") {
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -104,6 +131,7 @@ export const DatePicker = ({
     return date.toLocaleDateString();
   };
 
+  // Memoize days in month to avoid recalculation
   const getDaysInMonth = (year: number, month: number): Date[] => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -137,55 +165,58 @@ export const DatePicker = ({
     return days;
   };
 
+  // Memoize current month days
+  const currentMonthDays = useMemo(
+    () => getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+    [currentMonth]
+  );
+
+  // Check if a date is disabled
   const isDateDisabled = (date: Date): boolean => {
     if (minDate && date < minDate) return true;
     if (maxDate && date > maxDate) return true;
     return false;
   };
 
+  // Handlers
   const handleDateSelect = (date: Date) => {
     if (isDateDisabled(date)) return;
-
-    if (onChange) {
-      onChange(date);
-    }
+    onChange?.(date);
     setIsOpen(false);
   };
 
   const handlePrevMonth = () => {
     setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1)
     );
   };
 
   const handleNextMonth = () => {
     setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1)
     );
   };
 
-  const years = Array.from(
-    { length: yearRange * 2 + 1 },
-    (_, i) => currentMonth.getFullYear() - yearRange + i
-  );
-
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onChange) {
-      onChange(undefined as any);
-    }
+    onChange?.(undefined as any);
     setIsOpen(false);
   };
 
   const handleToday = () => {
     const today = new Date();
-    if (onChange) {
-      onChange(today);
-    }
+    onChange?.(today);
     setCurrentMonth(today);
     setViewMode("days");
   };
 
+  const toggleViewMode = () => {
+    if (viewMode === "days") setViewMode("months");
+    else if (viewMode === "months") setViewMode("years");
+    else setViewMode("days");
+  };
+
+  // Render calendar header
   const renderCalendarHeader = () => (
     <div
       className={cn(
@@ -197,15 +228,12 @@ export const DatePicker = ({
         onClick={handlePrevMonth}
         className="p-1 hover:bg-[#333538] rounded"
         disabled={viewMode !== "days"}
+        aria-label="Previous month"
       >
         <IconChevronLeft size={16} />
       </button>
       <button
-        onClick={() => {
-          if (viewMode === "days") setViewMode("months");
-          else if (viewMode === "months") setViewMode("years");
-          else if (viewMode === "years") setViewMode("days");
-        }}
+        onClick={toggleViewMode}
         className="flex items-center gap-1 px-2 py-1 hover:bg-[#333538] rounded text-white"
       >
         {viewMode === "years" ? (
@@ -221,12 +249,14 @@ export const DatePicker = ({
         onClick={handleNextMonth}
         className="p-1 hover:bg-[#333538] rounded"
         disabled={viewMode !== "days"}
+        aria-label="Next month"
       >
         <IconChevronRight size={16} />
       </button>
     </div>
   );
 
+  // Render month view
   const renderMonthView = () => (
     <div className="grid grid-cols-3 gap-2 p-2">
       {months.map((month, index) => (
@@ -250,6 +280,7 @@ export const DatePicker = ({
     </div>
   );
 
+  // Render year view
   const renderYearView = () => (
     <div className="grid grid-cols-3 gap-2 p-2">
       {years.map((year) => (
@@ -270,6 +301,65 @@ export const DatePicker = ({
           {year}
         </button>
       ))}
+    </div>
+  );
+
+  // Render days view
+  const renderDaysView = () => (
+    <div className="p-2">
+      <div className="grid grid-cols-7 gap-1">
+        {weekDays.map((day) => (
+          <div key={day} className="text-center text-sm text-[#727b8e] py-1">
+            {day}
+          </div>
+        ))}
+        {currentMonthDays.map((date, index) => (
+          <button
+            key={index}
+            onClick={() => handleDateSelect(date)}
+            disabled={isDateDisabled(date)}
+            className={cn(
+              "p-2 text-sm rounded hover:bg-[#333538] transition-colors",
+              date.getMonth() === currentMonth.getMonth()
+                ? "text-white"
+                : "text-[#727b8e]",
+              value?.toDateString() === date.toDateString() &&
+                "bg-[#333538] text-white",
+              isDateDisabled(date) && "opacity-40 cursor-not-allowed",
+              classNames?.dayCell,
+              value?.toDateString() === date.toDateString() &&
+                classNames?.selectedDay
+            )}
+          >
+            {date.getDate()}
+          </button>
+        ))}
+      </div>
+      <div
+        className={cn(
+          "flex items-center justify-end gap-2 mt-4 pt-4 border-t border-[#3e4249]",
+          classNames?.footer
+        )}
+      >
+        <Button
+          size="xs"
+          variant="outline"
+          onClick={handleToday}
+          leftSection={<IconCalendarEvent size={14} />}
+        >
+          Today
+        </Button>
+        {clearable && value && (
+          <Button
+            size="xs"
+            variant="outline"
+            onClick={handleClear}
+            leftSection={<IconX size={14} />}
+          >
+            Clear
+          </Button>
+        )}
+      </div>
     </div>
   );
 
@@ -302,21 +392,16 @@ export const DatePicker = ({
           className={cn(
             defaultInputClass,
             "flex items-center border border-[#3e4249] rounded-md bg-[#252627] overflow-hidden",
+            error && "border-red-500",
             disabled && "opacity-60 cursor-not-allowed",
             className,
             classNames?.input
           )}
           onClick={() => !disabled && setIsOpen(!isOpen)}
         >
-          {leftSection ? (
-            <div className={cn(defaultIconClass, classNames?.leftSection)}>
-              {leftSection}
-            </div>
-          ) : (
-            <div className={cn(defaultIconClass, classNames?.leftSection)}>
-              <IconCalendar size={18} />
-            </div>
-          )}
+          <div className={cn(defaultIconClass, classNames?.leftSection)}>
+            {leftSection || <IconCalendar size={18} />}
+          </div>
           <input
             type="text"
             className={cn(
@@ -327,6 +412,7 @@ export const DatePicker = ({
             placeholder={placeholder}
             readOnly
             disabled={disabled}
+            aria-label={label || "Date picker"}
           />
         </div>
 
@@ -337,87 +423,27 @@ export const DatePicker = ({
               classNames?.dropdown
             )}
             style={dropdownStyle}
+            role="dialog"
+            aria-label="Calendar"
           >
             <div className="p-2">{renderCalendarHeader()}</div>
-            {viewMode === "days" && (
-              <div className="p-2">
-                <div className="grid grid-cols-7 gap-1">
-                  {weekDays.map((day) => (
-                    <div
-                      key={day}
-                      className="text-center text-sm text-[#727b8e] py-1"
-                    >
-                      {day}
-                    </div>
-                  ))}
-                  {getDaysInMonth(
-                    currentMonth.getFullYear(),
-                    currentMonth.getMonth()
-                  ).map((date, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleDateSelect(date)}
-                      disabled={isDateDisabled(date)}
-                      className={cn(
-                        "p-2 text-sm rounded hover:bg-[#333538] transition-colors",
-                        date.getMonth() === currentMonth.getMonth()
-                          ? "text-white"
-                          : "text-[#727b8e]",
-                        value?.toDateString() === date.toDateString() &&
-                          "bg-[#333538] text-white",
-                        isDateDisabled(date) && "opacity-40 cursor-not-allowed",
-                        classNames?.dayCell,
-                        value?.toDateString() === date.toDateString() &&
-                          classNames?.selectedDay
-                      )}
-                    >
-                      {date.getDate()}
-                    </button>
-                  ))}
-                </div>
-                <div
-                  className={cn(
-                    "flex items-center justify-end gap-2 mt-4 pt-4 border-t border-[#3e4249]",
-                    classNames?.footer
-                  )}
-                >
-                  <Button
-                    size="xs"
-                    variant="outline"
-                    onClick={handleToday}
-                    leftSection={<IconCalendarEvent size={14} />}
-                  >
-                    Today
-                  </Button>
-                  {clearable && value && (
-                    <Button
-                      size="xs"
-                      variant="outline"
-                      onClick={handleClear}
-                      leftSection={<IconX size={14} />}
-                    >
-                      Clear
-                    </Button>
-                  )}
-                </div>
-              </div>
-            )}
-
+            {viewMode === "days" && renderDaysView()}
             {viewMode === "months" && renderMonthView()}
             {viewMode === "years" && renderYearView()}
           </div>
         )}
       </div>
 
-      {hint && (
+      {(error || hint) && (
         <p
           className={cn(
             defaultDescriptionClass,
-            "text-xs text-gray-300 ml-2",
+            "text-xs ml-1",
+            error ? "text-red-400" : "text-gray-300",
             classNames?.hint
           )}
         >
-          {hint}
+          {error || hint}
         </p>
       )}
     </div>

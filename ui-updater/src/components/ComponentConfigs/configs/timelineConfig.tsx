@@ -5,106 +5,118 @@ import {
   SelectInput,
   RadioGroup,
   Timeline,
+  Slider,
+  NumberInput,
 } from "@/components/ui";
-import { IconCircle, IconCheck, IconX } from "@tabler/icons-react";
+import {
+  IconCircle,
+  IconCheck,
+  IconX,
+  IconPlus,
+  IconArrowRight,
+  IconAlertTriangle,
+  IconBrandGithub,
+} from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  thumb: "bg-white",
-  checked: {
-    track: "bg-blue-600",
-    thumb: "bg-white",
-  },
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-700",
-  option: "hover:bg-dark-600",
-  selectedOption: "bg-dark-600",
-};
+import { switchClasses, selectInputClasses } from "./index";
 
 export const timelineConfig: ComponentConfigType = {
   defaultProps: {
-    orientation: "vertical",
     align: "left",
-    bulletSize: "md",
     active: 1,
+    bulletSize: 20,
     lineWidth: 2,
+    lineStyle: "solid",
     reverseActive: false,
     color: "blue",
+    bulletShape: "circle",
+    compact: false,
     bulletVariant: "icon",
-    showConnectingLine: true,
   },
 
   renderComponent: (props) => {
     // Generate timeline items with different bullet types for demonstration
     const getTimelineItems = () => {
+      const icons = {
+        check: <IconCheck size={16} />,
+        circle: <IconCircle size={16} />,
+        x: <IconX size={16} />,
+        plus: <IconPlus size={16} />,
+        arrow: <IconArrowRight size={16} />,
+        alert: <IconAlertTriangle size={16} />,
+        github: <IconBrandGithub size={16} />,
+      };
+
       const items = [
         {
           title: "Order placed",
           description: "Your order has been received and is being processed.",
           date: "Jan 3, 2023",
-          icon:
-            props.bulletVariant === "icon" ? (
-              <IconCheck size={16} />
-            ) : undefined,
+          icon: props.bulletVariant === "icon" ? icons.check : undefined,
         },
         {
           title: "Processing",
           description: "Your order is currently being prepared for shipping.",
           date: "Jan 5, 2023",
-          icon:
-            props.bulletVariant === "icon" ? (
-              <IconCircle size={16} />
-            ) : undefined,
+          icon: props.bulletVariant === "icon" ? icons.circle : undefined,
         },
         {
           title: "Shipped",
           description:
             "Your order has been shipped and is en route to delivery.",
           date: "Jan 7, 2023",
-          icon:
-            props.bulletVariant === "icon" ? (
-              <IconCheck size={16} />
-            ) : undefined,
+          icon: props.bulletVariant === "icon" ? icons.arrow : undefined,
         },
         {
           title: "Delivered",
           description:
             "Your order has been delivered to the specified address.",
           date: "Jan 10, 2023",
-          icon:
-            props.bulletVariant === "icon" ? (
-              <IconCircle size={16} />
-            ) : undefined,
+          icon: props.bulletVariant === "icon" ? icons.check : undefined,
         },
       ];
 
       return items;
     };
 
+    // Convert string color to hex/CSS color value
+    const getColorValue = (colorName: string) => {
+      const colorMap: Record<string, string> = {
+        blue: "#3b82f6",
+        red: "#ef4444",
+        green: "#22c55e",
+        yellow: "#eab308",
+        gray: "#6b7280",
+        purple: "#8b5cf6",
+        indigo: "#6366f1",
+        pink: "#ec4899",
+      };
+
+      return colorMap[colorName] || colorName;
+    };
+
     return (
       <div className="w-full p-4">
         <Timeline
           align={props.align}
-          bulletSize={props.bulletSize}
-          active={props.active}
-          lineWidth={props.lineWidth}
+          bulletSize={Number(props.bulletSize)}
+          active={Number(props.active)}
+          lineWidth={Number(props.lineWidth)}
+          lineStyle={props.lineStyle}
           reverseActive={props.reverseActive}
-          color={props.color}
+          color={getColorValue(props.color)}
+          bulletShape={props.bulletShape}
+          compact={props.compact}
         >
           {getTimelineItems().map((item, index) => (
-            <Timeline.Item key={index} title={item.title} icon={item.icon}>
-              <div className="space-y-1">
-                <Text size="sm" className="text-gray-400">
-                  {item.date}
-                </Text>
-                <Text size="sm">{item.description}</Text>
-              </div>
-            </Timeline.Item>
+            <Timeline.Item
+              key={index}
+              title={item.title}
+              icon={item.icon}
+              date={item.date}
+              description={item.description}
+            />
           ))}
         </Timeline>
       </div>
@@ -146,17 +158,57 @@ export const timelineConfig: ComponentConfigType = {
           <Text size="sm" weight="bold">
             Bullet Size
           </Text>
-          <SelectInput
-            options={[
-              { value: "xs", label: "Extra Small" },
-              { value: "sm", label: "Small" },
-              { value: "md", label: "Medium" },
-              { value: "lg", label: "Large" },
-              { value: "xl", label: "Extra Large" },
-            ]}
+          <NumberInput
+            min={10}
+            max={40}
             value={props.bulletSize}
             onChange={(value) => setProps({ ...props, bulletSize: value })}
+            className="bg-dark-800"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Bullet Shape
+          </Text>
+          <SelectInput
+            options={[
+              { value: "circle", label: "Circle" },
+              { value: "square", label: "Square" },
+              { value: "diamond", label: "Diamond" },
+            ]}
+            value={props.bulletShape}
+            onChange={(value) => setProps({ ...props, bulletShape: value })}
             classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Line Style
+          </Text>
+          <SelectInput
+            options={[
+              { value: "solid", label: "Solid" },
+              { value: "dashed", label: "Dashed" },
+              { value: "dotted", label: "Dotted" },
+            ]}
+            value={props.lineStyle}
+            onChange={(value) => setProps({ ...props, lineStyle: value })}
+            classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Line Width
+          </Text>
+          <Slider
+            min={1}
+            max={5}
+            step={1}
+            value={props.lineWidth}
+            onChange={(value) => setProps({ ...props, lineWidth: value })}
           />
         </div>
 
@@ -171,6 +223,9 @@ export const timelineConfig: ComponentConfigType = {
               { value: "green", label: "Green" },
               { value: "yellow", label: "Yellow" },
               { value: "gray", label: "Gray" },
+              { value: "purple", label: "Purple" },
+              { value: "indigo", label: "Indigo" },
+              { value: "pink", label: "Pink" },
             ]}
             value={props.color}
             onChange={(value) => setProps({ ...props, color: value })}
@@ -200,14 +255,22 @@ export const timelineConfig: ComponentConfigType = {
           <Text size="sm" weight="bold">
             Options
           </Text>
-          <Switch
-            label="Reverse Active"
-            checked={props.reverseActive}
-            onChange={(checked) =>
-              setProps({ ...props, reverseActive: checked })
-            }
-            classNames={switchClasses}
-          />
+          <div className="space-y-2">
+            <Switch
+              label="Reverse Active"
+              checked={props.reverseActive}
+              onChange={(checked) =>
+                setProps({ ...props, reverseActive: checked })
+              }
+              classNames={switchClasses}
+            />
+            <Switch
+              label="Compact Mode"
+              checked={props.compact}
+              onChange={(checked) => setProps({ ...props, compact: checked })}
+              classNames={switchClasses}
+            />
+          </div>
         </div>
       </div>
     );
@@ -216,23 +279,16 @@ export const timelineConfig: ComponentConfigType = {
   infoPanel: () => (
     <InfoPanel
       propInfo={{
-        orientation: {
-          type: "string",
-          default: "vertical",
-          description: "Direction of the timeline",
-          possibleValues: ["vertical", "horizontal"],
-        },
         align: {
           type: "string",
           default: "left",
           description: "Alignment of the timeline items",
-          possibleValues: ["left", "right"],
+          possibleValues: ["left", "right", "center"],
         },
         bulletSize: {
-          type: "string",
-          default: "md",
-          description: "Size of the timeline bullets",
-          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+          type: "number",
+          default: "20",
+          description: "Size of the timeline bullets in pixels",
         },
         active: {
           type: "number",
@@ -243,6 +299,18 @@ export const timelineConfig: ComponentConfigType = {
           type: "number",
           default: "2",
           description: "Width of the timeline connecting line in pixels",
+        },
+        lineStyle: {
+          type: "string",
+          default: "solid",
+          description: "Style of the connecting line",
+          possibleValues: ["solid", "dashed", "dotted"],
+        },
+        bulletShape: {
+          type: "string",
+          default: "circle",
+          description: "Shape of the timeline bullets",
+          possibleValues: ["circle", "square", "diamond"],
         },
         reverseActive: {
           type: "boolean",
@@ -255,17 +323,16 @@ export const timelineConfig: ComponentConfigType = {
           default: "blue",
           description: "Color theme for the timeline bullets and lines",
         },
+        compact: {
+          type: "boolean",
+          default: "false",
+          description: "Enable compact mode with reduced spacing",
+        },
         bulletVariant: {
           type: "string",
-          default: "filled",
+          default: "icon",
           description: "Style variant for timeline bullets",
           possibleValues: ["filled", "outline", "icon"],
-        },
-        showConnectingLine: {
-          type: "boolean",
-          default: "true",
-          description:
-            "Whether to display the connecting line between timeline items",
         },
         children: {
           type: "ReactNode",
@@ -276,9 +343,21 @@ export const timelineConfig: ComponentConfigType = {
           type: "string",
           description: "Additional CSS classes for the timeline container",
         },
-        classNames: {
-          type: "object",
-          description: "Custom CSS classes for timeline elements",
+        onClick: {
+          type: "function",
+          description: "Callback fired when a timeline item is clicked",
+        },
+        date: {
+          type: "ReactNode",
+          description: "Date display for a timeline item",
+        },
+        description: {
+          type: "ReactNode",
+          description: "Description text for a timeline item",
+        },
+        icon: {
+          type: "ReactNode",
+          description: "Icon to display in the timeline bullet",
         },
       }}
     />

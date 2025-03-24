@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Switch, PinInput, Alert } from "@/components/ui";
+import { Text, Switch, PinInput, Alert, TextInput } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 
@@ -26,6 +26,7 @@ export const pinInputConfig: ComponentConfigType = {
     hint: "Enter your pin",
     placeholder: "○",
     allowLetters: false,
+    error: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -38,17 +39,8 @@ export const pinInputConfig: ComponentConfigType = {
       placeholder={props.placeholder}
       allowLetters={props.allowLetters}
       mask={props.mask}
+      error={props.error && "Error"}
     />
-  ),
-
-  renderError: () => (
-    <Alert variant="warning" icon={<IconAlertCircle />}>
-      <Alert.Title className="text-md">Possible errors</Alert.Title>
-      <Alert.Description className="text-xs">
-        Currently, the input can malfunction in browser. There is no problems
-        while running it in production.
-      </Alert.Description>
-    </Alert>
   ),
 
   renderPropsPanel: () => {
@@ -71,19 +63,11 @@ export const pinInputConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Label / Hint / Required
+            Placeholder
           </Text>
-          <Switch
-            label="Show Label"
-            checked={props.showLabel}
-            onChange={(checked) => setProps({ ...props, showLabel: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Show Hint"
-            checked={props.showHint}
-            onChange={(checked) => setProps({ ...props, showHint: checked })}
-            classNames={switchClasses}
+          <TextInput
+            value={props.placeholder}
+            onChange={(value) => setProps({ ...props, placeholder: value })}
           />
         </div>
 
@@ -98,6 +82,18 @@ export const pinInputConfig: ComponentConfigType = {
             classNames={switchClasses}
           />
           <Switch
+            label="Show Label"
+            checked={props.showLabel}
+            onChange={(checked) => setProps({ ...props, showLabel: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Hint"
+            checked={props.showHint}
+            onChange={(checked) => setProps({ ...props, showHint: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
             label="Mask"
             checked={props.mask}
             onChange={(checked) => setProps({ ...props, mask: checked })}
@@ -109,6 +105,12 @@ export const pinInputConfig: ComponentConfigType = {
             onChange={(checked) =>
               setProps({ ...props, allowLetters: checked })
             }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
             classNames={switchClasses}
           />
         </div>

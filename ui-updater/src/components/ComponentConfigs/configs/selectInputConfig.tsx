@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  Switch,
-  PinInput,
-  Alert,
-  SelectInput,
-  Button,
-} from "@/components/ui";
+import { Text, Switch, SelectInput, Button, Alert } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 
@@ -25,11 +18,6 @@ const selectInputClasses = {
 export const selectInputConfig: ComponentConfigType = {
   defaultProps: {
     value: "",
-    options: [
-      { value: "option1", label: "Option 1" },
-      { value: "option2", label: "Option 2" },
-      { value: "option3", label: "Option 3" },
-    ],
     showLabel: true,
     showHint: false,
     placeholder: "Select an option",
@@ -38,21 +26,45 @@ export const selectInputConfig: ComponentConfigType = {
     label: "Select Input",
     hint: "Select an option",
     leftSection: false,
+    clearable: false,
+    allowDeselect: false,
+    searchable: false,
+    size: "md",
   },
 
   renderComponent: (props, setProps) => (
-    <SelectInput
-      value={props.value}
-      onChange={(value) => setProps({ ...props, value })}
-      options={props.options}
-      placeholder={props.placeholder}
-      disabled={props.disabled}
-      required={props.required}
-      label={props.showLabel ? props.label : undefined}
-      hint={props.showHint ? props.hint : undefined}
-      className="w-full"
-      leftSection={props.leftSection && <IconAlertCircle />}
-    />
+    <div className="space-y-2">
+      <SelectInput
+        value={props.value}
+        onChange={(value) => setProps({ ...props, value })}
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+        required={props.required}
+        label={props.showLabel ? props.label : undefined}
+        hint={props.showHint ? props.hint : undefined}
+        clearable={props.clearable}
+        allowDeselect={props.allowDeselect}
+        searchable={props.searchable}
+        size={props.size}
+        leftSection={props.leftSection && <IconAlertCircle />}
+        className="w-full"
+      >
+        <SelectInput.Option value="option1" label="Option 1" />
+        <SelectInput.Option value="option2" label="Option 2" />
+        <SelectInput.Option value="option3" label="Option 3" />
+      </SelectInput>
+    </div>
+  ),
+
+  renderError: () => (
+    <Alert variant="error" icon={<IconAlertCircle />} closeable={false}>
+      <Alert.Title>No backward compatibility is provided</Alert.Title>
+      <Alert.Description>
+        This component has been updated with a new structure using
+        SelectInput.Option, Please check your existing implementations to ensure
+        compatibility on newer versions.
+      </Alert.Description>
+    </Alert>
   ),
 
   renderPropsPanel: () => {
@@ -70,7 +82,7 @@ export const selectInputConfig: ComponentConfigType = {
           align="center"
           className="border-b border-dark-500 pb-1"
         >
-          Pin Input Properties
+          Select Input Properties
         </Text>
 
         <div className="flex flex-col gap-1">
@@ -95,6 +107,49 @@ export const selectInputConfig: ComponentConfigType = {
             onChange={(checked) => setProps({ ...props, required: checked })}
             classNames={switchClasses}
           />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Selection Features
+          </Text>
+          <Switch
+            label="Clearable"
+            checked={props.clearable}
+            onChange={(checked) => setProps({ ...props, clearable: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Allow Deselect"
+            checked={props.allowDeselect}
+            onChange={(checked) =>
+              setProps({ ...props, allowDeselect: checked })
+            }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Searchable"
+            checked={props.searchable}
+            onChange={(checked) => setProps({ ...props, searchable: checked })}
+            classNames={switchClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Size
+          </Text>
+          <SelectInput
+            value={props.size}
+            onChange={(value) => setProps({ ...props, size: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="xs" label="Extra Small" />
+            <SelectInput.Option value="sm" label="Small" />
+            <SelectInput.Option value="md" label="Medium" />
+            <SelectInput.Option value="lg" label="Large" />
+            <SelectInput.Option value="xl" label="Extra Large" />
+          </SelectInput>
         </div>
 
         <div className="flex flex-col gap-1">

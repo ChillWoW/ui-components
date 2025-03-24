@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import { cn } from "../..";
-import { IconEye, IconRefresh } from "@tabler/icons-react";
+import React, { useState, useEffect } from "react";
+import { cn } from "../../index";
+import { IconEye, IconRefresh, IconChecks } from "@tabler/icons-react";
 import { ColorPickerProps } from "../types";
 
 export const ColorPicker = ({
@@ -8,7 +8,6 @@ export const ColorPicker = ({
   onChange,
   label,
   hint,
-  description,
   required,
   disabled,
   className,
@@ -16,11 +15,20 @@ export const ColorPicker = ({
   swatches,
   swatchesPerRow = 8,
   allowEyeDropper = false,
+  error,
   classNames,
+  id,
 }: ColorPickerProps) => {
   const [textValue, setTextValue] = useState(value);
   const [isValidColor, setIsValidColor] = useState(true);
-  const eyeDropperRef = useRef<any>(null);
+
+  // Generate id for input if not provided for accessibility
+  const colorPickerId =
+    id || label
+      ? `color-picker-${label?.replace(/\s+/g, "-").toLowerCase()}`
+      : undefined;
+
+  // Check if EyeDropper API is supported
   const supportsEyeDropper =
     typeof window !== "undefined" && "EyeDropper" in window;
 
@@ -28,9 +36,13 @@ export const ColorPicker = ({
     setTextValue(value);
   }, [value]);
 
+  // Color parsing logic
   const parseColor = (
     color: string
   ): { r: number; g: number; b: number; a: number } | null => {
+    // Handle empty input
+    if (!color) return null;
+
     // Parse hex
     if (color.startsWith("#")) {
       const hex = color.substring(1);
@@ -62,6 +74,7 @@ export const ColorPicker = ({
     return null;
   };
 
+  // Format color object to string based on selected format
   const formatColor = (color: {
     r: number;
     g: number;
@@ -83,24 +96,30 @@ export const ColorPicker = ({
         color.b
       )}, ${color.a.toFixed(2)})`;
     }
-    return `#${Math.round(color.r).toString(16)}${Math.round(color.g).toString(
-      16
-    )}${Math.round(color.b).toString(16)}`;
+    return `#${toHex(color.r)}${toHex(color.g)}${toHex(color.b)}`;
   };
 
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle color input change
+  const handleColorInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value;
     setTextValue(newColor);
+    setIsValidColor(true);
 
-    const parsedColor = parseColor(newColor);
-    if (parsedColor) {
-      onChange(formatColor(parsedColor));
-    }
+    // We don't need to parse and reformat for the native color input
+    // as it always provides a valid hex color
+    onChange(format === "hex" ? newColor : formatColor(parseColor(newColor)!));
   };
 
+  // Handle text input change
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setTextValue(newValue);
+
+    // Skip validation for empty string to allow typing
+    if (!newValue.trim()) {
+      setIsValidColor(false);
+      return;
+    }
 
     try {
       // Create a temporary div to test if the color is valid
@@ -124,6 +143,7 @@ export const ColorPicker = ({
     }
   };
 
+  // Handle text input blur - reset to valid value if current is invalid
   const handleTextInputBlur = () => {
     if (!isValidColor) {
       setTextValue(value);
@@ -131,6 +151,7 @@ export const ColorPicker = ({
     }
   };
 
+  // Handle EyeDropper API
   const handleEyeDropper = async () => {
     if (!supportsEyeDropper || disabled) return;
 
@@ -141,6 +162,7 @@ export const ColorPicker = ({
       const color = result.sRGBHex;
 
       setTextValue(color);
+      setIsValidColor(true);
       const parsedColor = parseColor(color);
       if (parsedColor) {
         onChange(formatColor(parsedColor));
@@ -151,12 +173,66 @@ export const ColorPicker = ({
     }
   };
 
+  // Handle alpha slider change
+  const handleAlphaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newAlpha = parseFloat(e.target.value);
+    const parsedColor = parseColor(value);
+    if (parsedColor) {
+      parsedColor.a = newAlpha;
+      const newColor = formatColor(parsedColor);
+      onChange(newColor);
+      setTextValue(newColor);
+    }
+  };
+
+  // Handle swatch selection
+  const handleSwatchClick = (swatch: string) => {
+    if (disabled) return;
+
+    setTextValue(swatch);
+    setIsValidColor(true);
+    onChange(swatch);
+  };
+
+  // Reset to default color (white)
+  const handleReset = () => {
+    if (disabled) return;
+
+    const defaultColor =
+      format === "hex"
+        ? "#ffffff"
+        : format === "rgb"
+          ? "rgb(255, 255, 255)"
+          : "rgba(255, 255, 255, 1)";
+
+    setTextValue(defaultColor);
+    setIsValidColor(true);
+    onChange(defaultColor);
+  };
+
+  // Get current alpha value
+  const currentAlpha = parseColor(value)?.a || 1;
+
+  // Helper for hex value
+  const toHex = (n: number) => {
+    const hex = Math.round(n).toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  };
+
   return (
-    <div className={cn("flex flex-col gap-1", classNames?.container)}>
+    <div
+      className={cn(
+        "flex flex-col items-start text-white space-y-1",
+        classNames?.container,
+        className
+      )}
+    >
       {label && (
         <label
+          htmlFor={colorPickerId}
           className={cn(
-            "text-sm text-white font-medium ml-2 flex items-center gap-1",
+            "text-sm font-semibold ml-1 flex items-center gap-1",
+            disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
         >
@@ -167,155 +243,185 @@ export const ColorPicker = ({
         </label>
       )}
 
-      <div className="relative">
-        <div
-          className={cn(
-            "flex flex-col gap-2 border border-[#3e4249] rounded-lg bg-[#252627] p-3",
-            disabled && "opacity-60 cursor-not-allowed",
-            className,
-            classNames?.input
-          )}
-        >
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <div
-                className={cn(
-                  "w-10 h-10 rounded-md border border-[#3e4249] cursor-pointer",
-                  "bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==')]",
-                  classNames?.colorPreview
-                )}
-              >
-                <div
-                  className="absolute inset-0 rounded-md"
-                  style={{ backgroundColor: value }}
-                />
-              </div>
-              <input
-                type="color"
-                value={value.startsWith("#") ? value : "#ffffff"}
-                onChange={handleColorChange}
-                disabled={disabled}
-                className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-              />
-            </div>
-
-            <div className="flex-1 flex items-center gap-2">
-              <input
-                type="text"
-                value={textValue}
-                onChange={handleTextInputChange}
-                onBlur={handleTextInputBlur}
-                disabled={disabled}
-                className={cn(
-                  "bg-[#1e1e1e] border border-[#3e4249] rounded px-2 py-1 text-sm text-white flex-1",
-                  !isValidColor && "border-red-500",
-                  classNames?.textInput
-                )}
-              />
-
-              {allowEyeDropper && supportsEyeDropper && (
-                <button
-                  type="button"
-                  onClick={handleEyeDropper}
-                  disabled={disabled}
-                  className={cn(
-                    "p-1 bg-[#1e1e1e] border border-[#3e4249] rounded text-[#727b8e] hover:text-white hover:border-[#53575e]",
-                    classNames?.eyeDropper
-                  )}
-                  title="Pick color from screen"
-                >
-                  <IconEye size={18} />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {format === "rgba" && (
-            <div className="flex items-center gap-2 mt-1">
-              <label className="text-xs text-[#727b8e] w-12">Alpha:</label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={parseColor(value)?.a || 1}
-                onChange={(e) => {
-                  const parsedColor = parseColor(value);
-                  if (parsedColor) {
-                    parsedColor.a = parseFloat(e.target.value);
-                    onChange(formatColor(parsedColor));
-                  }
-                }}
-                disabled={disabled}
-                className="w-full h-2 bg-[#1e1e1e] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer"
-              />
-              <span className="text-xs text-white w-8 text-right">
-                {(parseColor(value)?.a || 1).toFixed(2)}
-              </span>
-            </div>
-          )}
-
-          {swatches && swatches.length > 0 && (
+      <div
+        className={cn(
+          "flex flex-col w-full border rounded-md overflow-hidden bg-[#252627] transition-colors",
+          error ? "border-red-500" : "border-[#3e4249]",
+          disabled && "opacity-60 cursor-not-allowed",
+          classNames?.input
+        )}
+      >
+        {/* Main color selection row */}
+        <div className="flex items-center p-2 gap-2">
+          {/* Color preview + native color input */}
+          <div className="relative">
             <div
               className={cn(
-                "flex flex-wrap gap-2 mt-2",
-                classNames?.swatchesContainer
+                "w-9 h-9 rounded border border-[#3e4249] overflow-hidden",
+                "bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==')]",
+                classNames?.colorPreview
               )}
             >
               <div
-                className="grid gap-2"
-                style={{
-                  gridTemplateColumns: `repeat(${swatchesPerRow}, minmax(0, 1fr))`,
-                }}
-              >
-                {swatches.map((swatch, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      "w-6 h-6 rounded border border-[#3e4249] cursor-pointer hover:border-[#53575e] relative",
-                      "bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==')]",
-                      value === swatch && "ring-2 ring-white",
-                      classNames?.swatch
-                    )}
-                    onClick={() => !disabled && onChange(swatch)}
-                  >
-                    <div
-                      className="absolute inset-0 rounded"
-                      style={{ backgroundColor: swatch }}
-                    />
-                  </div>
-                ))}
-              </div>
+                className="absolute inset-0"
+                style={{ backgroundColor: value }}
+              />
             </div>
+            <input
+              id={colorPickerId}
+              type="color"
+              value={value.startsWith("#") ? value : "#ffffff"}
+              onChange={handleColorInputChange}
+              disabled={disabled}
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+              aria-label="Color picker"
+            />
+          </div>
+
+          {/* Text input */}
+          <input
+            type="text"
+            value={textValue}
+            onChange={handleTextInputChange}
+            onBlur={handleTextInputBlur}
+            disabled={disabled}
+            placeholder={
+              format === "hex"
+                ? "#RRGGBB"
+                : format === "rgb"
+                  ? "rgb(r,g,b)"
+                  : "rgba(r,g,b,a)"
+            }
+            className={cn(
+              "flex-1 px-3 py-2 text-sm outline-none text-white border-none bg-transparent",
+              !isValidColor && "text-red-400",
+              classNames?.textInput
+            )}
+            aria-invalid={!isValidColor || !!error}
+            aria-describedby={
+              error || hint ? `${colorPickerId}-description` : undefined
+            }
+          />
+
+          {/* Eye dropper button */}
+          {allowEyeDropper && supportsEyeDropper && (
+            <button
+              type="button"
+              onClick={handleEyeDropper}
+              disabled={disabled}
+              className={cn(
+                "p-1.5 text-gray-300 hover:text-white focus:outline-none",
+                disabled && "opacity-60 cursor-not-allowed pointer-events-none",
+                classNames?.eyeDropper
+              )}
+              title="Pick color from screen"
+              aria-label="Pick color from screen"
+            >
+              <IconEye size={18} />
+            </button>
           )}
 
-          <div className="flex flex-wrap gap-2 mt-1">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  if (format === "hex") {
-                    onChange("#ffffff");
-                  } else if (format === "rgb") {
-                    onChange("rgb(255, 255, 255)");
-                  } else {
-                    onChange("rgba(255, 255, 255, 1)");
-                  }
-                }}
-                disabled={disabled}
-                className="text-xs text-[#727b8e] hover:text-white flex items-center gap-1"
-              >
-                <IconRefresh size={12} />
-                Reset
-              </button>
-            </div>
-          </div>
+          {/* Reset button */}
+          <button
+            type="button"
+            onClick={handleReset}
+            disabled={disabled}
+            className={cn(
+              "p-1.5 text-gray-300 hover:text-white focus:outline-none",
+              disabled && "opacity-60 cursor-not-allowed pointer-events-none"
+            )}
+            title="Reset to white"
+            aria-label="Reset to white"
+          >
+            <IconRefresh size={18} />
+          </button>
         </div>
+
+        {/* Alpha slider */}
+        {format === "rgba" && (
+          <div className="flex items-center px-2 pb-2 gap-2">
+            <span className="text-xs text-gray-300 min-w-12">Alpha:</span>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={currentAlpha}
+              onChange={handleAlphaChange}
+              disabled={disabled}
+              className={cn(
+                "w-full h-2 bg-[#1e1e1e] rounded-full appearance-none",
+                "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3",
+                "[&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full",
+                "[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer",
+                disabled && "opacity-60 cursor-not-allowed",
+                classNames?.alphaSlider
+              )}
+              aria-label="Color opacity"
+            />
+            <span className="text-xs text-white min-w-10 text-right">
+              {currentAlpha.toFixed(2)}
+            </span>
+          </div>
+        )}
+
+        {/* Color swatches */}
+        {swatches && swatches.length > 0 && (
+          <div
+            className={cn(
+              "grid gap-1 p-2 border-t border-[#3e4249]",
+              classNames?.swatchesContainer
+            )}
+            style={{
+              gridTemplateColumns: `repeat(${swatchesPerRow}, minmax(0, 1fr))`,
+            }}
+          >
+            {swatches.map((swatch, index) => (
+              <button
+                key={index}
+                type="button"
+                className={cn(
+                  "w-6 h-6 rounded border border-[#3e4249] relative",
+                  "bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==')]",
+                  "hover:border-[#53575e] focus:outline-none focus:ring-1 focus:ring-white",
+                  value === swatch && "ring-1 ring-white",
+                  disabled &&
+                    "opacity-60 cursor-not-allowed pointer-events-none",
+                  classNames?.swatch
+                )}
+                onClick={() => handleSwatchClick(swatch)}
+                disabled={disabled}
+                aria-label={`Select color: ${swatch}`}
+                title={swatch}
+              >
+                <div
+                  className="absolute inset-0 rounded"
+                  style={{ backgroundColor: swatch }}
+                />
+                {value === swatch && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <IconChecks
+                      size={14}
+                      className="text-white drop-shadow-lg"
+                    />
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {hint && (
-        <p className={cn("text-xs text-[#727b8e] ml-2", classNames?.hint)}>
-          {hint}
+      {(error || hint) && (
+        <p
+          id={`${colorPickerId}-description`}
+          className={cn(
+            "text-xs ml-1",
+            error ? "text-red-400" : "text-gray-300",
+            classNames?.hint
+          )}
+        >
+          {error || hint}
         </p>
       )}
     </div>

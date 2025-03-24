@@ -3,10 +3,12 @@ export type SwitchSize = "xs" | "sm" | "md" | "lg" | "xl";
 export interface SwitchClassNames {
   wrapper?: string;
   track?: string;
-  thumb?: string;
-  label?: string;
   activeTrack?: string;
+  thumb?: string;
   activeThumb?: string;
+  label?: string;
+  requiredStar?: string;
+  hint?: string;
 }
 
 export interface SwitchProps {
@@ -17,4 +19,9 @@ export interface SwitchProps {
   classNames?: SwitchClassNames;
   label?: string;
   size?: SwitchSize;
+  required?: boolean;
+  hint?: string;
+  color?: string;
+  name?: string;
+  id?: string;
 }

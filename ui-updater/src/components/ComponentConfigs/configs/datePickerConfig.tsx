@@ -9,18 +9,7 @@ import {
 } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  activeTrack: "bg-dark-100",
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-800",
-  option: "bg-dark-800 hover:bg-dark-700 text-white",
-  selectedOption: "bg-dark-700",
-};
+import { switchClasses } from "./index";
 
 export const datePickerConfig: ComponentConfigType = {
   defaultProps: {
@@ -39,6 +28,7 @@ export const datePickerConfig: ComponentConfigType = {
     clearable: true,
     yearRange: 10,
     leftSection: false,
+    error: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -56,6 +46,7 @@ export const datePickerConfig: ComponentConfigType = {
       firstDayOfWeek={props.firstDayOfWeek}
       clearable={props.clearable}
       yearRange={props.yearRange}
+      error={props.error && "Error"}
     />
   ),
 
@@ -79,8 +70,14 @@ export const datePickerConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Label / Hint / Required
+            Other
           </Text>
+          <Switch
+            label="Disabled"
+            checked={props.disabled}
+            onChange={(checked) => setProps({ ...props, disabled: checked })}
+            classNames={switchClasses}
+          />
           <Switch
             label="Show Label"
             checked={props.showLabel}
@@ -99,16 +96,10 @@ export const datePickerConfig: ComponentConfigType = {
             onChange={(checked) => setProps({ ...props, required: checked })}
             classNames={switchClasses}
           />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Other
-          </Text>
           <Switch
-            label="Disabled"
-            checked={props.disabled}
-            onChange={(checked) => setProps({ ...props, disabled: checked })}
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
             classNames={switchClasses}
           />
           <Switch

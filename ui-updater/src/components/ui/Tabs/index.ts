@@ -1,3 +1,5 @@
 export * from "./Tabs";
-export * from "./TabsItem";
+export * from "./TabsList";
+export * from "./TabsTab";
+export * from "./TabsPanel";
 export * from "./types";

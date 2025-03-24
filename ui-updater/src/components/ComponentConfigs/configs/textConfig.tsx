@@ -1,21 +1,16 @@
 import React from "react";
 import { Alert, AlertVariant } from "@/components/ui/Alert";
-import { Text, RadioGroup, Switch, SelectInput } from "@/components/ui";
+import {
+  Text,
+  RadioGroup,
+  Switch,
+  SelectInput,
+  NumberInput,
+} from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  activeTrack: "bg-dark-100",
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-800",
-  option: "bg-dark-800 hover:bg-dark-700 text-white",
-  selectedOption: "bg-dark-700",
-};
+import { switchClasses, selectInputClasses } from "./index";
 
 export const textConfig: ComponentConfigType = {
   defaultProps: {
@@ -25,9 +20,16 @@ export const textConfig: ComponentConfigType = {
     align: "left",
     italic: false,
     underline: false,
+    dimmed: false,
+    truncate: false,
+    lineClamp: undefined,
+    transform: "normal",
+    spacing: undefined,
   },
 
-  renderComponent: (props) => <Text {...props}>Hello World</Text>,
+  renderComponent: (props) => {
+    return <Text {...props}>Hello World</Text>;
+  },
 
   renderPropsPanel: () => {
     return ({
@@ -58,6 +60,8 @@ export const textConfig: ComponentConfigType = {
               { label: "md", value: "md" },
               { label: "lg", value: "lg" },
               { label: "xl", value: "xl" },
+              { label: "2xl", value: "2xl" },
+              { label: "3xl", value: "3xl" },
             ]}
             value={props.size}
             onChange={(value) => setProps({ ...props, size: value })}
@@ -123,17 +127,87 @@ export const textConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
+            Transform
+          </Text>
+          <SelectInput
+            options={[
+              { value: "normal", label: "Normal" },
+              { value: "uppercase", label: "Uppercase" },
+              { value: "lowercase", label: "Lowercase" },
+              { value: "capitalize", label: "Capitalize" },
+            ]}
+            value={props.transform}
+            onChange={(value) => setProps({ ...props, transform: value })}
+            classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Letter Spacing
+          </Text>
+          <NumberInput
+            value={props.spacing as number}
+            onChange={(value) => setProps({ ...props, spacing: value })}
+            className="w-full"
+            allowDecimals={true}
+            min={-2}
+            max={10}
+            step={0.1}
+            classNames={{
+              input: "bg-dark-800",
+              incrementButton: "bg-dark-800",
+              decrementButton: "bg-dark-800",
+            }}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Line Clamp
+          </Text>
+          <NumberInput
+            value={props.lineClamp as number}
+            onChange={(value) => setProps({ ...props, lineClamp: value })}
+            className="w-full"
+            min={0}
+            max={10}
+            allowEmpty={true}
+            classNames={{
+              input: "bg-dark-800",
+              incrementButton: "bg-dark-800",
+              decrementButton: "bg-dark-800",
+            }}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
             Other
           </Text>
           <Switch
             label="Italic"
             checked={props.italic}
             onChange={(value) => setProps({ ...props, italic: value })}
+            classNames={switchClasses}
           />
           <Switch
             label="Underline"
             checked={props.underline}
             onChange={(value) => setProps({ ...props, underline: value })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Dimmed"
+            checked={props.dimmed}
+            onChange={(value) => setProps({ ...props, dimmed: value })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Truncate"
+            checked={props.truncate}
+            onChange={(value) => setProps({ ...props, truncate: value })}
+            classNames={switchClasses}
           />
         </div>
       </div>
@@ -144,10 +218,19 @@ export const textConfig: ComponentConfigType = {
     <InfoPanel
       propInfo={{
         size: {
-          type: "string",
+          type: "string | number",
           default: "md",
           description: "Determines the size of the text",
-          possibleValues: ["xs", "sm", "md", "lg", "xl"],
+          possibleValues: [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+            "2xl",
+            "3xl",
+            "number",
+          ],
         },
         color: {
           type: "string",
@@ -155,10 +238,10 @@ export const textConfig: ComponentConfigType = {
           description: "Determines the color of the text",
         },
         weight: {
-          type: "string",
+          type: "string | number",
           default: "normal",
           description: "Determines the weight of the text",
-          possibleValues: ["bold", "semibold", "normal", "light"],
+          possibleValues: ["bold", "semibold", "normal", "light", "number"],
         },
         align: {
           type: "string",
@@ -176,6 +259,36 @@ export const textConfig: ComponentConfigType = {
           default: false,
           description: "Determines if the text is underlined",
         },
+        dimmed: {
+          type: "boolean",
+          default: false,
+          description: "Applies a dimmed appearance to the text",
+        },
+        truncate: {
+          type: "boolean",
+          default: false,
+          description: "Truncates text with an ellipsis if it exceeds one line",
+        },
+        lineClamp: {
+          type: "number",
+          description:
+            "Limits text to a specific number of lines with ellipsis",
+        },
+        transform: {
+          type: "string",
+          default: "normal",
+          description: "Controls text transformation",
+          possibleValues: ["uppercase", "lowercase", "capitalize", "normal"],
+        },
+        spacing: {
+          type: "string | number",
+          description: "Controls letter spacing",
+        },
+        component: {
+          type: "React.ElementType",
+          default: "p",
+          description: "HTML element to render the text as",
+        },
         className: {
           type: "string",
           description: "Additional CSS classes to apply to the text",
@@ -183,8 +296,7 @@ export const textConfig: ComponentConfigType = {
         children: {
           type: "ReactNode",
           required: true,
-          description:
-            "Content of the alert. Can include Alert.Title and Alert.Description components.",
+          description: "Content of the text component",
         },
       }}
     />

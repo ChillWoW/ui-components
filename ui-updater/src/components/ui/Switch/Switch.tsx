@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import { cn } from "..";
 import { SwitchProps } from "./types";
 
@@ -10,14 +10,23 @@ export const Switch = ({
   classNames,
   label,
   size = "md",
+  required = false,
+  hint,
+  color = "#22c55e",
+  name,
+  id: propId,
   ...props
 }: SwitchProps) => {
-  const handleChange = () => {
+  const generatedId = useId();
+  const id = propId || generatedId;
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent
+  ) => {
     if (!disabled && onChange) {
       onChange(!checked);
     }
   };
-
   const sizeClasses = {
     xs: {
       wrapper: "w-6 h-[18px]",
@@ -60,16 +69,22 @@ export const Switch = ({
           classNames?.wrapper,
           className
         )}
-        onClick={handleChange}
       >
         <div
           className={cn(
             "relative inline-flex items-center rounded-full transition-colors duration-200",
             sizeClasses[size].wrapper,
-            checked ? "bg-[#22c55e]" : "bg-[#252627]",
+            checked
+              ? color
+                ? `bg-[${color}]`
+                : "bg-[#22c55e]"
+              : "bg-[#252627]",
             !disabled && "cursor-pointer",
             checked ? classNames?.activeTrack : classNames?.track
           )}
+          onClick={!disabled ? handleChange : undefined}
+          aria-checked={checked}
+          role="switch"
         >
           <input
             type="checkbox"
@@ -77,6 +92,10 @@ export const Switch = ({
             checked={checked}
             onChange={handleChange}
             disabled={disabled}
+            id={id}
+            name={name}
+            required={required}
+            aria-required={required}
             {...props}
           />
           <span
@@ -91,17 +110,30 @@ export const Switch = ({
           />
         </div>
         {label && (
-          <span
+          <label
+            htmlFor={id}
             className={cn(
               "text-white font-medium",
               sizeClasses[size].label,
+              !disabled && "cursor-pointer",
               classNames?.label
             )}
           >
             {label}
-          </span>
+            {required && (
+              <span
+                className={cn("text-red-500 ml-1", classNames?.requiredStar)}
+                aria-hidden="true"
+              >
+                *
+              </span>
+            )}
+          </label>
         )}
       </div>
+      {hint && (
+        <p className={cn("text-gray-400 text-sm", classNames?.hint)}>{hint}</p>
+      )}
     </div>
   );
 };

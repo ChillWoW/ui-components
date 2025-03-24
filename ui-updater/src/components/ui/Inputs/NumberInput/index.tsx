@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { cn } from "../../index";
 import { NumberInputProps } from "../types";
@@ -10,7 +10,7 @@ export const NumberInput = ({
   min,
   max,
   step = 1,
-  icon,
+  leftSection,
   value,
   onChange,
   disabled,
@@ -18,14 +18,22 @@ export const NumberInput = ({
   classNames,
   allowDecimals = false,
   allowEmpty = false,
+  error,
+  id,
   ...props
 }: NumberInputProps) => {
   const [inputValue, setInputValue] = useState<string>(
     value !== undefined ? String(value) : ""
   );
 
+  // Generate id for input if not provided for accessibility
+  const inputId =
+    id || label
+      ? `number-input-${label?.replace(/\s+/g, "-").toLowerCase()}`
+      : undefined;
+
   // Update internal state when external value changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (value !== undefined) {
       setInputValue(String(value));
     }
@@ -41,61 +49,100 @@ export const NumberInput = ({
       return;
     }
 
-    // Validate input based on whether decimals are allowed
-    const pattern = allowDecimals ? /^-?\d*\.?\d*$/ : /^-?\d*$/;
-
-    if (pattern.test(newInputValue)) {
+    // Validate input string
+    const regex = allowDecimals ? /^-?\d*\.?\d*$/ : /^-?\d*$/;
+    if (regex.test(newInputValue)) {
       setInputValue(newInputValue);
 
-      // Only call onChange if the value is a valid number
+      // Only call onChange when the value is actually a number
       if (newInputValue !== "" && newInputValue !== "-") {
-        const newValue = parseFloat(newInputValue);
-        if (!isNaN(newValue) && onChange) {
-          const boundedValue = Math.min(
-            max ?? newValue,
-            Math.max(min ?? newValue, newValue)
-          );
-          onChange(boundedValue);
+        const numValue = parseFloat(newInputValue);
+
+        // Check against min and max
+        if (min !== undefined && numValue < min) {
+          onChange?.(min);
+          return;
         }
+        if (max !== undefined && numValue > max) {
+          onChange?.(max);
+          return;
+        }
+
+        onChange?.(numValue);
       }
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow navigation keys
+    if (
+      e.key === "ArrowLeft" ||
+      e.key === "ArrowRight" ||
+      e.key === "Backspace" ||
+      e.key === "Delete" ||
+      e.key === "Tab"
+    ) {
+      return;
+    }
+
+    // Allow decimal point if decimals are allowed
+    if (e.key === "." && allowDecimals && !inputValue.includes(".")) {
+      return;
+    }
+
+    // Allow minus sign if negative values are allowed
+    if (
+      e.key === "-" &&
+      (min === undefined || min < 0) &&
+      !inputValue.includes("-") &&
+      e.currentTarget.selectionStart === 0
+    ) {
+      return;
+    }
+
+    // Prevent non-numeric input
+    if (!/^\d$/.test(e.key) && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+    }
+  };
+
   const increment = () => {
-    if (disabled || !onChange || value === undefined) return;
-    const newValue = value + step;
-    if (max === undefined || newValue <= max) {
-      onChange(newValue);
+    if (disabled) return;
+
+    const currentValue = inputValue === "" ? 0 : parseFloat(inputValue);
+    const newValue = Math.round((currentValue + step) * 1e10) / 1e10;
+
+    if (max !== undefined && newValue > max) {
+      onChange?.(max);
+      setInputValue(String(max));
+    } else {
+      onChange?.(newValue);
+      setInputValue(String(newValue));
     }
   };
 
   const decrement = () => {
-    if (disabled || !onChange || value === undefined) return;
-    const newValue = value - step;
-    if (min === undefined || newValue >= min) {
-      onChange(newValue);
-    }
-  };
+    if (disabled) return;
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Allow backspace to clear the input if allowEmpty is true
-    if (e.key === "Backspace" && allowEmpty && inputValue.length === 1) {
-      setInputValue("");
-      onChange?.(0);
+    const currentValue = inputValue === "" ? 0 : parseFloat(inputValue);
+    const newValue = Math.round((currentValue - step) * 1e10) / 1e10;
+
+    if (min !== undefined && newValue < min) {
+      onChange?.(min);
+      setInputValue(String(min));
+    } else {
+      onChange?.(newValue);
+      setInputValue(String(newValue));
     }
   };
 
   return (
-    <div
-      className={cn(
-        "flex flex-col items-start text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-        classNames?.container
-      )}
-    >
+    <div className={cn("flex flex-col space-y-1", classNames?.container)}>
       {label && (
         <label
+          htmlFor={inputId}
           className={cn(
-            "text-sm text-white font-semibold ml-2 flex items-center gap-1",
+            "text-sm text-white font-semibold ml-1 flex items-center gap-1",
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
@@ -109,41 +156,51 @@ export const NumberInput = ({
 
       <div
         className={cn(
-          "flex items-center border border-[#3e4249] rounded-md bg-[#252627] overflow-hidden h-9",
+          "flex items-center border rounded-md overflow-hidden bg-[#252627] transition-colors",
+          "border-[#3e4249]",
+          error && "border-red-500",
           disabled && "opacity-60 cursor-not-allowed",
-          className
+          className,
+          classNames?.inputContainer
         )}
       >
-        {icon && (
+        {leftSection && (
           <div
             className={cn(
               "pl-3 flex items-center justify-center text-gray-300",
               classNames?.leftSection
             )}
           >
-            {icon}
+            {leftSection}
           </div>
         )}
 
         <input
+          id={inputId}
           type="text"
           inputMode={allowDecimals ? "decimal" : "numeric"}
           className={cn(
-            "flex border-none bg-transparent px-3 py-1 text-sm outline-none w-full text-white [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-            disabled && "opacity-60 cursor-not-allowed",
+            "flex border-none bg-transparent px-3 py-2 text-sm outline-none w-full text-white",
+            "[-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+            disabled && "cursor-not-allowed",
             classNames?.input
           )}
           value={inputValue}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          min={min}
-          max={max}
-          step={step}
           disabled={disabled}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={inputValue !== "" ? parseFloat(inputValue) : undefined}
           {...props}
         />
 
-        <div className="flex flex-col">
+        <div
+          className={cn(
+            "flex flex-col border-l border-[#3e4249]",
+            classNames?.controlsContainer
+          )}
+        >
           <button
             type="button"
             onClick={increment}
@@ -176,9 +233,16 @@ export const NumberInput = ({
         </div>
       </div>
 
-      {hint && (
-        <p className={cn("text-xs text-gray-300 ml-2", classNames?.hint)}>
-          {hint}
+      {(error || hint) && (
+        <p
+          id={`${inputId}-description`}
+          className={cn(
+            "text-xs ml-1",
+            error ? "text-red-400" : "text-gray-300",
+            classNames?.hint
+          )}
+        >
+          {error || hint}
         </p>
       )}
     </div>

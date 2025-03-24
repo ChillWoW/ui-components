@@ -1,59 +1,111 @@
 import React from "react";
-import { cn } from "../../index";
+import { cn } from "../..";
 import { TimelineItemProps } from "../types";
+import { useTimeline } from "../context";
 
 export const TimelineItem = ({
-    children,
-    title,
-    date,
-    icon,
-    bulletSize = 20,
-    bulletColor = "#228be6",
-    className,
-    active = true
+  children,
+  className,
+  title,
+  bullet,
+  bulletColor,
+  date,
+  active = true,
+  index = 0,
+  totalItems = 1,
+  description,
+  onClick,
+  icon,
+  ...otherProps
 }: TimelineItemProps) => {
-    return (
-        <div className={cn("relative flex items-start gap-4", className)}>
-            <div
-                className="relative flex-shrink-0"
-                style={{
-                    width: bulletSize,
-                    height: bulletSize
-                }}
-            >
-                <div
-                    className={cn(
-                        "absolute top-0 left-1/2 -translate-x-1/2",
-                        "flex items-center justify-center",
-                        "transition-all duration-200"
-                    )}
-                    style={{
-                        width: bulletSize,
-                        height: bulletSize,
-                        backgroundColor: bulletColor,
-                        borderRadius: "50%",
-                        opacity: active ? 1 : 0.4
-                    }}
-                >
-                    {icon && <div className="text-white">{icon}</div>}
-                </div>
-            </div>
+  const { align, bulletSize, lineColor, lineWidth, bulletShape, compact } =
+    useTimeline();
 
-            <div className="flex-1 pt-1">
-                <div className="flex flex-col gap-1">
-                    {title && (
-                        <h3 className="text-sm font-medium text-white">
-                            {title}
-                        </h3>
-                    )}
-                    {date && (
-                        <span className="text-xs text-[#909296]">{date}</span>
-                    )}
-                    <div className="text-sm text-[#c1c2c5] mt-1">
-                        {children}
-                    </div>
-                </div>
-            </div>
+  // Determine bullet styling based on shape
+  const getBulletStyle = () => {
+    const baseStyle = {
+      width: bulletSize,
+      height: bulletSize,
+      backgroundColor: bulletColor || (active ? lineColor : "#e0e0e0"),
+      border: `${lineWidth}px solid ${lineColor}`,
+    };
+
+    if (bulletShape === "square") {
+      return { ...baseStyle, borderRadius: "2px" };
+    } else if (bulletShape === "diamond") {
+      return { ...baseStyle, transform: "rotate(45deg)" };
+    }
+
+    // Default is circle
+    return { ...baseStyle, borderRadius: "50%" };
+  };
+
+  return (
+    <div
+      className={cn(
+        "relative flex",
+        align === "left" ? "flex-row" : "flex-row-reverse",
+        onClick && "cursor-pointer hover:bg-gray-50 rounded-md",
+        className
+      )}
+      onClick={onClick}
+      {...otherProps}
+    >
+      <div
+        className="flex items-center justify-center z-10"
+        style={{
+          minWidth: bulletSize,
+          minHeight: bulletSize,
+        }}
+      >
+        {bullet || (
+          <div
+            className="flex items-center justify-center"
+            style={getBulletStyle()}
+          >
+            {icon && (
+              <span
+                className="text-white"
+                style={{ fontSize: bulletSize * 0.6 }}
+              >
+                {icon}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div
+        className={cn(
+          "flex flex-col",
+          align === "left" ? "ml-4" : "mr-4",
+          compact ? "py-0" : "py-2"
+        )}
+      >
+        {title && (
+          <div
+            className={cn(
+              "font-semibold",
+              active ? "text-gray-900" : "text-gray-500"
+            )}
+          >
+            {title}
+            {date && (
+              <span className="text-sm font-normal text-gray-500 ml-2">
+                {date}
+              </span>
+            )}
+          </div>
+        )}
+
+        {description && (
+          <p className="text-sm text-gray-600 mt-1">{description}</p>
+        )}
+
+        <div className={cn("text-gray-700", compact ? "mt-0" : "mt-2")}>
+          {children}
         </div>
-    );
+      </div>
+    </div>
+  );
 };

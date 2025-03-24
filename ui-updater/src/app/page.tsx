@@ -43,7 +43,7 @@ export default function Home() {
             <div className="flex items-center gap-2 bg-dark-700 rounded-lg px-3 py-2">
               <IconVersions size={16} className="text-teal-400" />
               <Text size="sm" className="text-white">
-                v0.0.1
+                v0.0.2
               </Text>
             </div>
           </div>

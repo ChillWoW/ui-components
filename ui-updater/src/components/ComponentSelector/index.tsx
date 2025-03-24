@@ -73,7 +73,6 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
       <SelectInput
         label="Select a component to preview"
         hint={`Components: ${COMPONENT_OPTIONS.length}`}
-        options={COMPONENT_OPTIONS}
         value={selectedComponent ?? undefined}
         onChange={handleComponentChange}
         className="w-full"
@@ -83,7 +82,15 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
           option: "bg-dark-800 hover:bg-dark-700 text-white",
           selectedOption: "bg-dark-700",
         }}
-      />
+      >
+        {COMPONENT_OPTIONS.map((option) => (
+          <SelectInput.Option
+            key={option.value}
+            value={option.value}
+            label={option.label}
+          />
+        ))}
+      </SelectInput>
     </div>
   );
 };

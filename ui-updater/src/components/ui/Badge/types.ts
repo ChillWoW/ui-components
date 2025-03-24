@@ -2,7 +2,7 @@ import React from "react";
 
 export type BadgeSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type BadgeVariant = "filled" | "outline" | "dot";
-export type BadgeShape = "rounded" | "pill";
+export type BadgeShape = "rounded" | "square" | "pill";
 
 export interface BadgeClassNames {
   container?: string;

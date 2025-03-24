@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  Switch,
-  SelectInput,
-  RadioGroup,
-  Tabs,
-  Alert,
-} from "@/components/ui";
+import { Text, Switch, RadioGroup, Tabs, Alert } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
 import {
@@ -16,22 +9,7 @@ import {
   IconBell,
   IconAlertCircle,
 } from "@tabler/icons-react";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  thumb: "bg-white",
-  checked: {
-    track: "bg-blue-600",
-    thumb: "bg-white",
-  },
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-700",
-  option: "hover:bg-dark-600",
-  selectedOption: "bg-dark-600",
-};
+import { switchClasses } from "./index";
 
 export const tabsConfig: ComponentConfigType = {
   defaultProps: {
@@ -39,11 +17,11 @@ export const tabsConfig: ComponentConfigType = {
     variant: "default",
     size: "md",
     orientation: "horizontal",
-    showIcon: true,
+    position: "top",
     withBorder: true,
     fullWidth: false,
     grow: false,
-    position: "top",
+    showIcon: true,
     disabled: false,
   },
 
@@ -54,55 +32,77 @@ export const tabsConfig: ComponentConfigType = {
 
     return (
       <div className="w-full">
-        <Tabs defaultValue={props.defaultValue} onChange={handleTabChange}>
-          <Tabs.Item
-            value="tab1"
-            disabled={props.disabled}
-            icon={props.showIcon ? <IconHome size={16} /> : undefined}
-            label="Home"
-          >
+        <Tabs
+          defaultValue={props.defaultValue}
+          onChange={handleTabChange}
+          orientation={props.orientation}
+          variant={props.variant}
+          size={props.size}
+          position={props.position}
+          withBorder={props.withBorder}
+          fullWidth={props.fullWidth}
+          grow={props.grow}
+        >
+          <Tabs.List>
+            <Tabs.Tab
+              value="tab1"
+              label="Home"
+              disabled={props.disabled}
+              leftSection={props.showIcon ? <IconHome size={16} /> : undefined}
+            />
+            <Tabs.Tab
+              value="tab2"
+              label="Profile"
+              disabled={props.disabled}
+              leftSection={props.showIcon ? <IconUser size={16} /> : undefined}
+            />
+            <Tabs.Tab
+              value="tab3"
+              label="Settings"
+              disabled={props.disabled}
+              leftSection={
+                props.showIcon ? <IconSettings size={16} /> : undefined
+              }
+            />
+            <Tabs.Tab
+              value="tab4"
+              label="Notifications"
+              disabled={props.disabled}
+              leftSection={props.showIcon ? <IconBell size={16} /> : undefined}
+            />
+          </Tabs.List>
+
+          <Tabs.Panel value="tab1">
             <Text>Home Tab Content</Text>
             <Text className="text-gray-500 mt-2 text-sm">
               This is the content for the Home tab. You can put any content
               here.
             </Text>
-          </Tabs.Item>
-          <Tabs.Item
-            value="tab2"
-            disabled={props.disabled}
-            icon={props.showIcon ? <IconUser size={16} /> : undefined}
-            label="Profile"
-          >
+          </Tabs.Panel>
+
+          <Tabs.Panel value="tab2">
             <Text>Profile Tab Content</Text>
             <Text className="text-gray-500 mt-2 text-sm">
               This is the content for the Profile tab. You can put any content
               here.
             </Text>
-          </Tabs.Item>
-          <Tabs.Item
-            value="tab3"
-            disabled={props.disabled}
-            icon={props.showIcon ? <IconSettings size={16} /> : undefined}
-            label="Settings"
-          >
+          </Tabs.Panel>
+
+          <Tabs.Panel value="tab3">
             <Text>Settings Tab Content</Text>
             <Text className="text-gray-500 mt-2 text-sm">
               This is the content for the Settings tab. You can put any content
               here.
             </Text>
-          </Tabs.Item>
-          <Tabs.Item
-            value="tab4"
-            disabled={props.disabled}
-            icon={props.showIcon ? <IconBell size={16} /> : undefined}
-            label="Notifications"
-          >
+          </Tabs.Panel>
+
+          <Tabs.Panel value="tab4">
             <Text>Notifications Tab Content</Text>
             <Text className="text-gray-500 mt-2 text-sm">
               This is the content for the Notifications tab. You can put any
               content here.
             </Text>
-          </Tabs.Item>
+          </Tabs.Panel>
         </Tabs>
       </div>
     );
@@ -128,12 +128,87 @@ export const tabsConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
+            Variant
+          </Text>
+          <RadioGroup
+            value={props.variant}
+            onChange={(value) => setProps({ ...props, variant: value })}
+          >
+            <RadioGroup.Item value="default" label="Default" />
+            <RadioGroup.Item value="outline" label="Outline" />
+            <RadioGroup.Item value="pills" label="Pills" />
+          </RadioGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Size
+          </Text>
+          <RadioGroup
+            value={props.size}
+            onChange={(value) => setProps({ ...props, size: value })}
+          >
+            <RadioGroup.Item value="xs" label="Extra Small" />
+            <RadioGroup.Item value="sm" label="Small" />
+            <RadioGroup.Item value="md" label="Medium" />
+            <RadioGroup.Item value="lg" label="Large" />
+          </RadioGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Orientation
+          </Text>
+          <RadioGroup
+            value={props.orientation}
+            onChange={(value) => setProps({ ...props, orientation: value })}
+          >
+            <RadioGroup.Item value="horizontal" label="Horizontal" />
+            <RadioGroup.Item value="vertical" label="Vertical" />
+          </RadioGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Position
+          </Text>
+          <RadioGroup
+            value={props.position}
+            onChange={(value) => setProps({ ...props, position: value })}
+          >
+            <RadioGroup.Item value="top" label="Top" />
+            <RadioGroup.Item value="bottom" label="Bottom" />
+            <RadioGroup.Item value="left" label="Left" />
+            <RadioGroup.Item value="right" label="Right" />
+          </RadioGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
             Options
           </Text>
           <Switch
             label="Show Icon"
             checked={props.showIcon}
             onChange={(checked) => setProps({ ...props, showIcon: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="With Border"
+            checked={props.withBorder}
+            onChange={(checked) => setProps({ ...props, withBorder: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Full Width"
+            checked={props.fullWidth}
+            onChange={(checked) => setProps({ ...props, fullWidth: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Grow"
+            checked={props.grow}
+            onChange={(checked) => setProps({ ...props, grow: checked })}
             classNames={switchClasses}
           />
           <Switch
@@ -148,13 +223,12 @@ export const tabsConfig: ComponentConfigType = {
   },
 
   renderError: () => (
-    <Alert variant="warning" icon={<IconAlertCircle />}>
-      <Alert.Title>Warning</Alert.Title>
+    <Alert variant="error" icon={<IconAlertCircle />} closeable={false}>
+      <Alert.Title>No backward compatibility is provided</Alert.Title>
       <Alert.Description>
-        This component is a little buggy when previewing. Indicator under a tab
-        can malfunction if icon is taken out after it has rendered.
-        <br />
-        <b>Fix is being worked on and will be available in the next update.</b>
+        This component has been updated with a new structure using Tabs.List,
+        Tabs.Tab, and Tabs.Panel. Please check your existing implementations to
+        ensure compatibility on newer versions.
       </Alert.Description>
     </Alert>
   ),

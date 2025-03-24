@@ -7,31 +7,17 @@ import {
   SelectInput,
   NumberInput,
   RadioGroup,
+  ButtonGroup,
+  Button,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  thumb: "bg-white",
-  checked: {
-    track: "bg-blue-600",
-    thumb: "bg-white",
-  },
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-700",
-  option: "hover:bg-dark-600",
-  selectedOption: "bg-dark-600",
-};
-
-const numberInputClasses = {
-  input: "bg-dark-800",
-  incrementButton: "bg-dark-800",
-  decrementButton: "bg-dark-800",
-};
+import {
+  switchClasses,
+  selectInputClasses,
+  buttonClass,
+  activeButtonClass,
+} from "./index";
 
 export const ratingConfig: ComponentConfigType = {
   defaultProps: {
@@ -42,6 +28,8 @@ export const ratingConfig: ComponentConfigType = {
     readOnly: false,
     showRating: true,
     color: "yellow",
+    emptyColor: "",
+    orientation: "horizontal",
   },
 
   renderComponent: (props, setProps) => (
@@ -55,6 +43,8 @@ export const ratingConfig: ComponentConfigType = {
         showRating={props.showRating}
         color={props.color}
         readOnly={props.readOnly}
+        emptyColor={props.emptyColor}
+        orientation={props.orientation}
       />
     </div>
   ),
@@ -92,7 +82,6 @@ export const ratingConfig: ComponentConfigType = {
             min={0}
             max={props.maxRating}
             step={props.allowHalf ? 0.5 : 1}
-            classNames={numberInputClasses}
           />
         </div>
 
@@ -111,7 +100,6 @@ export const ratingConfig: ComponentConfigType = {
             }
             min={1}
             max={10}
-            classNames={numberInputClasses}
           />
         </div>
 
@@ -153,6 +141,51 @@ export const ratingConfig: ComponentConfigType = {
           />
         </div>
 
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Empty Color
+          </Text>
+          <SelectInput
+            options={[
+              { value: "", label: "None" },
+              { value: "yellow", label: "Yellow" },
+              { value: "orange", label: "Orange" },
+              { value: "red", label: "Red" },
+              { value: "pink", label: "Pink" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+              { value: "purple", label: "Purple" },
+            ]}
+            value={props.emptyColor}
+            onChange={(value) => setProps({ ...props, emptyColor: value })}
+            classNames={selectInputClasses}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Orientation
+          </Text>
+
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, orientation: "horizontal" })}
+              className={`${buttonClass} ${
+                props.orientation === "horizontal" && activeButtonClass
+              }`}
+            >
+              Horizontal
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, orientation: "vertical" })}
+              className={`${buttonClass} ${
+                props.orientation === "vertical" && activeButtonClass
+              }`}
+            >
+              Vertical
+            </Button>
+          </ButtonGroup>
+        </div>
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Options
@@ -218,6 +251,22 @@ export const ratingConfig: ComponentConfigType = {
           type: "string",
           default: "yellow",
           description: "Color of the filled stars",
+        },
+        emptyColor: {
+          type: "string",
+          default: "",
+          description: "Color of the empty stars",
+        },
+        orientation: {
+          type: "string",
+          default: "horizontal",
+          description: "Orientation of the rating stars",
+          possibleValues: ["horizontal", "vertical"],
+        },
+        readOnly: {
+          type: "boolean",
+          default: false,
+          description: "Whether to make the rating read-only",
         },
         className: {
           type: "string",

@@ -8,28 +8,7 @@ import {
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
-
-const switchClasses = {
-  track: "bg-dark-700",
-  thumb: "bg-white",
-  checked: {
-    track: "bg-blue-600",
-    thumb: "bg-white",
-  },
-};
-
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-700",
-  option: "hover:bg-dark-600",
-  selectedOption: "bg-dark-600",
-};
-
-const numberInputClasses = {
-  input: "bg-dark-800",
-  incrementButton: "bg-dark-800",
-  decrementButton: "bg-dark-800",
-};
+import { switchClasses, selectInputClasses } from "./index";
 
 export const sliderConfig: ComponentConfigType = {
   defaultProps: {
@@ -118,7 +97,6 @@ export const sliderConfig: ComponentConfigType = {
                 })
               }
               max={props.max - 1}
-              classNames={numberInputClasses}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -135,7 +113,6 @@ export const sliderConfig: ComponentConfigType = {
                 })
               }
               min={props.min + 1}
-              classNames={numberInputClasses}
             />
           </div>
         </div>
@@ -144,17 +121,14 @@ export const sliderConfig: ComponentConfigType = {
           <Text size="sm" weight="bold">
             Step
           </Text>
-          <NumberInput
+          <Slider
             value={props.step}
-            onChange={(value) =>
-              setProps({ ...props, step: Math.max(0.1, value) })
-            }
-            min={0.1}
-            step={0.1}
-            classNames={numberInputClasses}
+            onChange={(value) => setProps({ ...props, step: value })}
+            min={1}
+            max={100}
+            step={1}
           />
         </div>
-
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Color
