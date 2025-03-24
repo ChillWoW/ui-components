@@ -14,6 +14,7 @@ export const RatingInput = ({
   orientation = "horizontal",
   spacing = "md",
   emptyColor,
+  onHover = false,
   className,
   classNames,
 }: RatingInputProps) => {
@@ -46,12 +47,12 @@ export const RatingInput = ({
     return spacing === "xs"
       ? "gap-0.5"
       : spacing === "sm"
-        ? "gap-1"
-        : spacing === "md"
-          ? "gap-2"
-          : spacing === "lg"
-            ? "gap-3"
-            : "gap-4";
+      ? "gap-1"
+      : spacing === "md"
+      ? "gap-2"
+      : spacing === "lg"
+      ? "gap-3"
+      : "gap-4";
   };
 
   return (
@@ -95,6 +96,7 @@ export const RatingInput = ({
               color={color}
               emptyColor={emptyColor}
               className={classNames?.star}
+              onHover={onHover}
             />
           </div>
         ))}

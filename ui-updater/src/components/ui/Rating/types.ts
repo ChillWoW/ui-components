@@ -22,6 +22,7 @@ export interface RatingInputProps {
   allowHalf?: boolean;
   orientation?: RatingOrientation;
   spacing?: RatingSpacing;
+  onHover?: boolean;
   className?: string;
   classNames?: RatingInputClassNames;
 }
@@ -33,6 +34,7 @@ export interface RatingStarProps {
   color?: string;
   emptyColor?: string;
   onClick?: () => void;
+  onHover?: boolean;
   className?: string;
 }
 

@@ -14,29 +14,31 @@ export const RatingStar = ({
   emptyColor,
   onClick,
   className,
+  onHover = false,
 }: RatingStarProps) => {
   const iconSize =
     size === "xs"
       ? 12
       : size === "sm"
-        ? 16
-        : size === "md"
-          ? 24
-          : size === "lg"
-            ? 32
-            : 40;
+      ? 16
+      : size === "md"
+      ? 24
+      : size === "lg"
+      ? 32
+      : 40;
 
   const starClass = cn(
     filled || halfFilled ? "text-yellow-400" : "text-gray-300",
     onClick && "cursor-pointer",
+    onHover && "transition-all duration-200 hover:scale-110",
     className
   );
 
   const Icon = halfFilled
     ? IconStarHalfFilled
     : filled
-      ? IconStarFilled
-      : IconStar;
+    ? IconStarFilled
+    : IconStar;
 
   return (
     <div>

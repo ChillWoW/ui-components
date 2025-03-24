@@ -31,6 +31,7 @@ export const ratingConfig: ComponentConfigType = {
     color: "yellow",
     emptyColor: "",
     orientation: "horizontal",
+    onHover: false,
   },
 
   renderComponent: (props, setProps) => (
@@ -46,6 +47,7 @@ export const ratingConfig: ComponentConfigType = {
         readOnly={props.readOnly}
         emptyColor={props.emptyColor}
         orientation={props.orientation}
+        onHover={props.onHover}
       />
     </div>
   ),
@@ -206,6 +208,12 @@ export const ratingConfig: ComponentConfigType = {
             label="Show Rating"
             checked={props.showRating}
             onChange={(checked) => setProps({ ...props, showRating: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="On Hover"
+            checked={props.onHover}
+            onChange={(checked) => setProps({ ...props, onHover: checked })}
             classNames={switchClasses}
           />
         </div>
