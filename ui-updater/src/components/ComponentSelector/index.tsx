@@ -15,6 +15,7 @@ const COMPONENT_OPTIONS = [
   { value: "numberInput", label: "Number Input" },
   { value: "colorPicker", label: "Color Picker" },
   { value: "datePicker", label: "Date Picker" },
+  { value: "fileInput", label: "File Input" },
   { value: "passwordInput", label: "Password Input" },
   { value: "pinInput", label: "Pin Input" },
   { value: "selectInput", label: "Select Input" },

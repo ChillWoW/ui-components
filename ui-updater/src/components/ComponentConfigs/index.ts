@@ -34,6 +34,7 @@ import { tabsConfig } from "./configs/tabsConfig";
 import { textConfig } from "./configs/textConfig";
 import { timelineConfig } from "./configs/timelineConfig";
 import { tooltipConfig } from "./configs/tooltipConfig";
+import { fileInputConfig } from "./configs/fileInputConfig";
 
 export const componentConfigs = {
   alert: alertConfig,
@@ -48,6 +49,7 @@ export const componentConfigs = {
   numberInput: numberInputConfig,
   colorPicker: colorPickerConfig,
   datePicker: datePickerConfig,
+  fileInput: fileInputConfig,
   passwordInput: passwordInputConfig,
   pinInput: pinInputConfig,
   selectInput: selectInputConfig,

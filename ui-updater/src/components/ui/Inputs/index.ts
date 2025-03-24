@@ -6,6 +6,7 @@ export * from "./SelectInput";
 export * from "./ColorPicker";
 export * from "./PinInput";
 export * from "./DatePickerInput";
+export * from "./FileInput";
 
 export const defaultInputContainerClass = "flex flex-col gap-1";
 
