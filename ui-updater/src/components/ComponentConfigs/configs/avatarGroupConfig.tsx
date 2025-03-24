@@ -49,6 +49,7 @@ export const avatarGroupConfig: ComponentConfigType = {
       ]}
       size={props.size}
       shape={props.shape}
+      rounded={props.rounded}
       limit={props.limit}
       spacing={props.spacing}
       overlapFrom={props.overlapFrom}
@@ -119,6 +120,25 @@ export const avatarGroupConfig: ComponentConfigType = {
             </Button>
           </ButtonGroup>
         </div>
+
+        {props.shape === "rounded" && (
+          <div className="flex flex-col gap-1">
+            <Text size="sm" weight="bold">
+              Rounded
+            </Text>
+            <SelectInput
+              value={props.rounded}
+              onChange={(value) => setProps({ ...props, rounded: value })}
+              classNames={selectInputClasses}
+            >
+              <SelectInput.Option value="none" label="None" />
+              <SelectInput.Option value="sm" label="Sm" />
+              <SelectInput.Option value="md" label="Md" />
+              <SelectInput.Option value="lg" label="Lg" />
+              <SelectInput.Option value="full" label="Full" />
+            </SelectInput>
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">

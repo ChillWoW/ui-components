@@ -8,6 +8,7 @@ export const Avatar = ({
   content,
   size = "md",
   shape = "circle",
+  rounded = "md",
   color,
   className,
   classNames,
@@ -25,9 +26,17 @@ export const Avatar = ({
     xl: "w-16 h-16 text-xl",
   };
 
+  const roundedClass = {
+    none: "rounded-none",
+    sm: "rounded-sm",
+    md: "rounded-md",
+    lg: "rounded-lg",
+    full: "rounded-full",
+  };
+
   const shapeClass = {
     circle: "rounded-full",
-    rounded: "rounded-md",
+    rounded: roundedClass[rounded],
   };
 
   const badgePositionClass = {

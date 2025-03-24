@@ -1,5 +1,6 @@
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type AvatarShape = "circle" | "rounded";
+export type AvatarRounded = "none" | "sm" | "md" | "lg" | "full";
 export type AvatarBadgePosition =
   | "top-right"
   | "top-left"
@@ -19,6 +20,7 @@ export interface AvatarProps {
   content?: any; // @deprecated
   size?: AvatarSize;
   shape?: AvatarShape;
+  rounded?: AvatarRounded;
   color?: string;
   className?: string;
   classNames?: AvatarClassNames;
@@ -34,6 +36,7 @@ export interface AvatarGroupProps {
   spacing?: number;
   size?: AvatarSize;
   shape?: AvatarShape;
+  rounded?: AvatarRounded;
   className?: string;
   overlapFrom?: "left" | "right";
 }

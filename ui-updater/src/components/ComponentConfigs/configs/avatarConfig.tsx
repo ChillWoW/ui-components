@@ -25,6 +25,7 @@ export const avatarConfig: ComponentConfigType = {
     showImage: true,
     showPlaceholder: false,
     size: "md",
+    rounded: "md",
     shape: "circle",
     showBadge: false,
     badge: {
@@ -39,6 +40,7 @@ export const avatarConfig: ComponentConfigType = {
       placeholder={props.showPlaceholder ? props.placeholder : undefined}
       size={props.size}
       shape={props.shape}
+      rounded={props.rounded}
       color={props.color}
       badge={
         props.showBadge && {
@@ -106,35 +108,6 @@ export const avatarConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Badge
-          </Text>
-          <div className="flex flex-col gap-2">
-            <Switch
-              label="Show Badge"
-              checked={props.showBadge}
-              onChange={(checked) => setProps({ ...props, showBadge: checked })}
-              classNames={switchClasses}
-            />
-            <SelectInput
-              value={props.badge.position}
-              onChange={(value) =>
-                setProps({
-                  ...props,
-                  badge: { ...props.badge, position: value },
-                })
-              }
-              classNames={selectInputClasses}
-            >
-              <SelectInput.Option value="top-right" label="Top Right" />
-              <SelectInput.Option value="top-left" label="Top Left" />
-              <SelectInput.Option value="bottom-right" label="Bottom Right" />
-              <SelectInput.Option value="bottom-left" label="Bottom Left" />
-            </SelectInput>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
             Shape
           </Text>
           <ButtonGroup>
@@ -162,6 +135,54 @@ export const avatarConfig: ComponentConfigType = {
               Rounded
             </Button>
           </ButtonGroup>
+        </div>
+
+        {props.shape === "rounded" && (
+          <div className="flex flex-col gap-1">
+            <Text size="sm" weight="bold">
+              Rounded
+            </Text>
+            <SelectInput
+              value={props.rounded}
+              onChange={(value) => setProps({ ...props, rounded: value })}
+              classNames={selectInputClasses}
+            >
+              <SelectInput.Option value="none" label="None" />
+              <SelectInput.Option value="sm" label="Sm" />
+              <SelectInput.Option value="md" label="Md" />
+              <SelectInput.Option value="lg" label="Lg" />
+              <SelectInput.Option value="full" label="Full" />
+            </SelectInput>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Badge
+          </Text>
+          <div className="flex flex-col gap-2">
+            <Switch
+              label="Show Badge"
+              checked={props.showBadge}
+              onChange={(checked) => setProps({ ...props, showBadge: checked })}
+              classNames={switchClasses}
+            />
+            <SelectInput
+              value={props.badge.position}
+              onChange={(value) =>
+                setProps({
+                  ...props,
+                  badge: { ...props.badge, position: value },
+                })
+              }
+              classNames={selectInputClasses}
+            >
+              <SelectInput.Option value="top-right" label="Top Right" />
+              <SelectInput.Option value="top-left" label="Top Left" />
+              <SelectInput.Option value="bottom-right" label="Bottom Right" />
+              <SelectInput.Option value="bottom-left" label="Bottom Left" />
+            </SelectInput>
+          </div>
         </div>
 
         <div className="flex flex-col gap-1">
