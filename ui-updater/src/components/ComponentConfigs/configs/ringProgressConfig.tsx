@@ -41,15 +41,6 @@ export const ringProgressConfig: ComponentConfigType = {
       setProps: (newProps: any) => void;
     }) => (
       <div className="space-y-4 w-full">
-        <Text
-          size="md"
-          weight="bold"
-          align="center"
-          className="border-b border-dark-500 pb-1"
-        >
-          Checkbox Properties
-        </Text>
-
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
             Color

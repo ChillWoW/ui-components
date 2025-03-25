@@ -27,7 +27,7 @@ import { radioGroupConfig } from "./configs/radioGroupConfig";
 import { ratingConfig } from "./configs/ratingConfig";
 import { ringProgressConfig } from "./configs/ringProgressConfig";
 import { sliderConfig } from "./configs/sliderConfig";
-import { stepConfig } from "./configs/stepConfig";
+import { stepperConfig } from "./configs/stepperConfig";
 import { switchConfig } from "./configs/switchConfig";
 import { tableConfig } from "./configs/tableConfig";
 import { tabsConfig } from "./configs/tabsConfig";
@@ -36,53 +36,57 @@ import { timelineConfig } from "./configs/timelineConfig";
 import { tooltipConfig } from "./configs/tooltipConfig";
 import { fileInputConfig } from "./configs/fileInputConfig";
 import { breadcrumbConfig } from "./configs/breadcrumbConfig";
+import { multiSelectConfig } from "./configs/multiSelectConfig";
+import { chipConfig } from "./configs/chipConfig";
 
 export const componentConfigs = {
-    alert: alertConfig,
-    avatar: avatarConfig,
-    avatarGroup: avatarGroupConfig,
-    badge: badgeConfig,
-    button: buttonConfig,
-    buttonGroup: buttonGroupConfig,
-    breadcrumb: breadcrumbConfig,
-    card: cardConfig,
-    checkbox: checkboxConfig,
-    drawer: drawerConfig,
-    numberInput: numberInputConfig,
-    colorPicker: colorPickerConfig,
-    datePicker: datePickerConfig,
-    fileInput: fileInputConfig,
-    passwordInput: passwordInputConfig,
-    pinInput: pinInputConfig,
-    selectInput: selectInputConfig,
-    textArea: textAreaConfig,
-    textInput: textInputConfig,
-    kbd: kbdConfig,
-    loader: loaderConfig,
-    menu: menuConfig,
-    modal: modalConfig,
-    pagination: paginationConfig,
-    progress: progressConfig,
-    radio: radioConfig,
-    radioCard: radioCardConfig,
-    radioGroup: radioGroupConfig,
-    rating: ratingConfig,
-    ringProgress: ringProgressConfig,
-    slider: sliderConfig,
-    step: stepConfig,
-    switch: switchConfig,
-    table: tableConfig,
-    tabs: tabsConfig,
-    text: textConfig,
-    timeline: timelineConfig,
-    tooltip: tooltipConfig
+  alert: alertConfig,
+  avatar: avatarConfig,
+  avatarGroup: avatarGroupConfig,
+  badge: badgeConfig,
+  button: buttonConfig,
+  buttonGroup: buttonGroupConfig,
+  breadcrumb: breadcrumbConfig,
+  card: cardConfig,
+  checkbox: checkboxConfig,
+  drawer: drawerConfig,
+  numberInput: numberInputConfig,
+  chip: chipConfig,
+  colorPicker: colorPickerConfig,
+  datePicker: datePickerConfig,
+  fileInput: fileInputConfig,
+  passwordInput: passwordInputConfig,
+  pinInput: pinInputConfig,
+  selectInput: selectInputConfig,
+  textArea: textAreaConfig,
+  textInput: textInputConfig,
+  multiSelect: multiSelectConfig,
+  kbd: kbdConfig,
+  loader: loaderConfig,
+  menu: menuConfig,
+  modal: modalConfig,
+  pagination: paginationConfig,
+  progress: progressConfig,
+  radio: radioConfig,
+  radioCard: radioCardConfig,
+  radioGroup: radioGroupConfig,
+  rating: ratingConfig,
+  ringProgress: ringProgressConfig,
+  slider: sliderConfig,
+  stepper: stepperConfig,
+  switch: switchConfig,
+  table: tableConfig,
+  tabs: tabsConfig,
+  text: textConfig,
+  timeline: timelineConfig,
+  tooltip: tooltipConfig,
 };
 
 export type ComponentConfigType = {
-    renderComponent: (props: any, setProps: (props: any) => void) => any;
-    renderPropsPanel: () => any;
-    generateCode?: (props: any) => any;
-    renderError?: () => any;
-    infoPanel?: () => any;
-    defaultProps: any;
+  renderComponent: (props: any, setProps: (props: any) => void) => any;
+  renderPropsPanel: () => any;
+  generateCode?: (props: any) => any;
+  renderError?: () => any;
+  infoPanel?: () => any;
+  defaultProps: any;
 };

@@ -26,76 +26,76 @@ interface InfoPanelProps {
 
 export const InfoPanel: React.FC<InfoPanelProps> = ({ propInfo }) => {
   return (
-    <div className="w-full space-y-3">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
       {Object.entries(propInfo).map(([propName, info]) => (
         <Card
           key={propName}
-          className="p-3 bg-dark-800 border border-dark-600 shadow-sm"
+          className="p-4 bg-dark-750 border border-dark-600 shadow-sm hover:bg-dark-700 transition-colors"
         >
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Text size="sm" weight="bold" className="text-white">
+          <div className="flex items-center gap-2 mb-2 border-b border-dark-500 pb-2">
+            <Text size="md" weight="bold" className="text-white">
               {propName}
             </Text>
             {info.required && (
-              <span className="text-red-500 text-xs font-bold">*</span>
+              <span className="text-red-500 text-xs font-bold">required</span>
             )}
-            <span className="bg-dark-600 px-1.5 py-0.5 rounded text-xs text-blue-400 ml-auto">
+            <span className="bg-dark-600 px-2 py-0.5 rounded-full text-xs text-blue-400 ml-auto">
               {info.type}
             </span>
           </div>
 
-          <div className="space-y-2 text-xs">
+          <div className="space-y-3">
             {info.description && (
-              <Text size="xs" className="text-gray-300 leading-tight">
+              <Text size="sm" className="text-gray-300 leading-relaxed">
                 {info.description}
               </Text>
             )}
 
-            <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="flex flex-wrap items-center gap-3">
               {info.default !== undefined && (
-                <span className="inline-flex items-center text-gray-400">
-                  Default:{" "}
-                  <code className="ml-1 bg-dark-700 px-1 rounded text-teal-300">
+                <div className="inline-flex items-center text-gray-400 bg-dark-800 px-2 py-1 rounded">
+                  <span className="text-xs mr-1">Default:</span>
+                  <code className="bg-dark-700 px-1.5 py-0.5 rounded text-teal-300 text-xs">
                     {String(info.default)}
                   </code>
-                </span>
+                </div>
               )}
 
               {info.possibleValues && info.possibleValues.length > 0 && (
-                <span className="inline-flex items-center flex-wrap text-gray-400">
-                  Options:
-                  <span className="flex flex-wrap gap-1 ml-1">
+                <div className="bg-dark-800 px-2 py-1 rounded">
+                  <span className="text-xs text-gray-400 mr-1">Options:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
                     {info.possibleValues.map((value: string) => (
                       <code
                         key={value}
-                        className="bg-dark-700 px-1 rounded text-purple-300"
+                        className="bg-dark-700 px-1.5 py-0.5 rounded text-purple-300 text-xs"
                       >
                         {value}
                       </code>
                     ))}
-                  </span>
-                </span>
+                  </div>
+                </div>
               )}
             </div>
 
-            {info.properties && (
-              <div className="mt-2 pt-1.5 border-t border-dark-600">
-                <details className="text-xs">
-                  <summary className="text-gray-300 font-medium cursor-pointer hover:text-gray-200">
+            {info.properties && Object.keys(info.properties).length > 0 && (
+              <div className="mt-3 pt-2 border-t border-dark-600">
+                <details className="text-sm">
+                  <summary className="text-gray-300 font-medium cursor-pointer hover:text-gray-200 mb-2">
                     Properties
                   </summary>
-                  <div className="mt-1.5 ml-2 pl-2 border-l border-dark-500 space-y-2">
+                  <div className="grid grid-cols-1 gap-2 ml-2">
                     {Object.entries(info.properties).map(
                       ([propName, propInfo]) => (
                         <div
                           key={propName}
-                          className="bg-dark-700 rounded p-1.5"
+                          className="bg-dark-700 rounded p-2 hover:bg-dark-650 transition-colors"
                         >
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between mb-1">
                             <span className="text-white font-medium">
                               {propName}
                             </span>
-                            <span className="bg-dark-600 px-1 rounded text-xs text-blue-400">
+                            <span className="bg-dark-600 px-1.5 py-0.5 rounded-full text-xs text-blue-400">
                               {propInfo.type}
                             </span>
                           </div>
@@ -103,18 +103,18 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({ propInfo }) => {
                           {propInfo.description && (
                             <Text
                               size="xs"
-                              className="text-gray-300 mt-0.5 leading-tight"
+                              className="text-gray-300 leading-relaxed"
                             >
                               {propInfo.description}
                             </Text>
                           )}
 
                           {propInfo.default !== undefined && (
-                            <div className="flex items-center mt-0.5">
+                            <div className="flex items-center mt-1.5">
                               <span className="text-gray-400 text-xs">
                                 Default:
                               </span>
-                              <code className="ml-1 bg-dark-600 px-1 rounded text-xs text-teal-300">
+                              <code className="ml-1 bg-dark-600 px-1.5 py-0.5 rounded text-xs text-teal-300">
                                 {String(propInfo.default)}
                               </code>
                             </div>

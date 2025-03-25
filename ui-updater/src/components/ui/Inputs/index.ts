@@ -1,3 +1,4 @@
+export * from "./Chip";
 export * from "./NumberInput";
 export * from "./TextInput";
 export * from "./PasswordInput";
@@ -7,6 +8,7 @@ export * from "./ColorPicker";
 export * from "./PinInput";
 export * from "./DatePickerInput";
 export * from "./FileInput";
+export * from "./Multiselect";
 
 export const defaultInputContainerClass = "flex flex-col gap-1";
 

@@ -275,3 +275,94 @@ export interface FileInputClassNames {
   fileItem?: string;
   rightSection?: string;
 }
+
+export interface MultiSelectOptionProps {
+  value: string;
+  label?: string;
+  children?: React.ReactNode;
+  disabled?: boolean;
+  className?: string;
+  [key: string]: any;
+}
+
+export interface MultiSelectProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "size"> {
+  value?: string[];
+  onChange?: (value: string[]) => void;
+  label?: string;
+  hint?: string;
+  required?: boolean;
+  placeholder?: string;
+  disabled?: boolean;
+  className?: string;
+  classNames?: MultiSelectClassNames;
+  error?: string | boolean;
+  leftSection?: React.ReactNode;
+  clearable?: boolean;
+  searchable?: boolean;
+  nothingFoundText?: string;
+  size?: SelectInputSize;
+  checkedIcon?: React.ReactNode;
+  searchPlaceholder?: string;
+}
+
+export interface MultiSelectClassNames {
+  container?: string;
+  label?: string;
+  required?: string;
+  input?: string;
+  hint?: string;
+  leftSection?: string;
+  dropdown?: string;
+  option?: string;
+  selectedOption?: string;
+  scrollbar?: string;
+  searchInput?: string;
+  clearButton?: string;
+  selectedLabel?: string;
+}
+
+export type ChipVariant = "filled" | "outline";
+export type ChipSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ChipRadius = "xs" | "sm" | "md" | "lg" | "xl" | "full";
+
+export interface ChipProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "onChange" | "size"
+  > {
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: (checked: boolean) => void;
+  label?: React.ReactNode;
+  color?: string;
+  variant?: ChipVariant;
+  size?: ChipSize;
+  radius?: ChipRadius;
+  disabled?: boolean;
+  icon?: React.ReactNode;
+  wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
+  value?: string;
+  classNames?: ChipClassNames;
+}
+
+export interface ChipClassNames {
+  root?: string;
+  label?: string;
+  input?: string;
+  icon?: string;
+  checkIcon?: string;
+}
+
+export interface ChipGroupProps {
+  value?: string | string[];
+  onChange?: (value: string | string[]) => void;
+  multiple?: boolean;
+  children: React.ReactNode;
+  className?: string;
+  classNames?: ChipGroupClassNames;
+}
+
+export interface ChipGroupClassNames {
+  root?: string;
+}

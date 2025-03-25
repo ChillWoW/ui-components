@@ -1,40 +1,34 @@
 import React from "react";
-import { Text, Switch, SelectInput, Button, Alert } from "@/components/ui";
+import { Text, Switch, MultiSelect, SelectInput } from "@/components/ui";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
+import { selectInputClasses } from "./index";
 
 const switchClasses = {
   track: "bg-dark-700",
   activeTrack: "bg-dark-100",
 };
 
-const selectInputClasses = {
-  input: "bg-dark-800",
-  dropdown: "bg-dark-800",
-  option: "bg-dark-800 hover:bg-dark-700 text-white",
-  selectedOption: "bg-dark-700",
-};
-
-export const selectInputConfig: ComponentConfigType = {
+export const multiSelectConfig: ComponentConfigType = {
   defaultProps: {
-    value: "",
+    value: [],
     showLabel: true,
     showHint: false,
-    placeholder: "Select an option",
+    placeholder: "Select options",
     disabled: false,
     required: false,
-    label: "Select Input",
-    hint: "Select an option",
+    label: "Multi Select",
+    hint: "Select multiple options",
     leftSection: false,
     clearable: false,
-    allowDeselect: false,
     searchable: false,
+    error: false,
     size: "md",
   },
 
   renderComponent: (props, setProps) => (
     <div className="space-y-2 w-64">
-      <SelectInput
+      <MultiSelect
         value={props.value}
         onChange={(value) => setProps({ ...props, value })}
         placeholder={props.placeholder}
@@ -43,27 +37,18 @@ export const selectInputConfig: ComponentConfigType = {
         label={props.showLabel ? props.label : undefined}
         hint={props.showHint ? props.hint : undefined}
         clearable={props.clearable}
-        allowDeselect={props.allowDeselect}
         searchable={props.searchable}
         size={props.size}
         leftSection={props.leftSection && <IconAlertCircle />}
+        error={props.error && "Error"}
       >
-        <SelectInput.Option value="option1" label="Option 1" />
-        <SelectInput.Option value="option2" label="Option 2" />
-        <SelectInput.Option value="option3" label="Option 3" />
-      </SelectInput>
+        <MultiSelect.Option value="option1" label="Option 1" />
+        <MultiSelect.Option value="option2" label="Option 2" />
+        <MultiSelect.Option value="option3" label="Option 3" />
+        <MultiSelect.Option value="option4" label="Option 4" />
+        <MultiSelect.Option value="option5" label="Option 5" />
+      </MultiSelect>
     </div>
-  ),
-
-  renderError: () => (
-    <Alert variant="error" icon={<IconAlertCircle />} closeable={false}>
-      <Alert.Title>No backward compatibility is provided</Alert.Title>
-      <Alert.Description>
-        This component has been updated with a new structure using
-        SelectInput.Option, Please check your existing implementations to ensure
-        compatibility on newer versions.
-      </Alert.Description>
-    </Alert>
   ),
 
   renderPropsPanel: () => {
@@ -77,32 +62,6 @@ export const selectInputConfig: ComponentConfigType = {
       <div className="space-y-4 w-full">
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Selection Features
-          </Text>
-          <Switch
-            label="Clearable"
-            checked={props.clearable}
-            onChange={(checked) => setProps({ ...props, clearable: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Allow Deselect"
-            checked={props.allowDeselect}
-            onChange={(checked) =>
-              setProps({ ...props, allowDeselect: checked })
-            }
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Searchable"
-            checked={props.searchable}
-            onChange={(checked) => setProps({ ...props, searchable: checked })}
-            classNames={switchClasses}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
             Size
           </Text>
           <SelectInput
@@ -110,11 +69,11 @@ export const selectInputConfig: ComponentConfigType = {
             onChange={(value) => setProps({ ...props, size: value })}
             classNames={selectInputClasses}
           >
-            <SelectInput.Option value="xs" label="Extra Small" />
-            <SelectInput.Option value="sm" label="Small" />
-            <SelectInput.Option value="md" label="Medium" />
-            <SelectInput.Option value="lg" label="Large" />
-            <SelectInput.Option value="xl" label="Extra Large" />
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
           </SelectInput>
         </div>
 
@@ -147,9 +106,27 @@ export const selectInputConfig: ComponentConfigType = {
             classNames={switchClasses}
           />
           <Switch
+            label="Error"
+            checked={props.error}
+            onChange={(checked) => setProps({ ...props, error: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
             label="Left Section"
             checked={props.leftSection}
             onChange={(checked) => setProps({ ...props, leftSection: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Clearable"
+            checked={props.clearable}
+            onChange={(checked) => setProps({ ...props, clearable: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Searchable"
+            checked={props.searchable}
+            onChange={(checked) => setProps({ ...props, searchable: checked })}
             classNames={switchClasses}
           />
         </div>

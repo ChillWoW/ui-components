@@ -53,15 +53,6 @@ export const badgeConfig: ComponentConfigType = {
       setProps: (newProps: any) => void;
     }) => (
       <div className="space-y-4 w-full">
-        <Text
-          size="md"
-          weight="bold"
-          align="center"
-          className="border-b border-dark-500 pb-1"
-        >
-          Badge Properties
-        </Text>
-
         <div>
           <Text size="sm" weight="bold">
             Size
