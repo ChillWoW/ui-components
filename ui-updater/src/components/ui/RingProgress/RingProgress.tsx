@@ -34,7 +34,11 @@ export const RingProgress = ({
         return (
           <circle
             key={index}
-            className={`fill-none ${animate ? "transition-[stroke-dashoffset] duration-300 ease-in-out" : ""} ${classNames.section || ""}`}
+            className={`fill-none ${
+              animate
+                ? "transition-[stroke-dashoffset] duration-300 ease-in-out"
+                : ""
+            } ${classNames.section || ""}`}
             cx={size / 2}
             cy={size / 2}
             r={radius}
@@ -50,7 +54,11 @@ export const RingProgress = ({
 
     return (
       <circle
-        className={`fill-none ${animate ? "transition-[stroke-dashoffset] duration-300 ease-in-out" : ""} ${classNames.progress || ""}`}
+        className={`fill-none ${
+          animate
+            ? "transition-[stroke-dashoffset] duration-300 ease-in-out"
+            : ""
+        } ${classNames.progress || ""}`}
         cx={size / 2}
         cy={size / 2}
         r={radius}
@@ -65,7 +73,9 @@ export const RingProgress = ({
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center ${className} ${classNames.root || ""}`}
+      className={`relative inline-flex items-center justify-center ${className} ${
+        classNames.root || ""
+      }`}
       style={{ width: size, height: size }}
     >
       <svg
@@ -85,7 +95,9 @@ export const RingProgress = ({
       </svg>
       {label && (
         <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-sm font-medium ${labelClassName} ${classNames.label || ""}`}
+          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-sm font-medium ${labelClassName} ${
+            classNames.label || ""
+          }`}
         >
           {label}
         </div>
@@ -93,3 +105,5 @@ export const RingProgress = ({
     </div>
   );
 };
+
+RingProgress.displayName = "RingProgress";

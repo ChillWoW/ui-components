@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { StepperStepProps } from "./types";
-import { useStepperContext } from "./Stepper";
+import { useStepperContext } from "./context";
 
 export const StepperStep = ({
   index,

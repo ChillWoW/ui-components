@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { cn } from "../../index";
+import { cn } from "../../_utils";
 import { PasswordInputProps } from "../types";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
@@ -125,3 +125,5 @@ export const PasswordInput = ({
     </div>
   );
 };
+
+PasswordInput.displayName = "PasswordInput";

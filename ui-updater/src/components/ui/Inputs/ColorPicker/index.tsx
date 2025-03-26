@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { cn } from "../../index";
+import { cn } from "../../_utils";
 import { IconEye, IconRefresh, IconChecks } from "@tabler/icons-react";
 import { ColorPickerProps } from "../types";
 
@@ -427,3 +427,5 @@ export const ColorPicker = ({
     </div>
   );
 };
+
+ColorPicker.displayName = "ColorPicker";

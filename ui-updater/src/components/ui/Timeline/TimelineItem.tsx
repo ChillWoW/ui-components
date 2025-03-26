@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "../..";
-import { TimelineItemProps } from "../types";
-import { useTimeline } from "../context";
+import { cn } from "../_utils";
+import { TimelineItemProps } from "./types";
+import { useTimeline } from "./context";
 
 export const TimelineItem = ({
   children,
@@ -21,7 +21,6 @@ export const TimelineItem = ({
   const { align, bulletSize, lineColor, lineWidth, bulletShape, compact } =
     useTimeline();
 
-  // Determine bullet styling based on shape
   const getBulletStyle = () => {
     const baseStyle = {
       width: bulletSize,
@@ -36,7 +35,6 @@ export const TimelineItem = ({
       return { ...baseStyle, transform: "rotate(45deg)" };
     }
 
-    // Default is circle
     return { ...baseStyle, borderRadius: "50%" };
   };
 

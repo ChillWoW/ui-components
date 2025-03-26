@@ -1,6 +1,6 @@
-import React, { useContext, useRef, createContext, useState } from "react";
-import { cn } from "../../index";
-import { ChipProps, ChipGroupProps } from "../types";
+import React, { useContext, useRef, useState } from "react";
+import { cn } from "../../_utils";
+import { ChipProps } from "../types";
 import { IconCheck } from "@tabler/icons-react";
 import { ChipGroupContext } from "./context";
 import { ChipGroup } from "./ChipGroup";
@@ -131,3 +131,5 @@ export const Chip = ({
 };
 
 Chip.Group = ChipGroup;
+
+Chip.displayName = "Chip";

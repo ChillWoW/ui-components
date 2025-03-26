@@ -66,24 +66,6 @@ export const paginationConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-2">
           <Text size="sm" weight="bold">
-            Current Page
-          </Text>
-          <NumberInput
-            value={props.page}
-            onChange={(value) =>
-              setProps({
-                ...props,
-                page: Math.min(value, props.total),
-              })
-            }
-            min={1}
-            max={props.total}
-            classNames={numberInputClass}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Text size="sm" weight="bold">
             Total Pages
           </Text>
           <NumberInput

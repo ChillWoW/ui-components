@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { SliderProps } from "./types";
 
 export const Slider: React.FC<SliderProps> = ({
@@ -191,7 +191,10 @@ export const Slider: React.FC<SliderProps> = ({
             >
               {mark.label && (
                 <span
-                  className={cn("mt-1 text-xs text-white", classNames?.markLabel)}
+                  className={cn(
+                    "mt-1 text-xs text-white",
+                    classNames?.markLabel
+                  )}
                 >
                   {mark.label}
                 </span>
@@ -217,3 +220,5 @@ export const Slider: React.FC<SliderProps> = ({
     </div>
   );
 };
+
+Slider.displayName = "Slider";

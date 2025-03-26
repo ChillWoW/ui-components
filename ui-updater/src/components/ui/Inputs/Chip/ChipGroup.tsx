@@ -1,6 +1,6 @@
 import { ChipGroupContext } from "./context";
 import { ChipGroupProps } from "../types";
-import { cn } from "../..";
+import { cn } from "../../_utils";
 
 export const ChipGroup = ({
   value,
@@ -56,3 +56,5 @@ export const ChipGroup = ({
     </ChipGroupContext.Provider>
   );
 };
+
+ChipGroup.displayName = "ChipGroup";

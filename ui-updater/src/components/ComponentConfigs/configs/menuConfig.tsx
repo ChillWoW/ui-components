@@ -5,7 +5,6 @@ import {
   Button,
   NumberInput,
   Switch,
-  RadioGroup,
   SelectInput,
   ButtonGroup,
 } from "@/components/ui";
@@ -18,6 +17,22 @@ import {
   activeButtonClass,
   numberInputClass,
 } from "./index";
+import { IconSettings, IconUser, IconLogout } from "@tabler/icons-react";
+
+const positions = [
+  "bottom",
+  "top",
+  "left",
+  "right",
+  "bottom-start",
+  "bottom-end",
+  "top-start",
+  "top-end",
+  "left-start",
+  "left-end",
+  "right-start",
+  "right-end",
+];
 
 export const menuConfig: ComponentConfigType = {
   defaultProps: {
@@ -26,61 +41,80 @@ export const menuConfig: ComponentConfigType = {
     offset: 5,
     withArrow: true,
     shadow: true,
-    itemGap: 8,
     showItems: true,
     closeOnItemClick: true,
+    closeOnEscape: true,
+    closeDelay: 150,
+    openDelay: 0,
     disabled: false,
+    keepMounted: false,
   },
 
   renderComponent: (props: any, setProps: (props: any) => void) => {
+    const positions = [
+      "bottom",
+      "top",
+      "left",
+      "right",
+      "bottom-start",
+      "bottom-end",
+      "top-start",
+      "top-end",
+      "left-start",
+      "left-end",
+      "right-start",
+      "right-end",
+    ];
+
+    const triggers = ["click", "hover", "click-hover"];
+
     return (
       <div className="flex items-center justify-center h-full p-8">
         <Menu
           trigger={props.trigger}
           position={props.position}
           offset={props.offset}
+          withArrow={props.withArrow}
+          shadow={props.shadow}
+          closeOnItemClick={props.closeOnItemClick}
+          closeOnEscape={props.closeOnEscape}
+          closeDelay={props.closeDelay}
+          openDelay={props.openDelay}
+          disabled={props.disabled}
+          keepMounted={props.keepMounted}
+          transitionProps={
+            props.transition
+              ? {
+                  transition: props.transition,
+                  duration: props.transitionDuration || 150,
+                }
+              : undefined
+          }
         >
           <Menu.Target>
-            <Button>Open Menu</Button>
+            <Button disabled={props.disabled}>Open Menu</Button>
           </Menu.Target>
 
           {props.showItems && (
             <Menu.Dropdown>
-              <div className="px-2 py-1.5 text-sm text-gray-400 border-b border-dark-600">
-                Menu Items
-              </div>
+              <Menu.Label>Application</Menu.Label>
+              <Menu.Item icon={<IconUser size={14} />} className="mt-1">
+                Profile
+              </Menu.Item>
+              <Menu.Item icon={<IconSettings size={14} />} className="mt-1">
+                Settings
+              </Menu.Item>
 
-              <div className="py-1">
-                <Menu.Item
-                  icon={<span className="text-blue-500">•</span>}
-                  className="mt-1"
-                >
-                  Profile
-                </Menu.Item>
+              <Menu.Divider />
 
-                <Menu.Item
-                  icon={<span className="text-green-500">•</span>}
-                  className="mt-1"
-                >
-                  Settings
-                </Menu.Item>
-
-                <Menu.Item
-                  icon={<span className="text-yellow-500">•</span>}
-                  className="mt-1"
-                >
-                  Messages
-                </Menu.Item>
-
-                <Menu.Divider className="my-1" />
-
-                <Menu.Item
-                  icon={<span className="text-red-500">•</span>}
-                  className="text-red-400"
-                >
-                  Logout
-                </Menu.Item>
-              </div>
+              <Menu.Label>Danger zone</Menu.Label>
+              <Menu.Item
+                icon={<IconLogout size={14} />}
+                color="red"
+                className="mt-1"
+              >
+                Logout
+              </Menu.Item>
             </Menu.Dropdown>
           )}
         </Menu>
@@ -99,33 +133,6 @@ export const menuConfig: ComponentConfigType = {
       <div className="space-y-4 w-full">
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Trigger
-          </Text>
-          <ButtonGroup
-            value={props.trigger}
-            onChange={(value) => setProps({ ...props, trigger: value })}
-          >
-            <Button
-              onClick={() => setProps({ ...props, trigger: "click" })}
-              className={`${buttonClass} ${
-                props.trigger === "click" ? activeButtonClass : ""
-              }`}
-            >
-              Click
-            </Button>
-            <Button
-              className={`${buttonClass} ${
-                props.trigger === "hover" ? activeButtonClass : ""
-              }`}
-              onClick={() => setProps({ ...props, trigger: "hover" })}
-            >
-              Hover
-            </Button>
-          </ButtonGroup>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
             Position
           </Text>
           <SelectInput
@@ -133,12 +140,84 @@ export const menuConfig: ComponentConfigType = {
             onChange={(value) => setProps({ ...props, position: value })}
             classNames={selectInputClasses}
           >
-            <SelectInput.Option value="top" label="Top" />
-            <SelectInput.Option value="bottom" label="Bottom" />
-            <SelectInput.Option value="left" label="Left" />
-            <SelectInput.Option value="right" label="Right" />
+            {positions.map((position) => (
+              <SelectInput.Option
+                key={position}
+                value={position}
+                label={position}
+              />
+            ))}
           </SelectInput>
         </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Trigger
+          </Text>
+          <ButtonGroup>
+            <Button
+              onClick={() => setProps({ ...props, trigger: "click" })}
+              className={`${buttonClass} ${
+                props.trigger === "click" && activeButtonClass
+              }`}
+            >
+              Click
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, trigger: "hover" })}
+              className={`${buttonClass} ${
+                props.trigger === "hover" && activeButtonClass
+              }`}
+            >
+              Hover
+            </Button>
+            <Button
+              onClick={() => setProps({ ...props, trigger: "click-hover" })}
+              className={`${buttonClass} ${
+                props.trigger === "click-hover" && activeButtonClass
+              }`}
+            >
+              Click & Hover
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Transition
+          </Text>
+          <SelectInput
+            value={props.transition}
+            onChange={(value) => setProps({ ...props, transition: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="" label="None" />
+            <SelectInput.Option value="fade" label="Fade" />
+            <SelectInput.Option value="scale" label="Scale" />
+            <SelectInput.Option value="slide-down" label="Slide Down" />
+            <SelectInput.Option value="slide-up" label="Slide Up" />
+            <SelectInput.Option value="rotate-left" label="Rotate Left" />
+            <SelectInput.Option value="rotate-right" label="Rotate Right" />
+          </SelectInput>
+        </div>
+
+        {props.transition && (
+          <div className="flex flex-col gap-1">
+            <Text size="sm" weight="bold">
+              Transition Duration (ms)
+            </Text>
+            <NumberInput
+              value={props.transitionDuration || 150}
+              onChange={(value) =>
+                setProps({ ...props, transitionDuration: value })
+              }
+              min={50}
+              max={500}
+              step={10}
+              classNames={numberInputClass}
+            />
+          </div>
+        )}
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
@@ -155,6 +234,40 @@ export const menuConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
+            Delay (ms)
+          </Text>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <Text size="xs" className="mb-1">
+                Open Delay
+              </Text>
+              <NumberInput
+                value={props.openDelay}
+                onChange={(value) => setProps({ ...props, openDelay: value })}
+                min={0}
+                max={1000}
+                step={50}
+                classNames={numberInputClass}
+              />
+            </div>
+            <div>
+              <Text size="xs" className="mb-1">
+                Close Delay
+              </Text>
+              <NumberInput
+                value={props.closeDelay}
+                onChange={(value) => setProps({ ...props, closeDelay: value })}
+                min={0}
+                max={1000}
+                step={50}
+                classNames={numberInputClass}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
             Options
           </Text>
           <Switch
@@ -164,11 +277,37 @@ export const menuConfig: ComponentConfigType = {
             classNames={switchClasses}
           />
           <Switch
+            label="With Arrow"
+            checked={props.withArrow}
+            onChange={(checked) => setProps({ ...props, withArrow: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Shadow"
+            checked={props.shadow}
+            onChange={(checked) => setProps({ ...props, shadow: checked })}
+            classNames={switchClasses}
+          />
+          <Switch
             label="Close On Item Click"
             checked={props.closeOnItemClick}
             onChange={(checked) =>
               setProps({ ...props, closeOnItemClick: checked })
             }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Close On Escape"
+            checked={props.closeOnEscape}
+            onChange={(checked) =>
+              setProps({ ...props, closeOnEscape: checked })
+            }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Keep Mounted"
+            checked={props.keepMounted}
+            onChange={(checked) => setProps({ ...props, keepMounted: checked })}
             classNames={switchClasses}
           />
           <Switch
@@ -181,94 +320,4 @@ export const menuConfig: ComponentConfigType = {
       </div>
     );
   },
-
-  infoPanel: () => (
-    <InfoPanel
-      propInfo={{
-        children: {
-          type: "ReactNode",
-          required: true,
-          description:
-            "Content of the menu, should include Menu.Trigger and Menu.Content",
-        },
-        trigger: {
-          type: "string",
-          default: "click",
-          description: "Determines when the menu opens",
-          possibleValues: ["click", "hover"],
-        },
-        position: {
-          type: "string",
-          default: "bottom",
-          description: "Position of the menu relative to the trigger element",
-          possibleValues: ["top", "bottom", "left", "right"],
-        },
-        offset: {
-          type: "number",
-          default: 5,
-          description: "Distance in pixels between trigger and dropdown",
-        },
-        withArrow: {
-          type: "boolean",
-          default: false,
-          description:
-            "Determines if the menu has an arrow pointing to the trigger",
-        },
-        shadow: {
-          type: "boolean",
-          default: true,
-          description: "Determines if the menu has a shadow",
-        },
-        closeOnItemClick: {
-          type: "boolean",
-          default: true,
-          description: "Determines if the menu closes when an item is clicked",
-        },
-        disabled: {
-          type: "boolean",
-          default: false,
-          description: "Disables the menu trigger",
-        },
-        open: {
-          type: "boolean",
-          description:
-            "Controls the open state of the menu (for controlled component usage)",
-        },
-        onOpenChange: {
-          type: "function",
-          description: "Called when the menu open state changes",
-        },
-        className: {
-          type: "string",
-          description: "Additional CSS classes to apply to the menu container",
-        },
-        classNames: {
-          type: "object",
-          description: "Additional CSS classes to apply to menu subcomponents",
-          properties: {
-            container: {
-              type: "string",
-              description: "CSS class for the menu container",
-            },
-            trigger: {
-              type: "string",
-              description: "CSS class for the menu trigger wrapper",
-            },
-            content: {
-              type: "string",
-              description: "CSS class for the dropdown content",
-            },
-            arrow: {
-              type: "string",
-              description: "CSS class for the arrow element",
-            },
-            item: {
-              type: "string",
-              description: "CSS class for menu items",
-            },
-          },
-        },
-      }}
-    />
-  ),
 };

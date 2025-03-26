@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, ChangeEvent } from "react";
-import { cn } from "../../index";
+import { cn } from "../../_utils";
 import { TextAreaProps } from "../types";
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(

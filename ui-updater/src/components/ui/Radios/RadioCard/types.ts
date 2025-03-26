@@ -1,4 +1,5 @@
 export type RadioCardSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type RadioCardAlign = "left" | "center" | "right" | "between";
 
 export interface RadioCardProps {
   defaultValue?: string;
@@ -56,6 +57,6 @@ export interface RadioCardHeaderProps {
   children: React.ReactNode;
   className?: string;
   description?: string;
-  align?: "left" | "center" | "right" | "between";
+  align?: RadioCardAlign;
   actions?: React.ReactNode;
 }

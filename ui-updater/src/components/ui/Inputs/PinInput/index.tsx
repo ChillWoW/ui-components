@@ -1,5 +1,5 @@
 import { useRef, useState, KeyboardEvent, useCallback, useMemo } from "react";
-import { cn } from "../..";
+import { cn } from "../../_utils";
 import { PinInputProps } from "../types";
 
 export const PinInput = ({
@@ -227,3 +227,5 @@ export const PinInput = ({
     </div>
   );
 };
+
+PinInput.displayName = "PinInput";

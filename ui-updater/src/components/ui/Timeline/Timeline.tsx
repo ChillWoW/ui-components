@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { TimelineProps } from "./types";
 import { TimelineItem } from "./TimelineItem";
 import { TimelineContext } from "./context";
@@ -77,3 +77,5 @@ export const Timeline = ({
 };
 
 Timeline.Item = TimelineItem;
+
+Timeline.displayName = "Timeline";

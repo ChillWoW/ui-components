@@ -1,9 +1,15 @@
 export type ModalSize = "xs" | "sm" | "md" | "lg" | "xl" | "full";
+export type ModalPadding = "xs" | "sm" | "md" | "lg" | "xl" | "none";
+export type ModalShadow = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface ModalClassNames {
   overlay?: string;
   wrapper?: string;
   content?: string;
+  header?: string;
+  body?: string;
+  footer?: string;
+  closeButton?: string;
 }
 
 export interface ModalProps {
@@ -21,4 +27,25 @@ export interface ModalProps {
   classNames?: ModalClassNames;
   animationDuration?: number;
   disableScroll?: boolean;
+  shadow?: ModalShadow;
+}
+
+export interface ModalBodyProps {
+  children: React.ReactNode;
+  className?: string;
+  padding?: ModalPadding;
+}
+
+export interface ModalFooterProps {
+  children: React.ReactNode;
+  className?: string;
+  separator?: boolean;
+  padding?: ModalPadding;
+}
+
+export interface ModalHeaderProps {
+  children?: React.ReactNode;
+  className?: string;
+  separator?: boolean;
+  padding?: ModalPadding;
 }

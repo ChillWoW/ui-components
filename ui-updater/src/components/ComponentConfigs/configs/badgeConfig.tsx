@@ -100,6 +100,7 @@ export const badgeConfig: ComponentConfigType = {
             <RadioGroup.Item value="filled" label="Filled" />
             <RadioGroup.Item value="outline" label="Outline" />
             <RadioGroup.Item value="dot" label="Dot" />
+            <RadioGroup.Item value="unstyled" label="Unstyled" />
           </RadioGroup>
         </div>
 

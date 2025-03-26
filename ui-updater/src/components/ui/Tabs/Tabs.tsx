@@ -1,20 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { cn } from "..";
+import React, { useState, useEffect } from "react";
+import { cn } from "../_utils";
 import { TabsList } from "./TabsList";
 import { TabsTab } from "./TabsTab";
 import { TabsPanel } from "./TabsPanel";
-import { TabsContextType, TabsProps } from "./types";
-
-// Create a context to manage tab state across subcomponents
-const TabsContext = createContext<TabsContextType | null>(null);
-
-export const useTabs = () => {
-  const context = useContext(TabsContext);
-  if (!context) {
-    throw new Error("Tabs components must be used within a Tabs component");
-  }
-  return context;
-};
+import { TabsProps } from "./types";
+import { TabsContext } from "./context";
 
 export const Tabs = ({
   defaultValue,
@@ -31,11 +21,9 @@ export const Tabs = ({
   classNames,
   children,
 }: TabsProps) => {
-  // Handle controlled and uncontrolled component patterns
   const [activeTab, setActiveTab] = useState(defaultValue || "");
   const currentValue = value !== undefined ? value : activeTab;
 
-  // Update state if controlled value changes
   useEffect(() => {
     if (value !== undefined) {
       setActiveTab(value);
@@ -82,7 +70,8 @@ export const Tabs = ({
   );
 };
 
-// Attach subcomponents to Tabs
 Tabs.List = TabsList;
 Tabs.Tab = TabsTab;
 Tabs.Panel = TabsPanel;
+
+Tabs.displayName = "Tabs";

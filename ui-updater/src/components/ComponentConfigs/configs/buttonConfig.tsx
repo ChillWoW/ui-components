@@ -96,6 +96,7 @@ export const buttonConfig: ComponentConfigType = {
             <RadioGroup.Item value="outline" label="Outline" />
             <RadioGroup.Item value="subtle" label="Subtle" />
             <RadioGroup.Item value="link" label="Link" />
+            <RadioGroup.Item value="unstyled" label="Unstyled" />
           </RadioGroup>
         </div>
 

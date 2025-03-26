@@ -56,7 +56,7 @@ export const selectInputConfig: ComponentConfigType = {
   ),
 
   renderError: () => (
-    <Alert variant="error" icon={<IconAlertCircle />} closeable={false}>
+    <Alert color="error" icon={<IconAlertCircle />} closeable={false}>
       <Alert.Title>No backward compatibility is provided</Alert.Title>
       <Alert.Description>
         This component has been updated with a new structure using

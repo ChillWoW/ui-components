@@ -28,6 +28,7 @@ export const avatarConfig: ComponentConfigType = {
     rounded: "md",
     shape: "circle",
     showBadge: false,
+    showBadgeContent: false,
     badge: {
       position: "top-right",
       color: "red",
@@ -46,6 +47,7 @@ export const avatarConfig: ComponentConfigType = {
         props.showBadge && {
           position: props.badge.position,
           color: props.badge.color,
+          content: props.showBadgeContent ? "1" : undefined,
         }
       }
     />
@@ -95,6 +97,43 @@ export const avatarConfig: ComponentConfigType = {
             <SelectInput.Option value="green" label="Green" />
             <SelectInput.Option value="purple" label="Purple" />
           </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Badge
+          </Text>
+          <div className="flex flex-col gap-2">
+            <Switch
+              label="Show Badge"
+              checked={props.showBadge}
+              onChange={(checked) => setProps({ ...props, showBadge: checked })}
+              classNames={switchClasses}
+            />
+            <Switch
+              label="Show Badge Content"
+              checked={props.showBadgeContent}
+              onChange={(checked) =>
+                setProps({ ...props, showBadgeContent: checked })
+              }
+              classNames={switchClasses}
+            />
+            <SelectInput
+              value={props.badge.position}
+              onChange={(value) =>
+                setProps({
+                  ...props,
+                  badge: { ...props.badge, position: value },
+                })
+              }
+              classNames={selectInputClasses}
+            >
+              <SelectInput.Option value="top-right" label="Top Right" />
+              <SelectInput.Option value="top-left" label="Top Left" />
+              <SelectInput.Option value="bottom-right" label="Bottom Right" />
+              <SelectInput.Option value="bottom-left" label="Bottom Left" />
+            </SelectInput>
+          </div>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -149,35 +188,6 @@ export const avatarConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Badge
-          </Text>
-          <div className="flex flex-col gap-2">
-            <Switch
-              label="Show Badge"
-              checked={props.showBadge}
-              onChange={(checked) => setProps({ ...props, showBadge: checked })}
-              classNames={switchClasses}
-            />
-            <SelectInput
-              value={props.badge.position}
-              onChange={(value) =>
-                setProps({
-                  ...props,
-                  badge: { ...props.badge, position: value },
-                })
-              }
-              classNames={selectInputClasses}
-            >
-              <SelectInput.Option value="top-right" label="Top Right" />
-              <SelectInput.Option value="top-left" label="Top Left" />
-              <SelectInput.Option value="bottom-right" label="Bottom Right" />
-              <SelectInput.Option value="bottom-left" label="Bottom Left" />
-            </SelectInput>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
             Options
           </Text>
           <Switch
@@ -214,6 +224,11 @@ export const avatarConfig: ComponentConfigType = {
         src: {
           type: "string",
           description: "Image of the avatar",
+        },
+        alt: {
+          type: "string",
+          description:
+            "Alternative text for the avatar if image can't be loaded",
         },
         placeholder: {
           type: "string",

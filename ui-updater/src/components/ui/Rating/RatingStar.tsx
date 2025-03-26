@@ -3,8 +3,8 @@ import {
   IconStarFilled,
   IconStarHalfFilled,
 } from "@tabler/icons-react";
-import { RatingStarProps } from "../types";
-import { cn } from "../..";
+import { RatingStarProps } from "./types";
+import { cn } from "../_utils";
 
 export const RatingStar = ({
   filled = true,

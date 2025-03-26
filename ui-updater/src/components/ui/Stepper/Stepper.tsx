@@ -1,19 +1,9 @@
-import React, { createContext, useContext } from "react";
-import { cn } from "..";
-import { StepperProps, StepperContextType } from "./types";
+import React from "react";
+import { cn } from "../_utils";
+import { StepperProps } from "./types";
 import { StepperStep } from "./StepperStep";
 import { StepperCompleted } from "./StepperCompleted";
-
-// Create context for stepper state
-const StepperContext = createContext<StepperContextType | null>(null);
-
-export const useStepperContext = () => {
-  const context = useContext(StepperContext);
-  if (!context) {
-    throw new Error("Stepper components must be used within a Stepper");
-  }
-  return context;
-};
+import { StepperContext } from "./context";
 
 export const Stepper = ({
   steps,
@@ -174,6 +164,7 @@ export const Stepper = ({
   );
 };
 
-// Attach subcomponents for easy access
 Stepper.Step = StepperStep;
 Stepper.Completed = StepperCompleted;
+
+Stepper.displayName = "Stepper";

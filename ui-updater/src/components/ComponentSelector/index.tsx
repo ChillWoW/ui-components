@@ -7,12 +7,15 @@ const COMPONENT_OPTIONS = [
   { value: "avatar", label: "Avatar" },
   { value: "avatarGroup", label: "Avatar Group" },
   { value: "badge", label: "Badge" },
+  { value: "breadcrumb", label: "Breadcrumb" },
   { value: "button", label: "Button" },
   { value: "buttonGroup", label: "Button Group" },
-  { value: "breadcrumb", label: "Breadcrumb" },
   { value: "card", label: "Card" },
   { value: "checkbox", label: "Checkbox" },
+  { value: "code", label: "Code" },
   { value: "drawer", label: "Drawer" },
+  { value: "flex", label: "Flex" },
+  { value: "grid", label: "Grid" },
   { value: "numberInput", label: "Number Input" },
   { value: "chip", label: "Chip" },
   { value: "colorPicker", label: "Color Picker" },
@@ -82,7 +85,6 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
         className="w-full"
         searchable
         searchPlaceholder="Search for a component"
-        clearable
         classNames={{
           input: "bg-dark-800",
           dropdown: "bg-dark-800",

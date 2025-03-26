@@ -6,7 +6,7 @@ export interface CheckboxClassNames {
 }
 
 export type CheckboxSize = "xs" | "sm" | "md" | "lg" | "xl";
-export type CheckboxVariant = "filled" | "outline" | "subtle";
+export type CheckboxVariant = "filled" | "outline" | "subtle" | "unstyled";
 export type CheckboxAnimation = "smooth" | "bounce" | "pulse" | "none";
 export type CheckboxLabelPosition = "left" | "right";
 

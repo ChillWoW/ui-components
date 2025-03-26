@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../../index";
+import { cn } from "../../_utils";
 import { TextInputProps } from "../types";
 
 export const TextInput = ({
@@ -116,3 +116,5 @@ export const TextInput = ({
     </div>
   );
 };
+
+TextInput.displayName = "TextInput";

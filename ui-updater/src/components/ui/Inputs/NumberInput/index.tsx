@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
-import { cn } from "../../index";
+import { cn } from "../../_utils";
 import { NumberInputProps } from "../types";
 
 export const NumberInput = ({
@@ -26,13 +26,11 @@ export const NumberInput = ({
     value !== undefined ? String(value) : ""
   );
 
-  // Generate id for input if not provided for accessibility
   const inputId =
     id || label
       ? `number-input-${label?.replace(/\s+/g, "-").toLowerCase()}`
       : undefined;
 
-  // Update internal state when external value changes
   useEffect(() => {
     if (value !== undefined) {
       setInputValue(String(value));
@@ -42,19 +40,16 @@ export const NumberInput = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newInputValue = e.target.value;
 
-    // Allow empty input if allowEmpty is true
     if (newInputValue === "" && allowEmpty) {
       setInputValue("");
       onChange?.(0);
       return;
     }
 
-    // Validate input string
     const regex = allowDecimals ? /^-?\d*\.?\d*$/ : /^-?\d*$/;
     if (regex.test(newInputValue)) {
       setInputValue(newInputValue);
 
-      // Only call onChange when the value is actually a number
       if (newInputValue !== "" && newInputValue !== "-") {
         const numValue = parseFloat(newInputValue);
 
@@ -74,7 +69,6 @@ export const NumberInput = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Allow navigation keys
     if (
       e.key === "ArrowLeft" ||
       e.key === "ArrowRight" ||
@@ -85,12 +79,10 @@ export const NumberInput = ({
       return;
     }
 
-    // Allow decimal point if decimals are allowed
     if (e.key === "." && allowDecimals && !inputValue.includes(".")) {
       return;
     }
 
-    // Allow minus sign if negative values are allowed
     if (
       e.key === "-" &&
       (min === undefined || min < 0) &&
@@ -100,7 +92,6 @@ export const NumberInput = ({
       return;
     }
 
-    // Prevent non-numeric input
     if (!/^\d$/.test(e.key) && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
     }
@@ -248,3 +239,5 @@ export const NumberInput = ({
     </div>
   );
 };
+
+NumberInput.displayName = "NumberInput";

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { cn } from "../..";
-import { useTabs } from "../Tabs";
-import { TabsListProps } from "../types";
+import { cn } from "../_utils";
+import { useTabs } from "./context";
+import { TabsListProps } from "./types";
 
 export const TabsList = ({ className, children }: TabsListProps) => {
   const {
@@ -18,7 +18,6 @@ export const TabsList = ({ className, children }: TabsListProps) => {
   const tabsRef = useRef<Map<string, HTMLElement>>(new Map());
   const isVertical = orientation === "vertical";
 
-  // Add this ref to track the mounted state
   const isMounted = useRef(false);
 
   const updateIndicator = useCallback(() => {
@@ -42,16 +41,13 @@ export const TabsList = ({ className, children }: TabsListProps) => {
     }
   }, [value, isVertical]);
 
-  // Fix the dependency array and set mounted state
   useEffect(() => {
     isMounted.current = true;
 
     const handleResize = () => {
-      // Using requestAnimationFrame to throttle resize updates
       requestAnimationFrame(updateIndicator);
     };
 
-    // Only add the event listener once
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -60,21 +56,16 @@ export const TabsList = ({ className, children }: TabsListProps) => {
     };
   }, []);
 
-  // Separate effect to update indicator when value or orientation changes
   useEffect(() => {
-    // Delay the update slightly to ensure DOM has rendered
     const timeoutId = setTimeout(updateIndicator, 0);
     return () => clearTimeout(timeoutId);
   }, [value, orientation, updateIndicator]);
 
-  // Register a tab with the indicator system
   const registerTab = useCallback(
     (tabValue: string, element: HTMLElement | null) => {
       if (element) {
         tabsRef.current.set(tabValue, element);
-        // Only update if this is the active tab and component is mounted
         if (tabValue === value && isMounted.current) {
-          // Use timeout to ensure DOM update has completed
           setTimeout(updateIndicator, 0);
         }
       }
@@ -82,7 +73,6 @@ export const TabsList = ({ className, children }: TabsListProps) => {
     [value, updateIndicator]
   );
 
-  // Rest of the component remains the same
   return (
     <div
       className={cn(
@@ -121,3 +111,5 @@ export const TabsList = ({ className, children }: TabsListProps) => {
     </div>
   );
 };
+
+TabsList.displayName = "TabsList";

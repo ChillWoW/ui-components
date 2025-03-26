@@ -7,7 +7,6 @@ import {
   IconCalendarEvent,
 } from "@tabler/icons-react";
 import {
-  cn,
   defaultDescriptionClass,
   defaultIconClass,
   defaultInputClass,
@@ -16,6 +15,7 @@ import {
   defaultLabelClass,
   Button,
 } from "../../index";
+import { cn } from "../../_utils";
 import { DatePickerProps } from "../types";
 
 export const DatePicker = ({
@@ -449,3 +449,5 @@ export const DatePicker = ({
     </div>
   );
 };
+
+DatePicker.displayName = "DatePicker";

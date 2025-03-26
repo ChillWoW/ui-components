@@ -1,8 +1,8 @@
 import React, { useId } from "react";
-import { Radio } from "../../Radio/Radio";
-import { cn } from "../../..";
-import { RadioCardItemProps } from "../types";
-import { useRadioCardContext } from "../context";
+import { Radio } from "../Radio";
+import { cn } from "../../_utils";
+import { RadioCardItemProps } from "./types";
+import { useRadioCardContext } from "./context";
 
 export const RadioCardItem = ({
   className,

@@ -92,6 +92,7 @@ export const checkboxConfig: ComponentConfigType = {
             <RadioGroup.Item value="filled" label="Filled" />
             <RadioGroup.Item value="outline" label="Outline" />
             <RadioGroup.Item value="subtle" label="Subtle" />
+            <RadioGroup.Item value="unstyled" label="Unstyled" />
           </RadioGroup>
         </div>
 

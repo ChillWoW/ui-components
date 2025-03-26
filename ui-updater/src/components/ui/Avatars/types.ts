@@ -7,6 +7,8 @@ export type AvatarBadgePosition =
   | "bottom-right"
   | "bottom-left";
 
+export type AvatarGroupOverlap = "left" | "right";
+
 export interface AvatarClassNames {
   container?: string;
   image?: string;
@@ -14,8 +16,15 @@ export interface AvatarClassNames {
   badge?: string;
 }
 
+export interface AvatarBadge {
+  content?: React.ReactNode | string | number;
+  position?: AvatarBadgePosition;
+  color?: string;
+}
+
 export interface AvatarProps {
   src?: string;
+  alt?: string;
   placeholder?: React.ReactNode;
   content?: any; // @deprecated
   size?: AvatarSize;
@@ -24,10 +33,13 @@ export interface AvatarProps {
   color?: string;
   className?: string;
   classNames?: AvatarClassNames;
-  badge?: {
-    position?: AvatarBadgePosition;
-    color?: string;
-  };
+  badge?: AvatarBadge;
+}
+
+export interface AvatarGroupClassNames {
+  container?: string;
+  avatar?: string;
+  remaining?: string;
 }
 
 export interface AvatarGroupProps {
@@ -38,5 +50,6 @@ export interface AvatarGroupProps {
   shape?: AvatarShape;
   rounded?: AvatarRounded;
   className?: string;
-  overlapFrom?: "left" | "right";
+  overlapFrom?: AvatarGroupOverlap;
+  classNames?: AvatarGroupClassNames;
 }

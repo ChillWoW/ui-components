@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "../..";
-import { useTabs } from "../Tabs";
-import { TabsPanelProps } from "../types";
+import { cn } from "../_utils";
+import { useTabs } from "./context";
+import { TabsPanelProps } from "./types";
 
 export const TabsPanel = ({
   value,
@@ -32,3 +32,5 @@ export const TabsPanel = ({
     </div>
   );
 };
+
+TabsPanel.displayName = "TabsPanel";

@@ -1,8 +1,14 @@
 import { createContext, useContext } from "react";
-import { RadioCardContextValue } from "./types";
+import { RadioCardProps } from "./types";
 
-export const RadioCardContext = createContext<RadioCardContextValue>({
-    onChange: () => {}
-});
+export const RadioCardContext = createContext<Partial<RadioCardProps> | null>(
+  null
+);
 
-export const useRadioCardContext = () => useContext(RadioCardContext);
+export const useRadioCardContext = () => {
+  const context = useContext(RadioCardContext);
+  if (!context) {
+    throw new Error("RadioCard components must be used within a RadioCard");
+  }
+  return context;
+};

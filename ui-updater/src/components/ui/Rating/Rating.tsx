@@ -1,7 +1,7 @@
 import { RatingInput } from "./RatingInput";
 import { RatingStar } from "./RatingStar";
 import { RatingProps } from "./types";
-import { cn } from "..";
+import { cn } from "../_utils";
 
 export const Rating = ({
   children,
@@ -15,12 +15,12 @@ export const Rating = ({
       spacing === "xs"
         ? "gap-0.5"
         : spacing === "sm"
-          ? "gap-1"
-          : spacing === "md"
-            ? "gap-2"
-            : spacing === "lg"
-              ? "gap-3"
-              : "gap-4";
+        ? "gap-1"
+        : spacing === "md"
+        ? "gap-2"
+        : spacing === "lg"
+        ? "gap-3"
+        : "gap-4";
 
     return gap;
   };
@@ -43,3 +43,5 @@ export const Rating = ({
 
 Rating.Input = RatingInput;
 Rating.Star = RatingStar;
+
+Rating.displayName = "Rating";

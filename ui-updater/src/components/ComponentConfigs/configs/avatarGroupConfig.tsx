@@ -7,6 +7,7 @@ import {
   AvatarGroup,
   Slider,
   NumberInput,
+  Switch,
 } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { InfoPanel } from "../InfoPanel";
@@ -16,6 +17,7 @@ import {
   activeButtonClass,
   numberInputClass,
   sliderClass,
+  switchClasses,
 } from "./index";
 
 export const avatarGroupConfig: ComponentConfigType = {
@@ -25,26 +27,32 @@ export const avatarGroupConfig: ComponentConfigType = {
     limit: 3,
     spacing: 10,
     overlapFrom: "left",
+    showImage: true,
+    showPlaceholder: false,
   },
 
   renderComponent: (props) => (
     <AvatarGroup
       avatars={[
         {
-          src: "https://github.com/shadcn.png",
-          placeholder: "SCN",
+          src: props.showImage ? "https://github.com/shadcn.png" : undefined,
+          placeholder: props.showPlaceholder ? "SCN" : undefined,
         },
         {
-          src: "https://github.com/shadcn.png",
-          placeholder: "SCN",
+          src: props.showImage ? "https://github.com/shadcn.png" : undefined,
+          placeholder: props.showPlaceholder ? "SCN" : undefined,
         },
         {
-          src: "https://github.com/shadcn.png",
-          placeholder: "SCN",
+          src: props.showImage ? "https://github.com/shadcn.png" : undefined,
+          placeholder: props.showPlaceholder ? "SCN" : undefined,
         },
         {
-          src: "https://github.com/shadcn.png",
-          placeholder: "SCN",
+          src: props.showImage ? "https://github.com/shadcn.png" : undefined,
+          placeholder: props.showPlaceholder ? "SCN" : undefined,
+        },
+        {
+          src: props.showImage ? "https://github.com/shadcn.png" : undefined,
+          placeholder: props.showPlaceholder ? "SCN" : undefined,
         },
       ]}
       size={props.size}
@@ -194,6 +202,35 @@ export const avatarGroupConfig: ComponentConfigType = {
             classNames={numberInputClass}
           />
         </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Options
+          </Text>
+          <Switch
+            label="Show Image"
+            checked={props.showImage}
+            onChange={(checked) =>
+              setProps({
+                ...props,
+                showImage: checked,
+              })
+            }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Show Placeholder (Turns off image)"
+            checked={props.showPlaceholder}
+            onChange={(checked) =>
+              setProps({
+                ...props,
+                showPlaceholder: checked,
+                showImage: props.showImage && !checked,
+              })
+            }
+            classNames={switchClasses}
+          />
+        </div>
       </div>
     );
   },
@@ -226,14 +263,32 @@ export const avatarGroupConfig: ComponentConfigType = {
           description: "Determines the shape of the avatar",
           possibleValues: ["circle", "rounded"],
         },
-        className: {
-          type: "string",
-          description: "Additional CSS classes to apply to the avatar",
-        },
         overlapFrom: {
           type: "string",
           description: "Determines the position of the overlap",
           possibleValues: ["left", "right"],
+        },
+        className: {
+          type: "string",
+          description: "Additional CSS classes to apply to the avatar",
+        },
+        classNames: {
+          type: "object",
+          description: "Additional CSS classes to apply to the avatar",
+          properties: {
+            container: {
+              type: "string",
+              description: "Additional CSS classes to apply to the container",
+            },
+            avatar: {
+              type: "string",
+              description: "Additional CSS classes to apply to the avatar",
+            },
+            remaining: {
+              type: "string",
+              description: "Additional CSS classes to apply to the remaining",
+            },
+          },
         },
       }}
     />

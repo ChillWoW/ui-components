@@ -94,3 +94,5 @@ export const RadioCard = ({
 
 RadioCard.Header = RadioCardHeader;
 RadioCard.Item = RadioCardItem;
+
+RadioCard.displayName = "RadioCard";

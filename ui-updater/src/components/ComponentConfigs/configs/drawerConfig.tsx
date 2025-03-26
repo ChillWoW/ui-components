@@ -20,6 +20,7 @@ export const drawerConfig: ComponentConfigType = {
     closeOnOverlayClick: true,
     animationDuration: 0.3,
     overlayAnimationDuration: 0.1,
+    separator: true,
   },
 
   renderComponent: (props, setProps) => {
@@ -57,7 +58,7 @@ export const drawerConfig: ComponentConfigType = {
             animationDuration={props.animationDuration}
             overlayAnimationDuration={props.overlayAnimationDuration}
           >
-            <Drawer.Header onClose={handleClose}>
+            <Drawer.Header separator={props.separator}>
               <Text>Header</Text>
             </Drawer.Header>
             <Drawer.Content>
@@ -120,21 +121,26 @@ export const drawerConfig: ComponentConfigType = {
 
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Disable Scroll
+            Options
           </Text>
           <Switch
+            label="Disable Scroll"
             checked={props.disableScroll}
             onChange={(value) => setProps({ ...props, disableScroll: value })}
             classNames={switchClasses}
           />
-          <Text size="sm" weight="bold">
-            Close on Overlay Click
-          </Text>
           <Switch
+            label="Close on Overlay Click"
             checked={props.closeOnOverlayClick}
             onChange={(value) =>
               setProps({ ...props, closeOnOverlayClick: value })
             }
+            classNames={switchClasses}
+          />
+          <Switch
+            label="Header Separator"
+            checked={props.separator}
+            onChange={(value) => setProps({ ...props, separator: value })}
             classNames={switchClasses}
           />
         </div>

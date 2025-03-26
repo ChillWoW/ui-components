@@ -1,7 +1,7 @@
 import React, { useId, useState, useRef, useEffect } from "react";
 import { MultiSelectOptionProps, MultiSelectProps } from "../types";
-import { cn } from "../..";
-import Option from "./Option";
+import { cn } from "../../_utils";
+import { Option } from "./Option";
 import { IconX, IconCheck } from "@tabler/icons-react";
 
 export const MultiSelect = ({
@@ -305,4 +305,4 @@ export const MultiSelect = ({
 
 MultiSelect.Option = Option;
 
-export default MultiSelect;
+MultiSelect.displayName = "MultiSelect";

@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { KbdProps, KbdSize, KbdVariant, KbdRounded } from "./types";
 
 export const Kbd = ({
@@ -64,3 +64,5 @@ export const Kbd = ({
     </Comp>
   );
 };
+
+Kbd.displayName = "Kbd";

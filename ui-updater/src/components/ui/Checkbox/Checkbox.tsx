@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { CheckboxProps } from "./types";
 
 export const Checkbox = ({
@@ -61,6 +60,7 @@ export const Checkbox = ({
     filled: "border border-[#3e4249] bg-[#1e1f21]",
     outline: "border-2 border-[#3e4249] bg-transparent checked:bg-transparent",
     subtle: "bg-[#2a2b2c] border border-[#3e4249] checked:bg-[#2a2b2c]",
+    unstyled: "",
   };
 
   const checkboxDisabledClass = "cursor-not-allowed opacity-60";
@@ -197,3 +197,5 @@ export const Checkbox = ({
     </div>
   );
 };
+
+Checkbox.displayName = "Checkbox";

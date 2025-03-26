@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { cn } from "../index";
+import { cn } from "../_utils";
+import { ModalContext } from "./context";
 import { ModalHeader } from "./ModalHeader";
 import { ModalBody } from "./ModalBody";
 import { ModalFooter } from "./ModalFooter";
@@ -20,6 +21,7 @@ export const Modal = ({
   classNames,
   animationDuration = 0.3,
   disableScroll = true,
+  shadow = "sm",
 }: ModalProps) => {
   const [mounted, setMounted] = useState(false);
 
@@ -58,12 +60,22 @@ export const Modal = ({
     full: "w-[95vw] h-[95vh]",
   };
 
+  const shadowStyles = {
+    none: "",
+    xs: "shadow-xs",
+    sm: "shadow-sm",
+    md: "shadow-md",
+    lg: "shadow-lg",
+    xl: "shadow-xl",
+    "2xl": "shadow-2xl",
+  };
+
   const backgroundClass = `fixed inset-0 bg-black z-[${zIndex || 200}]`;
   const modalClass = `fixed inset-0 text-white z-[${
     zIndex ? zIndex + 1 : 1000
   }] p-4 flex overflow-y-auto`;
   const modalContentClass =
-    "relative bg-[#252627] rounded-lg shadow-lg border border-[#3e4249] flex flex-col max-h-[95vh]";
+    "relative bg-[#252627] rounded-lg border border-[#3e4249] flex flex-col max-h-[95vh]";
 
   const handleOverlayClick = () => {
     if (canClose && closeOnClickOutside) {
@@ -72,7 +84,7 @@ export const Modal = ({
   };
 
   return (
-    <>
+    <ModalContext.Provider value={{ canClose, onClose, classNames }}>
       <div
         className={cn(backgroundClass, classNames?.overlay)}
         style={{
@@ -92,6 +104,7 @@ export const Modal = ({
           className={cn(
             modalContentClass,
             sizeClasses[size],
+            shadowStyles[shadow],
             className,
             classNames?.content
           )}
@@ -103,10 +116,12 @@ export const Modal = ({
           {children}
         </div>
       </div>
-    </>
+    </ModalContext.Provider>
   );
 };
 
 Modal.Header = ModalHeader;
 Modal.Body = ModalBody;
 Modal.Footer = ModalFooter;
+
+Modal.displayName = "Modal";

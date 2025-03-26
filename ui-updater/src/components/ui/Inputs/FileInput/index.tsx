@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { cn } from "../../index";
+import { cn } from "../../_utils";
 import { FileInputProps } from "../types";
 import { IconUpload, IconFile, IconX } from "@tabler/icons-react";
 
@@ -291,3 +291,5 @@ export const FileInput = ({
     </div>
   );
 };
+
+FileInput.displayName = "FileInput";

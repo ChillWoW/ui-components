@@ -1,7 +1,7 @@
 import React from "react";
-import { cn } from "../../..";
-import { useRadioCardContext } from "../context";
-import { RadioCardHeaderProps } from "../types";
+import { cn } from "../../_utils";
+import { useRadioCardContext } from "./context";
+import { RadioCardHeaderProps } from "./types";
 
 export const RadioCardHeader = ({
   children,
@@ -59,3 +59,5 @@ export const RadioCardHeader = ({
     </div>
   );
 };
+
+RadioCardHeader.displayName = "RadioCardHeader";

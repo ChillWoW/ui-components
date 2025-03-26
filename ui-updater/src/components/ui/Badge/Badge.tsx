@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../index";
+import { cn } from "../_utils";
 import { BadgeProps } from "./types";
 
 export const Badge = ({
@@ -39,6 +39,7 @@ export const Badge = ({
     filled: "bg-gray-700 text-white",
     outline: "bg-transparent border border-current text-white",
     dot: "bg-transparent text-white",
+    unstyled: "",
   };
 
   const badgeDotClass = "w-1.5 h-1.5 rounded-full bg-current mr-1";

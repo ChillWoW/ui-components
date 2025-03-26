@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../..";
+import { cn } from "../../_utils";
 
 interface OptionProps {
   value: string;
@@ -11,7 +11,7 @@ interface OptionProps {
   checkedIcon?: React.ReactNode;
 }
 
-const Option = ({
+export const Option = ({
   value,
   label,
   selected,
@@ -46,4 +46,4 @@ const Option = ({
   );
 };
 
-export default Option;
+Option.displayName = "Option";

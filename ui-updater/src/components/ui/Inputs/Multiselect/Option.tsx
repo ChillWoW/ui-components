@@ -1,8 +1,8 @@
 import React from "react";
 import { MultiSelectOptionProps } from "../types";
-import { cn } from "../..";
+import { cn } from "../../_utils";
 
-const Option = ({
+export const Option = ({
   value,
   label,
   children,
@@ -40,4 +40,4 @@ const Option = ({
   );
 };
 
-export default Option;
+Option.displayName = "Option";

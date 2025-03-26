@@ -27,6 +27,10 @@ export const modalConfig: ComponentConfigType = {
     closeOnClickOutside: false,
     closeOnEscape: true,
     disableScroll: true,
+    shadow: "sm",
+    headerPadding: "md",
+    bodyPadding: "md",
+    footerPadding: "md",
   },
 
   renderComponent: (props, setProps) => {
@@ -63,13 +67,14 @@ export const modalConfig: ComponentConfigType = {
             canClose={props.canClose}
             closeOnClickOutside={props.closeOnClickOutside}
             closeOnEscape={props.closeOnEscape}
+            shadow={props.shadow}
           >
-            <Modal.Header onClose={props.canClose ? handleClose : undefined}>
+            <Modal.Header padding={props.headerPadding}>
               <Text size="lg" weight="bold">
                 Modal Title
               </Text>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body padding={props.bodyPadding}>
               <div className="py-4">
                 <Text>
                   This is a modal dialog. You can customize its size, position,
@@ -81,7 +86,7 @@ export const modalConfig: ComponentConfigType = {
                 </Text>
               </div>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer padding={props.footerPadding}>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={handleClose}>
                   Cancel
@@ -148,6 +153,76 @@ export const modalConfig: ComponentConfigType = {
             <SelectInput.Option value="lg" label="lg" />
             <SelectInput.Option value="xl" label="xl" />
             <SelectInput.Option value="full" label="full" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Shadow
+          </Text>
+          <SelectInput
+            value={props.shadow}
+            onChange={(value) => setProps({ ...props, shadow: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="none" label="none" />
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
+            <SelectInput.Option value="2xl" label="2xl" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Header Padding
+          </Text>
+          <SelectInput
+            value={props.headerPadding}
+            onChange={(value) => setProps({ ...props, headerPadding: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Body Padding
+          </Text>
+          <SelectInput
+            value={props.bodyPadding}
+            onChange={(value) => setProps({ ...props, bodyPadding: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
+          </SelectInput>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Footer Padding
+          </Text>
+          <SelectInput
+            value={props.footerPadding}
+            onChange={(value) => setProps({ ...props, footerPadding: value })}
+            classNames={selectInputClasses}
+          >
+            <SelectInput.Option value="xs" label="xs" />
+            <SelectInput.Option value="sm" label="sm" />
+            <SelectInput.Option value="md" label="md" />
+            <SelectInput.Option value="lg" label="lg" />
+            <SelectInput.Option value="xl" label="xl" />
           </SelectInput>
         </div>
 

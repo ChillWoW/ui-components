@@ -38,18 +38,23 @@ import { fileInputConfig } from "./configs/fileInputConfig";
 import { breadcrumbConfig } from "./configs/breadcrumbConfig";
 import { multiSelectConfig } from "./configs/multiSelectConfig";
 import { chipConfig } from "./configs/chipConfig";
+import { codeConfig } from "./configs/codeConfig";
+import { flexConfig } from "./configs/flexConfig";
+import { gridConfig } from "./configs/gridConfig";
 
 export const componentConfigs = {
   alert: alertConfig,
   avatar: avatarConfig,
   avatarGroup: avatarGroupConfig,
   badge: badgeConfig,
+  breadcrumb: breadcrumbConfig,
   button: buttonConfig,
   buttonGroup: buttonGroupConfig,
-  breadcrumb: breadcrumbConfig,
   card: cardConfig,
   checkbox: checkboxConfig,
   drawer: drawerConfig,
+  flex: flexConfig,
+  grid: gridConfig,
   numberInput: numberInputConfig,
   chip: chipConfig,
   colorPicker: colorPickerConfig,
@@ -80,6 +85,7 @@ export const componentConfigs = {
   text: textConfig,
   timeline: timelineConfig,
   tooltip: tooltipConfig,
+  code: codeConfig,
 };
 
 export type ComponentConfigType = {

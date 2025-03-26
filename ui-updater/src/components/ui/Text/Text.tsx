@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { TextProps } from "./types";
 
 export const Text: React.FC<TextProps> = ({
@@ -51,8 +51,6 @@ export const Text: React.FC<TextProps> = ({
       normal: "normal-case",
     };
 
-    const hasColorClass = className?.includes("text-");
-
     return cn(
       "m-0 p-0 font-inherit",
       typeof size === "string" && sizeClasses[size],
@@ -96,3 +94,5 @@ export const Text: React.FC<TextProps> = ({
     </Component>
   );
 };
+
+Text.displayName = "Text";

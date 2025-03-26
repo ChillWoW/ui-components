@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { SwitchProps } from "./types";
 
 export const Switch = ({
@@ -137,3 +137,5 @@ export const Switch = ({
     </div>
   );
 };
+
+Switch.displayName = "Switch";

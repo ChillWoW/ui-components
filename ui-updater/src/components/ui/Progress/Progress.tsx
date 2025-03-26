@@ -1,6 +1,6 @@
 import React from "react";
 import "./Progress.css";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { ProgressProps } from "./types";
 
 export const Progress = ({
@@ -86,3 +86,5 @@ export const Progress = ({
     </div>
   );
 };
+
+Progress.displayName = "Progress";

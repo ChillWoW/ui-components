@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import { cn } from "../../";
-import { useTabs } from "../Tabs";
-import { TabsTabProps } from "../types";
+import { cn } from "../_utils";
+import { useTabs } from "./context";
+import { TabsTabProps } from "./types";
 
 export const TabsTab = ({
   value,
@@ -37,7 +37,6 @@ export const TabsTab = ({
     }
   };
 
-  // Size-based padding
   const sizeClasses = {
     xs: "px-2 py-1 text-xs",
     sm: "px-3 py-2 text-sm",
@@ -45,7 +44,6 @@ export const TabsTab = ({
     lg: "px-5 py-3 text-base",
   };
 
-  // Variant-based styling
   const variantClasses = {
     default: "hover:bg-[#333538]",
     outline: "border border-transparent hover:border-[#3e4249]",
@@ -117,3 +115,5 @@ export const TabsTab = ({
     </div>
   );
 };
+
+TabsTab.displayName = "TabsTab";
