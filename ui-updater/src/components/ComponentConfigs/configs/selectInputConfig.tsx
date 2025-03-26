@@ -55,17 +55,6 @@ export const selectInputConfig: ComponentConfigType = {
     </div>
   ),
 
-  renderError: () => (
-    <Alert color="error" icon={<IconAlertCircle />} closeable={false}>
-      <Alert.Title>No backward compatibility is provided</Alert.Title>
-      <Alert.Description>
-        This component has been updated with a new structure using
-        SelectInput.Option, Please check your existing implementations to ensure
-        compatibility on newer versions.
-      </Alert.Description>
-    </Alert>
-  ),
-
   renderPropsPanel: () => {
     return ({
       props,
