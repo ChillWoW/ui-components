@@ -7,7 +7,7 @@ import { AlertContext } from "./context";
 
 export const Alert = ({
   children,
-  color = "info",
+  intent = "info",
   variant = "filled",
   icon,
   onClose,
@@ -32,7 +32,7 @@ export const Alert = ({
     return variants[variant as keyof typeof variants] || variants.filled;
   };
 
-  const getColorStyles = () => {
+  const getIntentStyles = () => {
     const colors = {
       success: "border-emerald-600/20 bg-emerald-600/10 text-emerald-600",
       error: "border-red-600/20 bg-red-600/10 text-red-600",
@@ -42,7 +42,7 @@ export const Alert = ({
       light: "bg-gray-50 text-gray-600 border-gray-300",
     };
 
-    return colors[color as keyof typeof colors] || colors.info;
+    return colors[intent as keyof typeof colors] || colors.info;
   };
 
   const closeButtonStyles = () => {
@@ -57,7 +57,7 @@ export const Alert = ({
       light: "text-gray-600 hover:text-gray-500",
     };
 
-    return styles[color as keyof typeof styles] || styles.info;
+    return styles[intent as keyof typeof styles] || styles.info;
   };
 
   const shadowStyles = {
@@ -86,7 +86,7 @@ export const Alert = ({
           withBorder ? "border" : "",
           shadowStyles[shadow as keyof typeof shadowStyles],
           radiusStyles[radius as keyof typeof radiusStyles],
-          getColorStyles(),
+          getIntentStyles(),
           getVariantStyles(),
           compact ? "py-1" : "py-3",
           classNames?.container,

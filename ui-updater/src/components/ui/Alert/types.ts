@@ -1,10 +1,4 @@
-export type AlertColor =
-  | "success"
-  | "error"
-  | "warning"
-  | "info"
-  | "dark"
-  | "light";
+export type AlertIntent = "success" | "error" | "warning" | "info";
 export type AlertVariant = "filled" | "outline" | "unstyled";
 export type AlertIconPosition = "top" | "center" | "bottom";
 export type AlertRadius = "none" | "sm" | "md" | "lg" | "full";
@@ -13,7 +7,7 @@ export type AlertShadow = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
-  color?: AlertColor;
+  intent?: AlertIntent;
   variant?: AlertVariant;
   icon?: React.ReactNode;
   iconPosition?: AlertIconPosition;

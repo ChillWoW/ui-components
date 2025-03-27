@@ -10,7 +10,7 @@ export const alertConfig: ComponentConfigType = {
   defaultProps: {
     icon: false,
     variant: "filled",
-    color: "info",
+    intent: "info",
     closeable: false,
     compact: false,
     withBorder: true,
@@ -22,7 +22,7 @@ export const alertConfig: ComponentConfigType = {
   renderComponent: (props) => (
     <Alert
       variant={props.variant}
-      color={props.color}
+      intent={props.intent}
       icon={props.icon && <IconAlertCircle />}
       closeable={props.closeable}
       compact={props.compact}
@@ -50,11 +50,11 @@ export const alertConfig: ComponentConfigType = {
       <div className="space-y-4 w-full">
         <div className="flex flex-col gap-1">
           <Text size="sm" weight="bold">
-            Color
+            Intent
           </Text>
           <SelectInput
-            value={props.color}
-            onChange={(value) => setProps({ ...props, color: value })}
+            value={props.intent}
+            onChange={(value) => setProps({ ...props, intent: value })}
             classNames={selectInputClasses}
           >
             <SelectInput.Option value="success" label="Success" />

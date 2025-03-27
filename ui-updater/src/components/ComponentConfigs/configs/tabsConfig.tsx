@@ -214,7 +214,7 @@ export const tabsConfig: ComponentConfigType = {
   },
 
   renderError: () => (
-    <Alert color="error" icon={<IconAlertCircle />} closeable={false}>
+    <Alert intent="error" icon={<IconAlertCircle />} closeable={false}>
       <Alert.Title>No backward compatibility is provided</Alert.Title>
       <Alert.Description>
         This component has been updated with a new structure using Tabs.List,

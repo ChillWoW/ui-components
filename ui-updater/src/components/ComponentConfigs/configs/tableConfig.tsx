@@ -482,7 +482,7 @@ export const tableConfig: ComponentConfigType = {
           />
 
           {props.loading && (
-            <Alert variant="warning" closeable={false}>
+            <Alert intent="warning" closeable={false}>
               While loading is true, the table will display a loading indicator
               and hide content
             </Alert>
