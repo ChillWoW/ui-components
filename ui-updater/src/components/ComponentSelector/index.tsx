@@ -1,8 +1,11 @@
 import React, { use, useEffect, useState } from "react";
-import { SelectInput } from "@/components/ui/Inputs";
+import { SelectInput, TextInput } from "@/components/ui/Inputs";
 import { useSearchParams } from "next/navigation";
+import { IconSearch } from "@tabler/icons-react";
+import { Text } from "../ui";
 
 const COMPONENT_OPTIONS = [
+  { value: "accordion", label: "Accordion" },
   { value: "alert", label: "Alert" },
   { value: "avatar", label: "Avatar" },
   { value: "avatarGroup", label: "Avatar Group" },
@@ -13,6 +16,7 @@ const COMPONENT_OPTIONS = [
   { value: "card", label: "Card" },
   { value: "checkbox", label: "Checkbox" },
   { value: "code", label: "Code" },
+  { value: "colorSwatch", label: "Color Swatch" },
   { value: "drawer", label: "Drawer" },
   { value: "flex", label: "Flex" },
   { value: "grid", label: "Grid" },
@@ -39,7 +43,9 @@ const COMPONENT_OPTIONS = [
   { value: "rating", label: "Rating" },
   { value: "ringProgress", label: "Ring Progress" },
   { value: "slider", label: "Slider" },
+  { value: "skeleton", label: "Skeleton" },
   { value: "stepper", label: "Stepper" },
+  { value: "stat", label: "Stat" },
   { value: "switch", label: "Switch" },
   { value: "table", label: "Table" },
   { value: "tabs", label: "Tabs" },
@@ -55,7 +61,10 @@ export interface ComponentSelectorProps {
 const ComponentSelector: React.FC<ComponentSelectorProps> = ({
   onComponentChange,
 }) => {
-  const [selectedComponent, setSelectedComponent] = useState<string | null>();
+  const [selectedComponent, setSelectedComponent] = useState<string | null>(
+    null
+  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleComponentChange = (value: string) => {
     setSelectedComponent(value);
@@ -75,31 +84,44 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
     }
   }, [component]);
 
+  const filteredComponents = COMPONENT_OPTIONS.filter((option) =>
+    option.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="w-full max-w-md">
-      <SelectInput
-        label="Select a component to preview"
-        hint={`Components: ${COMPONENT_OPTIONS.length}`}
-        value={selectedComponent ?? undefined}
-        onChange={handleComponentChange}
-        className="w-full"
-        searchable
-        searchPlaceholder="Search for a component"
-        classNames={{
-          input: "bg-dark-800",
-          dropdown: "bg-dark-800",
-          option: "bg-dark-800 hover:bg-dark-700 text-white",
-          selectedOption: "bg-dark-700",
-        }}
-      >
-        {COMPONENT_OPTIONS.map((option) => (
-          <SelectInput.Option
-            key={option.value}
-            value={option.value}
-            label={option.label}
-          />
-        ))}
-      </SelectInput>
+    <div className="w-full">
+      <div className="mb-4">
+        <TextInput
+          placeholder="Search components..."
+          value={searchQuery}
+          onChange={(value: any) => setSearchQuery(value)}
+          leftSection={<IconSearch size={16} />}
+          hint={`Currently we have ${COMPONENT_OPTIONS.length} components`}
+          classNames={{
+            input: "bg-dark-800 border-dark-600",
+            leftSection: "bg-dark-800",
+            inputContainer: "bg-dark-800",
+          }}
+        />
+      </div>
+
+      <div className="max-h-[calc(100vh-200px)] overflow-y-auto scrollbar-thin scrollbar-thumb-dark-500 scrollbar-track-dark-800">
+        <ul className="space-y-1">
+          {filteredComponents.map((option) => (
+            <li
+              key={option.value}
+              className={`px-3 py-2 rounded cursor-pointer transition-colors ${
+                selectedComponent === option.value
+                  ? "bg-dark-700 text-white"
+                  : "text-gray-400 hover:bg-dark-700 hover:text-white"
+              }`}
+              onClick={() => handleComponentChange(option.value)}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

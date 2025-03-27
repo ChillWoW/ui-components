@@ -41,8 +41,13 @@ import { chipConfig } from "./configs/chipConfig";
 import { codeConfig } from "./configs/codeConfig";
 import { flexConfig } from "./configs/flexConfig";
 import { gridConfig } from "./configs/gridConfig";
+import { accordionConfig } from "./configs/accordionConfig";
+import { colorSwatchConfig } from "./configs/colorSwatchConfig";
+import { statConfig } from "./configs/statConfig";
+import { skeletonConfig } from "./configs/skeletonConfig";
 
 export const componentConfigs = {
+  accordion: accordionConfig,
   alert: alertConfig,
   avatar: avatarConfig,
   avatarGroup: avatarGroupConfig,
@@ -52,6 +57,7 @@ export const componentConfigs = {
   buttonGroup: buttonGroupConfig,
   card: cardConfig,
   checkbox: checkboxConfig,
+  colorSwatch: colorSwatchConfig,
   drawer: drawerConfig,
   flex: flexConfig,
   grid: gridConfig,
@@ -78,6 +84,8 @@ export const componentConfigs = {
   rating: ratingConfig,
   ringProgress: ringProgressConfig,
   slider: sliderConfig,
+  stat: statConfig,
+  skeleton: skeletonConfig,
   stepper: stepperConfig,
   switch: switchConfig,
   table: tableConfig,
