@@ -7,6 +7,12 @@ export type ButtonVariant =
   | "subtle"
   | "link"
   | "unstyled";
+export type ButtonIntent =
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "warning"
+  | "success";
 export type ButtonRadius = "none" | "sm" | "md" | "lg" | "full";
 
 export interface ButtonClassNames {
@@ -24,7 +30,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   className?: string;
   classNames?: ButtonClassNames;
-  color?: string;
+  intent?: ButtonIntent;
   fullWidth?: boolean;
   isLoading?: boolean;
   active?: boolean;

@@ -1,5 +1,5 @@
-import React, { ButtonHTMLAttributes } from "react";
-import { cn } from "../../_utils";
+import React from "react";
+import { cn, Loader } from "../../_utils";
 import { ButtonProps } from "./types";
 
 export const Button = ({
@@ -11,7 +11,7 @@ export const Button = ({
   size = "sm",
   disabled,
   classNames,
-  color,
+  intent,
   fullWidth,
   isLoading,
   active,
@@ -48,12 +48,20 @@ export const Button = ({
     full: "rounded-full",
   };
 
+  const intentClasses = {
+    primary: "bg-blue-500 text-white hover:bg-blue-600",
+    secondary: "bg-gray-500 text-white hover:bg-gray-600",
+    danger: "bg-red-500 text-white hover:bg-red-600",
+    warning: "bg-yellow-500 text-white hover:bg-yellow-600",
+    success: "bg-green-500 text-white hover:bg-green-600",
+  };
+
   const buttonClasses = cn(
     buttonClass,
     sizeClasses[size],
     variantClasses[variant],
     radiusClasses[radius],
-    color && `bg-[${color}]`,
+    intent && intentClasses[intent],
     fullWidth && "w-full",
     active && "!bg-opacity-80 ring-2 ring-opacity-30" && classNames?.active,
     (disabled || isLoading) &&
@@ -70,11 +78,7 @@ export const Button = ({
       {...props}
     >
       {isLoading ? (
-        <span
-          className="mr-2 inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
-          role="status"
-          aria-label="loading"
-        ></span>
+        <Loader />
       ) : (
         leftSection && (
           <span className={cn(classNames?.leftSection)}>{leftSection}</span>
