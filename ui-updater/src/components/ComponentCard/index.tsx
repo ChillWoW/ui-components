@@ -273,7 +273,7 @@ const ComponentCard = () => {
   };
 
   return (
-    <div className="bg-dark-900 min-h-screen w-full flex flex-col md:flex-row">
+    <div className="bg-dark-900 min-h-screen flex flex-col md:flex-row">
       <div className="w-64 h-screen bg-dark-800 border-r border-dark-600 fixed left-0 top-0 h-[calc(100vh-76px)] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-dark-600 p-4">
           <div className="flex items-center gap-2">

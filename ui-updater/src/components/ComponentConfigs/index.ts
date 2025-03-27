@@ -99,6 +99,7 @@ export const componentConfigs = {
 export type ComponentConfigType = {
   renderComponent: (props: any, setProps: (props: any) => void) => any;
   renderPropsPanel: () => any;
+  renderDocumentation?: () => any;
   generateCode?: (props: any) => any;
   renderError?: () => any;
   infoPanel?: () => any;

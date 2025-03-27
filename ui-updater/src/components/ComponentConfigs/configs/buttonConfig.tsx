@@ -4,6 +4,7 @@ import {
   ButtonRadius,
   ButtonSize,
   ButtonVariant,
+  ButtonIntent,
 } from "@/components/ui/Buttons/Button";
 import { Text, SelectInput, RadioGroup, Switch } from "@/components/ui";
 import { IconUser, IconUserCheck } from "@tabler/icons-react";
@@ -22,6 +23,7 @@ export const buttonConfig: ComponentConfigType = {
     fullWidth: false,
     isLoading: false,
     active: false,
+    intent: "",
     radius: "md",
   },
 
@@ -36,6 +38,7 @@ export const buttonConfig: ComponentConfigType = {
       isLoading={props.isLoading}
       active={props.active}
       radius={props.radius as ButtonRadius}
+      intent={props.intent as ButtonIntent}
     >
       {props.text}
     </Button>
@@ -100,6 +103,25 @@ export const buttonConfig: ComponentConfigType = {
           </RadioGroup>
         </div>
 
+        <div className="flex flex-col gap-1">
+          <Text size="sm" weight="bold">
+            Intent
+          </Text>
+          <SelectInput
+            value={props.intent}
+            onChange={(value) => setProps({ ...props, intent: value })}
+            classNames={selectInputClasses}
+            clearable
+          >
+            <SelectInput.Option value="" label="None" />
+            <SelectInput.Option value="primary" label="Primary" />
+            <SelectInput.Option value="secondary" label="Secondary" />
+            <SelectInput.Option value="danger" label="Danger" />
+            <SelectInput.Option value="warning" label="Warning" />
+            <SelectInput.Option value="success" label="Success" />
+          </SelectInput>
+        </div>
+
         <div className="flex flex-col gap-2">
           <Text size="sm" weight="bold">
             Options
@@ -128,12 +150,6 @@ export const buttonConfig: ComponentConfigType = {
             label="Full Width"
             checked={props.fullWidth}
             onChange={(checked) => setProps({ ...props, fullWidth: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Active"
-            checked={props.active}
-            onChange={(checked) => setProps({ ...props, active: checked })}
             classNames={switchClasses}
           />
           <Switch
