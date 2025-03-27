@@ -3,6 +3,7 @@ import { cn } from "../_utils";
 import { StatProps } from "./types";
 import { IconArrowUpRight, IconArrowDownRight } from "@tabler/icons-react";
 import { StatGroup } from "./StatGroup";
+import { Skeleton } from "../Skeleton";
 
 export const Stat = ({
   title,
@@ -106,8 +107,7 @@ export const Stat = ({
         {icon && (
           <div className={cn("text-gray-400", iconClassName)}>
             {loading ? (
-              // <Skeleton className="h-6 w-6 rounded-full" />
-              <div className="h-6 w-6 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <Skeleton className="h-6 w-6" circle />
             ) : (
               React.cloneElement(icon as React.ReactElement, {
                 // @ts-ignore
@@ -128,12 +128,7 @@ export const Stat = ({
           valueClassName
         )}
       >
-        {loading ? (
-          //<Skeleton className="h-8 w-32" />
-          <div className="h-8 w-32 bg-gray-200 dark:bg-gray-700" />
-        ) : (
-          value
-        )}
+        {loading ? <Skeleton height={12} width={32} /> : value}
       </div>
 
       {/* Footer with trend and description */}
@@ -163,12 +158,7 @@ export const Stat = ({
                   descriptionClassName
                 )}
               >
-                {loading ? (
-                  //<Skeleton className="h-4 w-40" />
-                  <div className="h-4 w-40 bg-gray-200 dark:bg-gray-700" />
-                ) : (
-                  description
-                )}
+                {loading ? <Skeleton height={4} width={40} /> : description}
               </div>
             )}
           </div>
