@@ -1,8 +1,64 @@
-import React, { use, useEffect, useState } from "react";
-import { SelectInput, TextInput } from "@/components/ui/Inputs";
+import React, { useEffect, useState } from "react";
+import { TextInput } from "@/components/ui/Inputs";
 import { useSearchParams } from "next/navigation";
 import { IconSearch } from "@tabler/icons-react";
-import { Text } from "../ui";
+
+const COMPONENT_CATEGORIES = {
+  Layout: ["flex", "grid", "card"],
+  Inputs: [
+    "textInput",
+    "numberInput",
+    "passwordInput",
+    "pinInput",
+    "selectInput",
+    "textArea",
+    "checkbox",
+    "radio",
+    "radioCard",
+    "radioGroup",
+    "switch",
+    "slider",
+    "colorPicker",
+    "datePicker",
+    "fileInput",
+    "multiSelect",
+  ],
+  Navigation: ["breadcrumb", "pagination", "tabs", "menu"],
+  Feedback: [
+    "alert",
+    "progress",
+    "loader",
+    "ringProgress",
+    "skeleton",
+    "tooltip",
+  ],
+  "Data Display": [
+    "avatar",
+    "avatarGroup",
+    "badge",
+    "chip",
+    "code",
+    "colorSwatch",
+    "kbd",
+    "stat",
+    "table",
+    "text",
+    "timeline",
+  ],
+  Overlay: ["drawer", "modal"],
+  Disclosure: ["accordion", "stepper"],
+  Engagement: ["button", "buttonGroup", "rating"],
+};
+
+const COMPONENT_TO_CATEGORY = Object.entries(COMPONENT_CATEGORIES).reduce(
+  (acc, [category, components]) => {
+    components.forEach((component) => {
+      acc[component] = category;
+    });
+    return acc;
+  },
+  {} as Record<string, string>
+);
 
 const COMPONENT_OPTIONS = [
   { value: "accordion", label: "Accordion" },
@@ -65,6 +121,14 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
     null
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState<
+    Record<string, boolean>
+  >(
+    Object.keys(COMPONENT_CATEGORIES).reduce((acc, category) => {
+      acc[category] = false;
+      return acc;
+    }, {} as Record<string, boolean>)
+  );
 
   const handleComponentChange = (value: string) => {
     setSelectedComponent(value);
@@ -88,6 +152,81 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
     option.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const toggleCategory = (category: string) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
+
+  const categorizedComponents = () => {
+    if (searchQuery) {
+      return (
+        <ul className="space-y-1">
+          {filteredComponents.map((option) => (
+            <li
+              key={option.value}
+              className={`px-3 py-2 rounded cursor-pointer transition-colors ${
+                selectedComponent === option.value
+                  ? "bg-dark-700 text-white"
+                  : "text-gray-400 hover:bg-dark-700 hover:text-white"
+              }`}
+              onClick={() => handleComponentChange(option.value)}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    return (
+      <div className="space-y-2">
+        {Object.entries(COMPONENT_CATEGORIES).map(
+          ([category, componentValues]) => (
+            <div
+              key={category}
+              className="border-b border-dark-600 pb-2 mb-2 last:border-b-0"
+            >
+              <div
+                className="flex items-center justify-between px-2 py-1 text-white font-medium cursor-pointer hover:bg-dark-600 rounded"
+                onClick={() => toggleCategory(category)}
+              >
+                <span>{category}</span>
+                <span>{expandedCategories[category] ? "-" : "+"}</span>
+              </div>
+
+              {expandedCategories[category] && (
+                <ul className="space-y-1 mt-1 ml-2">
+                  {componentValues.map((value) => {
+                    const option = COMPONENT_OPTIONS.find(
+                      (opt) => opt.value === value
+                    );
+                    if (!option) return null;
+
+                    return (
+                      <li
+                        key={option.value}
+                        className={`px-3 py-2 rounded cursor-pointer transition-colors ${
+                          selectedComponent === option.value
+                            ? "bg-dark-700 text-white"
+                            : "text-gray-400 hover:bg-dark-700 hover:text-white"
+                        }`}
+                        onClick={() => handleComponentChange(option.value)}
+                      >
+                        {option.label}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          )
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="w-full">
       <div className="mb-4">
@@ -106,21 +245,7 @@ const ComponentSelector: React.FC<ComponentSelectorProps> = ({
       </div>
 
       <div className="max-h-[calc(100vh-200px)] overflow-y-auto scrollbar-thin scrollbar-thumb-dark-500 scrollbar-track-dark-800">
-        <ul className="space-y-1">
-          {filteredComponents.map((option) => (
-            <li
-              key={option.value}
-              className={`px-3 py-2 rounded cursor-pointer transition-colors ${
-                selectedComponent === option.value
-                  ? "bg-dark-700 text-white"
-                  : "text-gray-400 hover:bg-dark-700 hover:text-white"
-              }`}
-              onClick={() => handleComponentChange(option.value)}
-            >
-              {option.label}
-            </li>
-          ))}
-        </ul>
+        {categorizedComponents()}
       </div>
     </div>
   );
