@@ -1,5 +1,4 @@
 import { Anchor, Card, cn, Text } from "@/components/ui";
-import { IconLink } from "@tabler/icons-react";
 
 interface ConfigCardProps {
     children: React.ReactNode;
@@ -17,7 +16,7 @@ const ConfigCard = ({
     anchorId = ""
 }: ConfigCardProps) => {
     return (
-        <Card withBorder={false} className="bg-dark-700">
+        <Card className="bg-dark-700 border-0">
             {title && (
                 <Anchor id={anchorId} showIcon={false}>
                     <Text size="lg" weight="bold">

@@ -132,50 +132,50 @@ export const buttonGroupConfig: ComponentConfigType = {
                                 <Button>Click Here</Button>
                             </ButtonGroup>
                         </div>
+                    </ConfigCard>
 
-                        <ConfigCard
-                            title="Orientation"
-                            description="The button group can have a horizontal or vertical orientation."
-                            anchorId="orientation"
-                            className="flex gap-1 items-center"
-                        >
-                            <ButtonGroup orientation="horizontal">
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                            </ButtonGroup>
-                            <ButtonGroup orientation="vertical">
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                            </ButtonGroup>
-                        </ConfigCard>
+                    <ConfigCard
+                        title="Orientation"
+                        description="The button group can have a horizontal or vertical orientation."
+                        anchorId="orientation"
+                        className="flex gap-1 items-center"
+                    >
+                        <ButtonGroup orientation="horizontal">
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                        </ButtonGroup>
+                        <ButtonGroup orientation="vertical">
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                        </ButtonGroup>
+                    </ConfigCard>
 
-                        <ConfigCard
-                            title="Disabled"
-                            description="The button can be in a disabled state."
-                            anchorId="disabled"
-                            className="flex gap-1 items-center"
-                        >
-                            <ButtonGroup disabled>
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                            </ButtonGroup>
-                        </ConfigCard>
+                    <ConfigCard
+                        title="Disabled"
+                        description="The button can be in a disabled state."
+                        anchorId="disabled"
+                        className="flex gap-1 items-center"
+                    >
+                        <ButtonGroup disabled>
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                        </ButtonGroup>
+                    </ConfigCard>
 
-                        <ConfigCard
-                            title="Loading"
-                            description="The button can be in a loading state."
-                            anchorId="loading"
-                            className="flex gap-1 items-center"
-                        >
-                            <ButtonGroup isLoading>
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                                <Button size="md">Click Here</Button>
-                            </ButtonGroup>
-                        </ConfigCard>
+                    <ConfigCard
+                        title="Loading"
+                        description="The button can be in a loading state."
+                        anchorId="loading"
+                        className="flex gap-1 items-center"
+                    >
+                        <ButtonGroup isLoading>
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                            <Button size="md">Click Here</Button>
+                        </ButtonGroup>
                     </ConfigCard>
 
                     <ConfigCard

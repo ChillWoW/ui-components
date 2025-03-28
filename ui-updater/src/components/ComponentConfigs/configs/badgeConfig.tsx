@@ -1,251 +1,560 @@
-import React from "react";
-import { Button } from "@/components/ui/Buttons/Button";
+import React, { useState } from "react";
 import {
-  Text,
-  SelectInput,
-  RadioGroup,
-  Switch,
-  Badge,
-  ButtonGroup,
+    Button,
+    ButtonRadius,
+    ButtonSize,
+    ButtonVariant,
+    ButtonIntent
+} from "@/components/ui/Buttons/Button";
+import {
+    Anchor,
+    Badge,
+    BadgeIntent,
+    BadgeRadius,
+    BadgeShape,
+    BadgeSize,
+    BadgeVariant,
+    ColorSwatch,
+    SelectInput,
+    Switch,
+    Text,
+    Tooltip
 } from "@/components/ui";
-import { IconUser, IconUserCheck } from "@tabler/icons-react";
+import { IconCheck, IconUser, IconUserCheck } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
-import { InfoPanel } from "../InfoPanel";
-import {
-  selectInputClasses,
-  switchClasses,
-  buttonClass,
-  activeButtonClass,
-} from "./index";
+import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
+import { selectInputClasses, switchClasses } from ".";
+
+import ConfigCard from "@/components/ConfigCard";
+import ConfigLabel from "@/components/ConfigLabel";
+import PlaygroundPreview from "@/components/Playground";
+import ComponentInfo from "@/components/ComponentInfo";
 
 export const badgeConfig: ComponentConfigType = {
-  defaultProps: {
-    size: "md",
-    variant: "filled",
-    shape: "rounded",
-    leftSection: false,
-    rightSection: false,
-    asLink: false,
-    color: "gray",
-  },
+    renderComponent: () => (
+        <div className="space-y-12">
+            <div>
+                <ComponentInfo
+                    title="Badge"
+                    description="Badge for displaying notifications or status."
+                />
 
-  renderComponent: (props) => (
-    <Badge
-      size={props.size}
-      variant={props.variant}
-      shape={props.shape}
-      leftSection={props.leftSection && <IconUser size={16} />}
-      rightSection={props.rightSection && <IconUserCheck size={16} />}
-      asLink={props.asLink}
-      href={props.asLink && "https://chillwow.org"}
-      target={props.asLink && "_blank"}
-      color={props.color}
-    >
-      Sample Badge
-    </Badge>
-  ),
-  renderPropsPanel: () => {
-    return ({
-      props,
-      setProps,
-    }: {
-      props: any;
-      setProps: (newProps: any) => void;
-    }) => (
-      <div className="space-y-4 w-full">
-        <div>
-          <Text size="sm" weight="bold">
-            Size
-          </Text>
-          <SelectInput
-            value={props.size}
-            onChange={(value) => setProps({ ...props, size: value })}
-            classNames={selectInputClasses}
-          >
-            <SelectInput.Option value="xs" label="xs" />
-            <SelectInput.Option value="sm" label="sm" />
-            <SelectInput.Option value="md" label="md" />
-            <SelectInput.Option value="lg" label="lg" />
-            <SelectInput.Option value="xl" label="xl" />
-          </SelectInput>
+                <div className="space-y-8">
+                    <ConfigLabel label="Types" />
+                    <ConfigCard
+                        title="Standard Badge"
+                        description="The standard badge is the most common badge type in the whole library."
+                        anchorId="standard"
+                    >
+                        <Badge className="bg-gray-700">Standard Badge</Badge>
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Variants"
+                        description="The badge can be styled with different variants."
+                        anchorId="variants"
+                        className="flex gap-2 items-center"
+                    >
+                        {["filled", "outline", "dot", "unstyled"].map(
+                            (variant) => (
+                                <Badge
+                                    variant={variant as BadgeVariant}
+                                    className={
+                                        variant === "filled"
+                                            ? "bg-gray-700"
+                                            : undefined
+                                    }
+                                    key={variant}
+                                >
+                                    {variant.charAt(0).toUpperCase() +
+                                        variant.slice(1)}
+                                </Badge>
+                            )
+                        )}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Intents"
+                        description="The badge can be styled with different intents."
+                        anchorId="intents"
+                        className="flex gap-2 items-center"
+                    >
+                        {[
+                            "primary",
+                            "secondary",
+                            "success",
+                            "danger",
+                            "warning"
+                        ].map((intent) => (
+                            <Badge intent={intent as BadgeIntent} key={intent}>
+                                {intent.charAt(0).toUpperCase() +
+                                    intent.slice(1)}
+                            </Badge>
+                        ))}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Sizes"
+                        description="The badge can be styled with different sizes."
+                        className="flex gap-2 items-end"
+                    >
+                        {["xs", "sm", "md", "lg", "xl", "2xl"].map((size) => (
+                            <Badge
+                                size={size as BadgeSize}
+                                key={size}
+                                className="bg-gray-700"
+                            >
+                                {size.charAt(0).toUpperCase() + size.slice(1)}
+                            </Badge>
+                        ))}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Sections"
+                        description="The badge can have a left or right section."
+                        anchorId="sections"
+                        className="flex gap-2 items-center"
+                    >
+                        <Badge
+                            size="md"
+                            leftSection={<IconUser size={16} />}
+                            className="bg-gray-700"
+                        >
+                            Click Here
+                        </Badge>
+                        <Badge
+                            size="md"
+                            rightSection={<IconUser size={16} />}
+                            className="bg-gray-700"
+                        >
+                            Click Here
+                        </Badge>
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Shapes"
+                        description="The badge can have a different shape."
+                        anchorId="shapes"
+                        className="flex gap-2 items-center"
+                    >
+                        {["rounded", "square", "pill"].map((shape) => (
+                            <Tooltip label={shape} key={shape}>
+                                <Badge
+                                    size="xl"
+                                    shape={shape as BadgeShape}
+                                    className="bg-gray-700"
+                                />
+                            </Tooltip>
+                        ))}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Radius"
+                        description="The badge can have a different radius."
+                        anchorId="radius"
+                        className="flex gap-2 items-center"
+                    >
+                        {["none", "sm", "md", "lg", "xl", "full"].map(
+                            (radius) => (
+                                <Tooltip label={radius} key={radius}>
+                                    <Badge
+                                        size="xl"
+                                        radius={radius as BadgeRadius}
+                                        className="bg-gray-700"
+                                    />
+                                </Tooltip>
+                            )
+                        )}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Link"
+                        description="The badge can be a link. Requires props: asLink, href and optionally target."
+                        anchorId="link"
+                        className="flex gap-1 items-center"
+                    >
+                        <Badge
+                            asLink
+                            href="https://www.chillwow.org"
+                            target="_blank"
+                            className="bg-gray-700"
+                        >
+                            Link
+                        </Badge>
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Color"
+                        description="The avatar can have a different color (any CSS color)."
+                        anchorId="color"
+                        className="flex gap-2 items-center"
+                    >
+                        {[
+                            "red",
+                            "blue",
+                            "green",
+                            "purple",
+                            "pink",
+                            "gray",
+                            "black"
+                        ].map((color) => (
+                            <Badge color={color} key={color}>
+                                {color}
+                            </Badge>
+                        ))}
+                    </ConfigCard>
+                </div>
+            </div>
         </div>
+    ),
 
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Background color
-          </Text>
-          <SelectInput
-            value={props.color}
-            onChange={(value) => setProps({ ...props, color: value })}
-            classNames={selectInputClasses}
-          >
-            <SelectInput.Option value="gray" label="Gray" />
-            <SelectInput.Option value="yellow" label="Yellow" />
-            <SelectInput.Option value="orange" label="Orange" />
-            <SelectInput.Option value="red" label="Red" />
-            <SelectInput.Option value="pink" label="Pink" />
-            <SelectInput.Option value="blue" label="Blue" />
-            <SelectInput.Option value="green" label="Green" />
-          </SelectInput>
-        </div>
+    defaultProps: {
+        children: "Content",
+        variant: "filled",
+        intent: "",
+        size: "md",
+        shape: "rounded",
+        color: "#228be6",
+        asLink: false,
+        href: "https://www.chillwow.org",
+        target: "_blank"
+    },
 
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Variant
-          </Text>
-          <RadioGroup
-            value={props.variant}
-            onChange={(value) => setProps({ ...props, variant: value })}
-          >
-            <RadioGroup.Item value="filled" label="Filled" />
-            <RadioGroup.Item value="outline" label="Outline" />
-            <RadioGroup.Item value="dot" label="Dot" />
-            <RadioGroup.Item value="unstyled" label="Unstyled" />
-          </RadioGroup>
-        </div>
+    renderPlayground: () => {
+        return ({
+            props,
+            setProps
+        }: {
+            props: any;
+            setProps: (newProps: any) => void;
+        }) => (
+            <PlaygroundPreview
+                preview={
+                    <Badge
+                        variant={props.variant}
+                        intent={props.intent}
+                        size={props.size}
+                        radius={props.radius}
+                        shape={props.shape}
+                        color={props.color}
+                        leftSection={props.leftSection && <IconUser />}
+                        rightSection={props.rightSection && <IconUserCheck />}
+                        asLink={props.asLink}
+                        href={props.href}
+                        target={props.target}
+                    >
+                        {props.children}
+                    </Badge>
+                }
+                exampleCode={`
+<Badge>
+  ${props.children}
+</Badge>
+`}
+                controls={
+                    <>
+                        <PlaygroundPreview.Section title="Content">
+                            <Switch
+                                label="Left Icon"
+                                checked={props.leftSection}
+                                onChange={(checked) =>
+                                    setProps({ ...props, leftSection: checked })
+                                }
+                                classNames={switchClasses}
+                            />
 
-        <div className="flex flex-col gap-1">
-          <Text size="sm" weight="bold">
-            Shape
-          </Text>
-          <ButtonGroup>
-            <Button
-              onClick={() => setProps({ ...props, shape: "square" })}
-              className={`${buttonClass} ${
-                props.shape === "square" && activeButtonClass
-              }`}
-            >
-              Square
-            </Button>
-            <Button
-              onClick={() => setProps({ ...props, shape: "rounded" })}
-              className={`${buttonClass} ${
-                props.shape === "rounded" && activeButtonClass
-              }`}
-            >
-              Rounded
-            </Button>
-            <Button
-              onClick={() => setProps({ ...props, shape: "pill" })}
-              className={`${buttonClass} ${
-                props.shape === "pill" && activeButtonClass
-              }`}
-            >
-              Pill
-            </Button>
-          </ButtonGroup>
-        </div>
+                            <Switch
+                                label="Right Icon"
+                                checked={props.rightSection}
+                                onChange={(checked) =>
+                                    setProps({
+                                        ...props,
+                                        rightSection: checked
+                                    })
+                                }
+                                classNames={switchClasses}
+                            />
+                        </PlaygroundPreview.Section>
 
-        <div className="flex flex-col gap-2">
-          <Text size="sm" weight="bold">
-            Options
-          </Text>
-          <Switch
-            label="Link"
-            checked={props.asLink}
-            onChange={(checked) => setProps({ ...props, asLink: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Left Section"
-            checked={props.leftSection}
-            onChange={(checked) => setProps({ ...props, leftSection: checked })}
-            classNames={switchClasses}
-          />
-          <Switch
-            label="Right Section"
-            checked={props.rightSection}
-            onChange={(checked) =>
-              setProps({ ...props, rightSection: checked })
-            }
-            classNames={switchClasses}
-          />
-        </div>
-      </div>
-    );
-  },
+                        <PlaygroundPreview.Section title="Appearance">
+                            <SelectInput
+                                label="Variant"
+                                value={props.variant}
+                                onChange={(value) =>
+                                    setProps({ ...props, variant: value })
+                                }
+                                classNames={selectInputClasses}
+                            >
+                                <SelectInput.Option
+                                    value="filled"
+                                    label="Filled"
+                                />
+                                <SelectInput.Option
+                                    value="outline"
+                                    label="Outline"
+                                />
+                                <SelectInput.Option value="dot" label="Dot" />
+                                <SelectInput.Option
+                                    value="unstyled"
+                                    label="Unstyled"
+                                />
+                            </SelectInput>
 
-  infoPanel: () => (
-    <InfoPanel
-      propInfo={{
-        children: {
-          type: "ReactNode",
-          required: true,
-          description: "Content of the badge",
-        },
-        size: {
-          type: "string",
-          default: "md",
-          description: "Determines the size of the badge",
-          possibleValues: ["xs", "sm", "md", "lg", "xl"],
-        },
-        variant: {
-          type: "string",
-          default: "filled",
-          description: "Determines the color and style of the badge",
-          possibleValues: ["filled", "outline", "dot"],
-        },
-        shape: {
-          type: "string",
-          default: "rounded",
-          description: "Determines the shape of the badge",
-          possibleValues: ["rounded", "pill"],
-        },
-        leftSection: {
-          type: "ReactNode",
-          description: "Determines the left section of the badge",
-        },
-        rightSection: {
-          type: "ReactNode",
-          description: "Determines the right section of the badge",
-        },
-        color: {
-          type: "string",
-          description: "Determines the color of the badge (only for filled)",
-        },
-        asLink: {
-          type: "boolean",
-          description: "Determines if the badge is a link",
-        },
-        href: {
-          type: "string",
-          description: "Determines the href of the badge (link only)",
-        },
-        target: {
-          type: "string",
-          description: "Determines the target of the badge (link only)",
-        },
-        onClick: {
-          type: "function",
-          description: "Determines the function when clicking the badge",
-        },
-        className: {
-          type: "string",
-          description: "Additional CSS classes to apply to the badge",
-        },
-        classNames: {
-          type: "object",
-          description: "Additional CSS classes to apply to the badge",
-          properties: {
-            container: {
-              type: "string",
-              description: "Container of the badge",
-            },
-            leftSection: {
-              type: "string",
-              description: "Left section of the badge",
-            },
-            rightSection: {
-              type: "string",
-              description: "Right section of the badge",
-            },
-            dot: {
-              type: "string",
-              description: "Dot of the badge",
-            },
-          },
-        },
-      }}
-    />
-  ),
+                            <SelectInput
+                                label="Intent"
+                                value={props.intent}
+                                onChange={(value) =>
+                                    setProps({ ...props, intent: value })
+                                }
+                                classNames={selectInputClasses}
+                                clearable
+                            >
+                                <SelectInput.Option
+                                    value="primary"
+                                    label="Primary"
+                                />
+                                <SelectInput.Option
+                                    value="secondary"
+                                    label="Secondary"
+                                />
+                                <SelectInput.Option
+                                    value="success"
+                                    label="Success"
+                                />
+                                <SelectInput.Option
+                                    value="danger"
+                                    label="Danger"
+                                />
+                                <SelectInput.Option
+                                    value="warning"
+                                    label="Warning"
+                                />
+                            </SelectInput>
+
+                            <SelectInput
+                                label="Size"
+                                value={props.size}
+                                onChange={(value) =>
+                                    setProps({ ...props, size: value })
+                                }
+                                classNames={selectInputClasses}
+                            >
+                                <SelectInput.Option value="xs" label="xs" />
+                                <SelectInput.Option value="sm" label="sm" />
+                                <SelectInput.Option value="md" label="md" />
+                                <SelectInput.Option value="lg" label="lg" />
+                                <SelectInput.Option value="xl" label="xl" />
+                                <SelectInput.Option value="2xl" label="2xl" />
+                            </SelectInput>
+
+                            <SelectInput
+                                label="Radius"
+                                value={props.radius}
+                                onChange={(value) =>
+                                    setProps({ ...props, radius: value })
+                                }
+                                classNames={selectInputClasses}
+                            >
+                                <SelectInput.Option value="none" label="none" />
+                                <SelectInput.Option value="sm" label="sm" />
+                                <SelectInput.Option value="md" label="md" />
+                                <SelectInput.Option value="lg" label="lg" />
+                                <SelectInput.Option value="xl" label="xl" />
+                                <SelectInput.Option value="full" label="full" />
+                            </SelectInput>
+                        </PlaygroundPreview.Section>
+
+                        <PlaygroundPreview.Section title="Background Color">
+                            <div className="flex gap-2">
+                                {[
+                                    "",
+                                    "#228be6", // blue
+                                    "#ef4444", // red
+                                    "#22c55e", // green
+                                    "#f59e0b", // amber
+                                    "#8b5cf6", // violet
+                                    "#14b8a6", // teal
+                                    "#e11d48", // rose
+                                    "#9333ea", // purple
+                                    "#f97316", // orange
+                                    "rgba(234, 22, 174, 0.5)" // semi-transparent pink
+                                ].map((color) => (
+                                    <ColorSwatch
+                                        color={color}
+                                        size="md"
+                                        key={color}
+                                        onClick={() =>
+                                            setProps({
+                                                ...props,
+                                                color
+                                            })
+                                        }
+                                        aria-label={`Set color to ${color}`}
+                                    >
+                                        {color === props.color && (
+                                            <IconCheck size={16} />
+                                        )}
+                                    </ColorSwatch>
+                                ))}
+                            </div>
+                            <Text size="xs" className="text-gray-400">
+                                If this is set, the Intent prop will be ignored.
+                                Use the first option to turn it off.
+                            </Text>
+                        </PlaygroundPreview.Section>
+
+                        <PlaygroundPreview.Section title="States">
+                            <Switch
+                                label="Link"
+                                checked={props.asLink}
+                                onChange={(checked) =>
+                                    setProps({ ...props, asLink: checked })
+                                }
+                                classNames={switchClasses}
+                            />
+                        </PlaygroundPreview.Section>
+                    </>
+                }
+            />
+        );
+    },
+
+    renderStylesAPI: () => (
+        <>
+            <StylesAPI
+                title="API"
+                apiData={[
+                    {
+                        property: "children",
+                        description: "The content of the badge",
+                        type: "ReactNode"
+                    },
+                    {
+                        property: "leftSection",
+                        description: "The left section of the badge",
+                        type: "ReactNode"
+                    },
+                    {
+                        property: "rightSection",
+                        description: "The right section of the badge",
+                        type: "ReactNode"
+                    },
+                    {
+                        property: "variant",
+                        description: "The variant of the badge",
+                        type: createTypeOptions([
+                            "filled",
+                            "outline",
+                            "dot",
+                            "unstyled"
+                        ]),
+                        default: "filled"
+                    },
+                    {
+                        property: "intent",
+                        description: "The intent of the badge",
+                        type: createTypeOptions([
+                            "primary",
+                            "secondary",
+                            "success",
+                            "danger",
+                            "warning"
+                        ])
+                    },
+                    {
+                        property: "size",
+                        description: "The size of the badge",
+                        type: createTypeOptions([
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                            "2xl"
+                        ]),
+                        default: "sm"
+                    },
+                    {
+                        property: "shape",
+                        description: "The shape of the badge",
+                        type: createTypeOptions(["rounded", "square", "pill"]),
+                        default: "rounded"
+                    },
+                    {
+                        property: "radius",
+                        description: "The radius of the badge",
+                        type: createTypeOptions([
+                            "none",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                            "full"
+                        ]),
+                        default: "md"
+                    },
+                    {
+                        property: "color",
+                        description: "The color of the badge",
+                        type: "string",
+                        default: "transparent"
+                    },
+                    {
+                        property: "asLink",
+                        description: "Whether the badge is a link",
+                        type: "boolean",
+                        default: "false"
+                    },
+                    {
+                        property: "href (if asLink is true)",
+                        description: "The href of the badge",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "target (if asLink is true)",
+                        description: "The target of the badge",
+                        type: "string",
+                        default: "-"
+                    }
+                ]}
+            />
+            <StylesAPI
+                title="Styles API"
+                apiData={[
+                    {
+                        property: "classNames",
+                        description:
+                            "Object of class names to override component styles",
+                        type: "object",
+                        default: "{}"
+                    },
+                    {
+                        property: "classNames.container",
+                        description: "Root button element",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.leftSection",
+                        description: "Left icon/element wrapper",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.rightSection",
+                        description: "Right icon/element wrapper",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.dot",
+                        description: "Applied when variant is dot",
+                        type: "string",
+                        default: "-"
+                    }
+                ]}
+            />
+        </>
+    )
 };

@@ -17,7 +17,7 @@ export const Avatar = ({
     ...props
 }: AvatarProps) => {
     const avatarClass =
-        "inline-flex items-center justify-center text-white bg-gray-700 relative";
+        "inline-flex items-center justify-center text-white bg-[#2c2c2c] relative";
 
     const sizeClass = {
         xs: "w-6 h-6 text-xs",

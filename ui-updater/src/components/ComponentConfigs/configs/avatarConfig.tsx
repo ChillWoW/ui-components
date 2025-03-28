@@ -108,10 +108,10 @@ export const avatarConfig: ComponentConfigType = {
                         anchorId="placeholder"
                         className="flex gap-2 items-center"
                     >
-                        <Avatar placeholder="AA" />
-                        <Avatar placeholder="AB" />
-                        <Avatar placeholder="AC" />
-                        <Avatar placeholder="AAA" />
+                        <Avatar placeholder="AA" className="bg-gray-700" />
+                        <Avatar placeholder="AB" className="bg-gray-700" />
+                        <Avatar placeholder="AC" className="bg-gray-700" />
+                        <Avatar placeholder="AAA" className="bg-gray-700" />
                     </ConfigCard>
 
                     <ConfigCard
@@ -127,6 +127,7 @@ export const avatarConfig: ComponentConfigType = {
                                 placeholder={
                                     size.charAt(0).toUpperCase() + size.slice(1)
                                 }
+                                className="bg-gray-700"
                             />
                         ))}
                     </ConfigCard>
@@ -143,7 +144,10 @@ export const avatarConfig: ComponentConfigType = {
                                 key={shape}
                                 className={tooltipClass}
                             >
-                                <Avatar shape={shape as AvatarShape} />
+                                <Avatar
+                                    shape={shape as AvatarShape}
+                                    className="bg-gray-700"
+                                />
                             </Tooltip>
                         ))}
                     </ConfigCard>
@@ -163,6 +167,7 @@ export const avatarConfig: ComponentConfigType = {
                                 <Avatar
                                     radius={radius as AvatarRadius}
                                     shape="square"
+                                    className="bg-gray-700"
                                 />
                             </Tooltip>
                         ))}
@@ -180,14 +185,16 @@ export const avatarConfig: ComponentConfigType = {
                                 content: "1",
                                 color: "red"
                             }}
+                            className="bg-gray-700"
                         />
                         <Avatar
                             size="md"
                             badge={{
                                 color: "red"
                             }}
+                            className="bg-gray-700"
                         />
-                        <Avatar size="md" badge={{}} />
+                        <Avatar size="md" badge={{}} className="bg-gray-700" />
                     </ConfigCard>
 
                     <ConfigCard
@@ -209,6 +216,7 @@ export const avatarConfig: ComponentConfigType = {
                                         position:
                                             position as AvatarBadgePosition
                                     }}
+                                    className="bg-gray-700"
                                 />
                             </Tooltip>
                         ))}

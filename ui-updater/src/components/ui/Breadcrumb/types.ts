@@ -1,5 +1,7 @@
 import React from "react";
 
+export type BreadcrumbSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
 export interface BreadcrumbItemProps {
     children: React.ReactNode;
     active?: boolean;
@@ -23,9 +25,8 @@ export interface BreadcrumbProps {
     items?: BreadcrumbItemProps[];
     children?: React.ReactNode;
     separator?: React.ReactNode;
-    size?: "xs" | "sm" | "md" | "lg" | "xl";
+    size?: BreadcrumbSize;
     maxItems?: number;
-    collapsedLabel?: string;
     className?: string;
     classNames?: BreadcrumbClassNames;
 }

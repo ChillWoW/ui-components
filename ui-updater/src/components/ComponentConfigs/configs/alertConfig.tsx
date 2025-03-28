@@ -128,6 +128,10 @@ export const alertConfig: ComponentConfigType = {
                                 </Alert>
                             )
                         )}
+                        <Text size="sm" className="text-gray-400">
+                            The shadow may not show in the preview, but it
+                            should work in the playground.
+                        </Text>
                     </ConfigCard>
 
                     <ConfigCard

@@ -1,24 +1,136 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-    Text,
-    Switch,
-    NumberInput,
-    SelectInput,
-    ButtonGroup,
     Button,
-    TextInput,
-    Breadcrumb
-} from "@/components/ui";
-import { ComponentConfigType } from "../index";
+    ButtonRadius,
+    ButtonSize,
+    ButtonVariant,
+    ButtonIntent
+} from "@/components/ui/Buttons/Button";
 import {
+    Anchor,
+    Breadcrumb,
+    BreadcrumbSize,
+    SelectInput,
+    StepperInput,
+    Switch,
+    TextInput
+} from "@/components/ui";
+import { IconUser, IconUserCheck } from "@tabler/icons-react";
+import { ComponentConfigType } from "../index";
+import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
+import {
+    selectInputClasses,
+    stepperInputClass,
     switchClasses,
-    buttonClass,
-    activeButtonClass,
-    numberInputClass,
     textInputClass
-} from "./index";
+} from ".";
+
+import ConfigCard from "@/components/ConfigCard";
+import ConfigLabel from "@/components/ConfigLabel";
+import PlaygroundPreview from "@/components/Playground";
+import ComponentInfo from "@/components/ComponentInfo";
+
+const renderBreadcrumb = (props?: any) => {
+    return <Breadcrumb {...props} />;
+};
+
+const breadcrumbItems = ({ asLink = false }: { asLink?: boolean }) => [
+    {
+        children: "Home",
+        href: asLink ? "https://chillwow.org" : undefined,
+        target: asLink ? "_blank" : undefined
+    },
+    {
+        children: "Products",
+        href: asLink ? "https://chillwow.org" : undefined,
+        target: asLink ? "_blank" : undefined
+    },
+    {
+        children: "Categories",
+        href: asLink ? "https://chillwow.org" : undefined,
+        target: asLink ? "_blank" : undefined
+    },
+    { children: "Electronics", active: true }
+];
 
 export const breadcrumbConfig: ComponentConfigType = {
+    renderComponent: () => (
+        <div className="space-y-12">
+            <div>
+                <ComponentInfo
+                    title="Breadcrumb"
+                    description="Breadcrumb for navigation."
+                />
+
+                <div className="space-y-8">
+                    <ConfigLabel label="Types" />
+                    <ConfigCard
+                        title="Standard Breadcrumb"
+                        description="The standard breadcrumb is the most common breadcrumb type in the whole library."
+                        anchorId="standard"
+                    >
+                        {renderBreadcrumb({
+                            items: breadcrumbItems({})
+                        })}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Sizes"
+                        description="The breadcrumb can be styled with different sizes."
+                        anchorId="sizes"
+                        className="flex flex-col gap-1"
+                    >
+                        {["xs", "sm", "md", "lg", "xl", "2xl"].map((size) =>
+                            renderBreadcrumb({
+                                size: size as BreadcrumbSize,
+                                items: breadcrumbItems({}),
+                                key: size
+                            })
+                        )}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Separator"
+                        description="The breadcrumb can have a custom separator."
+                        anchorId="separator"
+                        className="flex flex-col gap-1"
+                    >
+                        <Breadcrumb items={breadcrumbItems({})} separator=">" />
+                        <Breadcrumb items={breadcrumbItems({})} separator="|" />
+                        <Breadcrumb items={breadcrumbItems({})} separator="!" />
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Max Items"
+                        description="The breadcrumb can be collapsed if it has too many items."
+                        anchorId="max-items"
+                        className="flex flex-col gap-1"
+                    >
+                        {renderBreadcrumb({
+                            items: breadcrumbItems({}),
+                            maxItems: 3
+                        })}
+                        {renderBreadcrumb({
+                            items: breadcrumbItems({}),
+                            maxItems: 2
+                        })}
+                    </ConfigCard>
+
+                    <ConfigCard
+                        title="Items linked to a URL"
+                        description="The breadcrumb items can be linked to a URL. Uses href and target props."
+                        anchorId="items-linked-to-url"
+                        className="flex flex-col gap-1"
+                    >
+                        {renderBreadcrumb({
+                            items: breadcrumbItems({ asLink: true })
+                        })}
+                    </ConfigCard>
+                </div>
+            </div>
+        </div>
+    ),
+
     defaultProps: {
         items: [
             {
@@ -40,21 +152,10 @@ export const breadcrumbConfig: ComponentConfigType = {
         ],
         separator: "/",
         size: "md",
-        maxItems: 0
+        maxItems: 3
     },
 
-    renderComponent: (props, setProps) => (
-        <div className="w-full flex justify-center">
-            <Breadcrumb
-                items={props.items}
-                separator={props.separator}
-                size={props.size}
-                maxItems={props.maxItems > 0 ? props.maxItems : undefined}
-            />
-        </div>
-    ),
-
-    renderPropsPanel: () => {
+    renderPlayground: () => {
         return ({
             props,
             setProps
@@ -62,128 +163,157 @@ export const breadcrumbConfig: ComponentConfigType = {
             props: any;
             setProps: (newProps: any) => void;
         }) => (
-            <div className="space-y-4 w-full">
-                <div className="flex flex-col gap-2">
-                    <Text size="sm" weight="bold">
-                        Size
-                    </Text>
-                    <ButtonGroup>
-                        <Button
-                            onClick={() => setProps({ ...props, size: "xs" })}
-                            className={`${buttonClass} ${
-                                props.size === "xs" && activeButtonClass
-                            }`}
-                        >
-                            XS
-                        </Button>
-                        <Button
-                            onClick={() => setProps({ ...props, size: "sm" })}
-                            className={`${buttonClass} ${
-                                props.size === "sm" && activeButtonClass
-                            }`}
-                        >
-                            SM
-                        </Button>
-                        <Button
-                            onClick={() => setProps({ ...props, size: "md" })}
-                            className={`${buttonClass} ${
-                                props.size === "md" && activeButtonClass
-                            }`}
-                        >
-                            MD
-                        </Button>
-                        <Button
-                            onClick={() => setProps({ ...props, size: "lg" })}
-                            className={`${buttonClass} ${
-                                props.size === "lg" && activeButtonClass
-                            }`}
-                        >
-                            LG
-                        </Button>
-                        <Button
-                            onClick={() => setProps({ ...props, size: "xl" })}
-                            className={`${buttonClass} ${
-                                props.size === "xl" && activeButtonClass
-                            }`}
-                        >
-                            XL
-                        </Button>
-                    </ButtonGroup>
-                </div>
+            <PlaygroundPreview
+                preview={<Breadcrumb {...props} />}
+                exampleCode={`const items = [
+    {
+        children: "Home",
+        href: "https://chillwow.org",
+        target: "_blank"
+    },
+    {
+        children: "Products",
+        href: "https://chillwow.org",
+        target: "_blank"
+    },
+]
 
-                <div className="flex flex-col gap-2">
-                    <Text size="sm" weight="bold">
-                        Separator
-                    </Text>
-                    <ButtonGroup>
-                        <Button
-                            onClick={() =>
-                                setProps({ ...props, separator: "/" })
-                            }
-                            className={`${buttonClass} ${
-                                props.separator === "/" && activeButtonClass
-                            }`}
-                        >
-                            /
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                setProps({ ...props, separator: ">" })
-                            }
-                            className={`${buttonClass} ${
-                                props.separator === ">" && activeButtonClass
-                            }`}
-                        >
-                            &gt;
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                setProps({ ...props, separator: "|" })
-                            }
-                            className={`${buttonClass} ${
-                                props.separator === "|" && activeButtonClass
-                            }`}
-                        >
-                            |
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                setProps({ ...props, separator: "•" })
-                            }
-                            className={`${buttonClass} ${
-                                props.separator === "•" && activeButtonClass
-                            }`}
-                        >
-                            •
-                        </Button>
-                        <Button
-                            onClick={() =>
-                                setProps({ ...props, separator: "-" })
-                            }
-                            className={`${buttonClass} ${
-                                props.separator === "-" && activeButtonClass
-                            }`}
-                        >
-                            -
-                        </Button>
-                    </ButtonGroup>
-                </div>
+<Breadcrumb items={items} />
+`}
+                controls={
+                    <>
+                        <PlaygroundPreview.Section title="Separator">
+                            <TextInput
+                                label="Separator"
+                                value={props.separator}
+                                onChange={(value) =>
+                                    setProps({ ...props, separator: value })
+                                }
+                                classNames={textInputClass}
+                            />
+                        </PlaygroundPreview.Section>
 
-                <div className="flex flex-col gap-2">
-                    <Text size="sm" weight="bold">
-                        Max Items (0 = show all)
-                    </Text>
-                    <NumberInput
-                        value={props.maxItems}
-                        onChange={(value) =>
-                            setProps({ ...props, maxItems: value })
-                        }
-                        min={0}
-                        max={10}
-                        classNames={numberInputClass}
-                    />
-                </div>
-            </div>
+                        <PlaygroundPreview.Section title="Appearance">
+                            <SelectInput
+                                label="Size"
+                                value={props.size}
+                                onChange={(value) =>
+                                    setProps({ ...props, size: value })
+                                }
+                                classNames={selectInputClasses}
+                            >
+                                <SelectInput.Option value="xs" label="xs" />
+                                <SelectInput.Option value="sm" label="sm" />
+                                <SelectInput.Option value="md" label="md" />
+                                <SelectInput.Option value="lg" label="lg" />
+                                <SelectInput.Option value="xl" label="xl" />
+                                <SelectInput.Option value="2xl" label="2xl" />
+                            </SelectInput>
+                        </PlaygroundPreview.Section>
+
+                        <PlaygroundPreview.Section title="Items">
+                            <StepperInput
+                                min={0}
+                                max={props.items.length - 1}
+                                value={props.maxItems}
+                                onChange={(value) =>
+                                    setProps({ ...props, maxItems: value })
+                                }
+                                classNames={stepperInputClass}
+                            />
+                        </PlaygroundPreview.Section>
+                    </>
+                }
+            />
         );
-    }
+    },
+
+    renderStylesAPI: () => (
+        <>
+            <StylesAPI
+                title="API"
+                apiData={[
+                    {
+                        property: "items",
+                        description: "The items of the breadcrumb",
+                        type: "object",
+                        default: "[]"
+                    },
+                    {
+                        property: "separator",
+                        description: "The separator of the breadcrumb",
+                        type: "ReactNode",
+                        default: "/"
+                    },
+                    {
+                        property: "size",
+                        description: "The size of the breadcrumb",
+                        type: createTypeOptions([
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                            "2xl"
+                        ]),
+                        default: "md"
+                    },
+                    {
+                        property: "maxItems",
+                        description: "The maximum number of items to show",
+                        type: "number",
+                        default: "3"
+                    }
+                ]}
+            />
+            <StylesAPI
+                title="Styles API"
+                apiData={[
+                    {
+                        property: "classNames",
+                        description:
+                            "Object of class names to override component styles",
+                        type: "object",
+                        default: "{}"
+                    },
+                    {
+                        property: "classNames.container",
+                        description: "Root breadcrumb element",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.item",
+                        description: "Item element",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.activeItem",
+                        description: "Active item element",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.separator",
+                        description: "Separator element",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.collapsed",
+                        description: "Applied when breadcrumb is collapsed",
+                        type: "string",
+                        default: "-"
+                    },
+                    {
+                        property: "classNames.home",
+                        description: "Home item element",
+                        type: "string",
+                        default: "-"
+                    }
+                ]}
+            />
+        </>
+    )
 };
