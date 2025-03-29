@@ -8,8 +8,8 @@ export type ColorSwatchShadow =
     | "lg"
     | "xl"
     | "2xl";
-export type ColorSwatchRadius = "none" | "sm" | "md" | "lg" | "full";
-export type ColorSwatchSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ColorSwatchRadius = "none" | "sm" | "md" | "lg" | "xl" | "full";
+export type ColorSwatchSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface ColorSwatchProps extends HTMLAttributes<HTMLDivElement> {
     color: string;

@@ -19,7 +19,8 @@ export const ColorSwatch = ({
         sm: "w-5 h-5",
         md: "w-6 h-6",
         lg: "w-8 h-8",
-        xl: "w-10 h-10"
+        xl: "w-10 h-10",
+        "2xl": "w-12 h-12"
     };
 
     const shadowClasses = {
@@ -27,7 +28,9 @@ export const ColorSwatch = ({
         xs: "shadow-xs",
         sm: "shadow-sm",
         md: "shadow-md",
-        lg: "shadow-lg"
+        lg: "shadow-lg",
+        xl: "shadow-xl",
+        "2xl": "shadow-2xl"
     };
 
     const radiusStyles = {
@@ -35,6 +38,7 @@ export const ColorSwatch = ({
         sm: "rounded-sm",
         md: "rounded-md",
         lg: "rounded-lg",
+        xl: "rounded-xl",
         full: "rounded-full"
     };
 

@@ -2,12 +2,7 @@ import React from "react";
 import { Button, ButtonGroup, Code, Switch, Text } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
-import {
-    activeButtonClass,
-    buttonClass,
-    selectInputClasses,
-    switchClasses
-} from ".";
+import { activeButtonClass, buttonClass, switchClasses } from ".";
 
 import ConfigCard from "@/components/ConfigCard";
 import ConfigLabel from "@/components/ConfigLabel";
@@ -44,7 +39,7 @@ export const codeConfig: ComponentConfigType = {
             <div>
                 <ComponentInfo
                     title="Code"
-                    description="Code for showcasing code."
+                    description="Used for showcasing code. Built on top of React Syntax Highlighter."
                 />
 
                 <div className="space-y-8">
@@ -184,11 +179,18 @@ function createUser(name: string): User {
 }`}
                     </Code>
                 }
-                exampleCode={`
-<Button>
-    Click me
-</Button>
-`}
+                exampleCode={`interface User {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+function createUser(name: string): User {
+  return {
+    id: Math.floor(Math.random() * 1000),
+    name
+  };
+}`}
                 controls={
                     <>
                         <PlaygroundPreview.Section title="Appearance">
@@ -226,37 +228,10 @@ function createUser(name: string): User {
 
                         <PlaygroundPreview.Section title="States">
                             <Switch
-                                label="Disabled"
-                                checked={props.disabled}
+                                label="Copyable"
+                                checked={props.copyable}
                                 onChange={(checked) =>
-                                    setProps({ ...props, disabled: checked })
-                                }
-                                classNames={switchClasses}
-                            />
-
-                            <Switch
-                                label="Loading"
-                                checked={props.isLoading}
-                                onChange={(checked) =>
-                                    setProps({ ...props, isLoading: checked })
-                                }
-                                classNames={switchClasses}
-                            />
-
-                            <Switch
-                                label="Active"
-                                checked={props.active}
-                                onChange={(checked) =>
-                                    setProps({ ...props, active: checked })
-                                }
-                                classNames={switchClasses}
-                            />
-
-                            <Switch
-                                label="Full Width"
-                                checked={props.fullWidth}
-                                onChange={(checked) =>
-                                    setProps({ ...props, fullWidth: checked })
+                                    setProps({ ...props, copyable: checked })
                                 }
                                 classNames={switchClasses}
                             />
@@ -274,92 +249,49 @@ function createUser(name: string): User {
                 apiData={[
                     {
                         property: "children",
-                        description: "The content of the button",
+                        description: "The content of the code",
                         type: "ReactNode"
                     },
                     {
-                        property: "leftSection",
-                        description: "The left section of the button",
-                        type: "ReactNode"
+                        property: "theme",
+                        description: "The theme of the code",
+                        type: createTypeOptions(["dark", "light"])
                     },
                     {
-                        property: "rightSection",
-                        description: "The right section of the button",
-                        type: "ReactNode"
+                        property: "language",
+                        description: "The language of the code",
+                        type: "string",
+                        default: "typescript"
                     },
                     {
-                        property: "variant",
-                        description: "The variant of the button",
-                        type: createTypeOptions([
-                            "filled",
-                            "outline",
-                            "subtle",
-                            "unstyled"
-                        ]),
-                        default: "filled"
-                    },
-                    {
-                        property: "intent",
-                        description: "The intent of the button",
-                        type: createTypeOptions([
-                            "primary",
-                            "secondary",
-                            "success",
-                            "danger",
-                            "warning"
-                        ])
-                    },
-                    {
-                        property: "size",
-                        description: "The size of the button",
-                        type: createTypeOptions([
-                            "xs",
-                            "sm",
-                            "md",
-                            "lg",
-                            "xl",
-                            "2xl"
-                        ]),
-                        default: "sm"
-                    },
-                    {
-                        property: "radius",
-                        description: "The radius of the button",
-                        type: createTypeOptions([
-                            "none",
-                            "sm",
-                            "md",
-                            "lg",
-                            "xl",
-                            "full"
-                        ]),
-                        default: "md"
-                    },
-                    {
-                        property: "disabled",
-                        description: "Whether the button is disabled",
+                        property: "showLineNumbers",
+                        description: "Whether to show line numbers",
                         type: "boolean",
                         default: "false"
                     },
                     {
-                        property: "isLoading",
-                        description:
-                            "Whether the button is loading (disables the button)",
-                        type: "boolean",
-                        default: "false"
+                        property: "highlightLines",
+                        description: "The lines to highlight",
+                        type: "number[]",
+                        default: "[]"
                     },
                     {
-                        property: "fullWidth",
-                        description:
-                            "Whether the button is full width of the container",
+                        property: "copyable",
+                        description: "Whether to make the code copyable",
                         type: "boolean",
-                        default: "false"
+                        default: "true"
                     },
                     {
-                        property: "active",
-                        description: "Whether the button is active",
-                        type: "boolean",
-                        default: "false"
+                        property: "copyText",
+                        description: "The text to show when the code is copied",
+                        type: "string",
+                        default: "Copied"
+                    },
+                    {
+                        property: "copiedText",
+                        description: "The text to show when the code is copied",
+                        type: "string",
+                        default: "Copied"
                     }
                 ]}
             />
@@ -375,31 +307,25 @@ function createUser(name: string): User {
                     },
                     {
                         property: "classNames.container",
-                        description: "Root button element",
+                        description: "Root code element",
                         type: "string",
                         default: "-"
                     },
                     {
-                        property: "classNames.label",
-                        description: "Button label text wrapper",
+                        property: "classNames.code",
+                        description: "Code element",
                         type: "string",
                         default: "-"
                     },
                     {
-                        property: "classNames.leftSection",
-                        description: "Left icon/element wrapper",
+                        property: "classNames.copyButton",
+                        description: "Copy button element",
                         type: "string",
                         default: "-"
                     },
                     {
-                        property: "classNames.rightSection",
-                        description: "Right icon/element wrapper",
-                        type: "string",
-                        default: "-"
-                    },
-                    {
-                        property: "classNames.active",
-                        description: "Applied when button is active",
+                        property: "classNames.scrollbar",
+                        description: "Scrollbar element",
                         type: "string",
                         default: "-"
                     }
