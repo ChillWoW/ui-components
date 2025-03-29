@@ -1,10 +1,21 @@
-export type CodeRadius = "sm" | "md" | "lg" | "full";
+export interface CodeClassNames {
+    container?: string;
+    code?: string;
+    copyButton?: string;
+    scrollbar?: string;
+}
+
+export type CodeTheme = "dark" | "light";
 
 export interface CodeProps {
-  children: React.ReactNode;
-  className?: string;
-  color?: string;
-  px?: number;
-  py?: number;
-  radius?: CodeRadius;
+    children: string;
+    className?: string;
+    classNames?: CodeClassNames;
+    language?: string;
+    showLineNumbers?: boolean;
+    theme?: CodeTheme;
+    highlightLines?: number[];
+    copyable?: boolean;
+    copyText?: string;
+    copiedText?: string;
 }
