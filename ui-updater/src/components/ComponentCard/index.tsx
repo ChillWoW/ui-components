@@ -87,9 +87,9 @@ const ComponentCard = () => {
                     />
                 </div>
 
-                <div className="transition-all duration-300 flex-1 w-full h-full overflow-auto custom-scrollbar">
+                <div className="transition-all duration-300 flex-1 w-full h-full overflow-y-auto overflow-x-hidden custom-scrollbar md:ml-0 ml-0">
                     <div className="w-full h-full">
-                        <div className="bg-dark-800 p-4 md:p-8 overflow-hidden flex flex-col space-y-4">
+                        <div className="bg-dark-800 p-4 md:p-8 overflow-x-hidden flex flex-col space-y-4 break-words">
                             {renderSelectedComponent()}
                             {selectedComponent &&
                                 (() => {
