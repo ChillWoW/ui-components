@@ -1,23 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-    Button,
-    ButtonRadius,
-    ButtonSize,
-    ButtonVariant,
-    ButtonIntent
-} from "@/components/ui/Buttons/Button";
-import {
-    Anchor,
     Card,
     CardPadding,
     CardRadius,
     CardShadow,
-    CardVariant,
-    SelectInput,
-    Switch,
-    Text
-} from "@/components/ui";
-import { IconUser, IconUserCheck } from "@tabler/icons-react";
+    CardVariant
+} from "@/components/ui/Card";
+import { SelectInput, Switch, Text } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
 import { selectInputClasses, switchClasses } from ".";

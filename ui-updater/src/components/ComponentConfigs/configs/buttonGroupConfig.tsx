@@ -1,19 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Button,
     ButtonRadius,
     ButtonSize,
     ButtonVariant,
-    ButtonIntent
-} from "@/components/ui/Buttons/Button";
-import {
-    Anchor,
-    ButtonGroup,
-    SelectInput,
-    StepperInput,
-    Switch,
-    Text
-} from "@/components/ui";
+    ButtonIntent,
+    ButtonGroup
+} from "@/components/ui/Buttons";
+import { SelectInput, StepperInput, Switch, Text } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
 import { selectInputClasses, stepperInputClass, switchClasses } from ".";

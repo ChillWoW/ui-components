@@ -6,7 +6,6 @@ import {
     AlertRadius,
     AlertShadow,
     AlertVariant,
-    Anchor,
     RadioGroup,
     SelectInput,
     Switch,

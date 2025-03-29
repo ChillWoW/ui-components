@@ -1,29 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-    Button,
-    ButtonRadius,
-    ButtonSize,
-    ButtonVariant,
-    ButtonIntent
-} from "@/components/ui/Buttons/Button";
-import {
-    Anchor,
     Breadcrumb,
     BreadcrumbSize,
     SelectInput,
     StepperInput,
-    Switch,
     TextInput
 } from "@/components/ui";
-import { IconUser, IconUserCheck } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
-import {
-    selectInputClasses,
-    stepperInputClass,
-    switchClasses,
-    textInputClass
-} from ".";
+import { selectInputClasses, stepperInputClass, textInputClass } from ".";
 
 import ConfigCard from "@/components/ConfigCard";
 import ConfigLabel from "@/components/ConfigLabel";

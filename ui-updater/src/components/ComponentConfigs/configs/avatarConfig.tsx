@@ -1,28 +1,24 @@
 import React from "react";
 import {
-    Button,
-    ButtonRadius,
-    ButtonSize,
-    ButtonVariant,
-    ButtonIntent
-} from "@/components/ui/Buttons/Button";
-import {
-    Anchor,
     Avatar,
     AvatarBadgePosition,
     AvatarGroup,
     AvatarRadius,
     AvatarShape,
-    AvatarSize,
+    AvatarSize
+} from "@/components/ui/Avatars";
+
+import {
+    Anchor,
+    Button,
     ButtonGroup,
     ColorSwatch,
     SelectInput,
     Switch,
     Text,
-    TextInput,
     Tooltip
 } from "@/components/ui";
-import { IconCheck, IconUser, IconUserCheck } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 import { ComponentConfigType } from "../index";
 import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
 import {

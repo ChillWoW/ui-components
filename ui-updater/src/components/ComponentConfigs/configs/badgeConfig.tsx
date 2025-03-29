@@ -1,19 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-    Button,
-    ButtonRadius,
-    ButtonSize,
-    ButtonVariant,
-    ButtonIntent
-} from "@/components/ui/Buttons/Button";
-import {
-    Anchor,
     Badge,
     BadgeIntent,
     BadgeRadius,
     BadgeShape,
     BadgeSize,
-    BadgeVariant,
+    BadgeVariant
+} from "@/components/ui/Badge";
+import {
     ColorSwatch,
     SelectInput,
     Switch,
