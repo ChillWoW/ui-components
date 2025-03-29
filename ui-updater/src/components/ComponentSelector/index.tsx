@@ -36,7 +36,6 @@ const COMPONENT_CATEGORIES = {
         "avatar",
         "avatarGroup",
         "badge",
-        "chip",
         "code",
         "colorSwatch",
         "kbd",

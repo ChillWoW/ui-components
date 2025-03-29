@@ -36,7 +36,6 @@ import { tooltipConfig } from "./configs/tooltipConfig";
 import { fileInputConfig } from "./configs/fileInputConfig";
 import { breadcrumbConfig } from "./configs/breadcrumbConfig";
 import { multiSelectConfig } from "./configs/multiSelectConfig";
-import { chipConfig } from "./configs/chipConfig";
 import { codeConfig } from "./configs/codeConfig";
 import { flexConfig } from "./configs/flexConfig";
 import { gridConfig } from "./configs/gridConfig";
@@ -62,7 +61,6 @@ export const componentConfigs = {
     flex: flexConfig,
     grid: gridConfig,
     numberInput: numberInputConfig,
-    chip: chipConfig,
     colorPicker: colorPickerConfig,
     datePicker: datePickerConfig,
     fileInput: fileInputConfig,
