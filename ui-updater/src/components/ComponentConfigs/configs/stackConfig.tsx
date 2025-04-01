@@ -1,16 +1,8 @@
-import React, { useState } from "react";
-import {
-  Button,
-  ButtonRadius,
-  ButtonSize,
-  ButtonVariant,
-  ButtonIntent,
-} from "@/components/ui/Buttons/Button";
-import { Anchor, SelectInput, Switch } from "@/components/ui";
-import { IconUser, IconUserCheck } from "@tabler/icons-react";
+import React from "react";
+import { Badge, SelectInput, Stack, Button } from "@/components/ui";
 import { ComponentConfigType } from "../index";
 import { createTypeOptions, StylesAPI } from "@/components/StylesAPI";
-import { selectInputClasses, switchClasses } from ".";
+import { selectInputClasses } from ".";
 
 import ConfigCard from "@/components/ConfigCard";
 import ConfigLabel from "@/components/ConfigLabel";
@@ -29,27 +21,73 @@ export const stackConfig: ComponentConfigType = {
         <div className="space-y-8">
           <ConfigLabel label="Types" />
           <ConfigCard
-                title="Test"
-                >
-                    <Stack
-                </ConfigCard>
+            title="Standard Stack"
+            description="This is the default Stack component."
+            anchorId="standard"
+          >
+            <Stack>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Button key={index}>{index}</Button>
+              ))}
+            </Stack>
+          </ConfigCard>
+
+          <ConfigCard
+            title="Align"
+            description="The stack can be aligned in different ways."
+            anchorId="align"
+            className="flex gap-2 items-center"
+          >
+            {["flex-start", "center", "flex-end", "stretch", "baseline"].map(
+              (align) => (
+                <Badge key={align} intent="primary">
+                  {align}
+                </Badge>
+              )
+            )}
+          </ConfigCard>
+
+          <ConfigCard
+            title="Justify"
+            description="The stack can be justified in different ways."
+            anchorId="justify"
+            className="flex gap-2 items-center"
+          >
+            {[
+              "center",
+              "flex-start",
+              "flex-end",
+              "space-between",
+              "space-around",
+              "space-evenly",
+            ].map((justify) => (
+              <Badge key={justify} intent="primary">
+                {justify}
+              </Badge>
+            ))}
+          </ConfigCard>
+
+          <ConfigCard
+            title="Gap"
+            description="The stack can have a different gap."
+            anchorId="gap"
+            className="flex gap-2 items-center"
+          >
+            {["none", "xs", "sm", "md", "lg", "xl", "number"].map((gap) => (
+              <Badge key={gap} intent="primary">
+                {gap}
+              </Badge>
+            ))}
+          </ConfigCard>
         </div>
       </div>
     </div>
   ),
 
   defaultProps: {
-    children: "Click me",
-    variant: "filled",
-    intent: "",
-    size: "sm",
-    radius: "md",
-    disabled: false,
-    isLoading: false,
-    fullWidth: false,
-    active: false,
-    leftSection: false,
-    rightSection: false,
+    align: "stretch",
+    justify: "center",
+    gap: "md",
   },
 
   renderPlayground: () => {
@@ -62,82 +100,59 @@ export const stackConfig: ComponentConfigType = {
     }) => (
       <PlaygroundPreview
         preview={
-          <Button
-            variant={props.variant as ButtonVariant}
-            intent={props.intent as ButtonIntent}
-            size={props.size as ButtonSize}
-            radius={props.radius as ButtonRadius}
-            disabled={props.disabled}
-            isLoading={props.isLoading}
-            fullWidth={props.fullWidth}
-            active={props.active}
-            leftSection={props.leftSection ? <IconUser /> : undefined}
-            rightSection={props.rightSection ? <IconUserCheck /> : undefined}
-          >
-            {props.children}
-          </Button>
+          <div className="w-full h-100%">
+            <Stack align={props.align} justify={props.justify} gap={props.gap}>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Button key={index}>{index}</Button>
+              ))}
+            </Stack>
+          </div>
         }
         exampleCode={`
-<Button>
-    Click me
-</Button>
+<Stack>
+    {Array.from({ length: 5 }).map((_, index) => (
+        <Button key={index}>{index}</Button>
+    ))}
+</Stack>
 `}
         controls={
           <>
-            <PlaygroundPreview.Section title="Content">
-              <Switch
-                label="Left Icon"
-                checked={props.leftSection}
-                onChange={(checked) =>
-                  setProps({ ...props, leftSection: checked })
-                }
-                classNames={switchClasses}
-              />
-
-              <Switch
-                label="Right Icon"
-                checked={props.rightSection}
-                onChange={(checked) =>
-                  setProps({
-                    ...props,
-                    rightSection: checked,
-                  })
-                }
-                classNames={switchClasses}
-              />
-            </PlaygroundPreview.Section>
-
             <PlaygroundPreview.Section title="Appearance">
               <SelectInput
-                label="Variant"
-                value={props.variant}
-                onChange={(value) => setProps({ ...props, variant: value })}
+                label="Align"
+                value={props.align}
+                onChange={(value) => setProps({ ...props, align: value })}
                 classNames={selectInputClasses}
               >
-                <SelectInput.Option value="filled" label="Filled" />
-                <SelectInput.Option value="outline" label="Outline" />
-                <SelectInput.Option value="subtle" label="Subtle" />
-                <SelectInput.Option value="unstyled" label="Unstyled" />
+                <SelectInput.Option value="flex-start" label="flex-start" />
+                <SelectInput.Option value="center" label="center" />
+                <SelectInput.Option value="flex-end" label="flex-end" />
+                <SelectInput.Option value="stretch" label="stretch" />
+                <SelectInput.Option value="baseline" label="baseline" />
               </SelectInput>
 
               <SelectInput
-                label="Intent"
-                value={props.intent}
-                onChange={(value) => setProps({ ...props, intent: value })}
+                label="Justify"
+                hint="Doesn't work in playground for height issues"
+                value={props.justify}
+                onChange={(value) => setProps({ ...props, justify: value })}
                 classNames={selectInputClasses}
-                clearable
               >
-                <SelectInput.Option value="primary" label="Primary" />
-                <SelectInput.Option value="secondary" label="Secondary" />
-                <SelectInput.Option value="success" label="Success" />
-                <SelectInput.Option value="danger" label="Danger" />
-                <SelectInput.Option value="warning" label="Warning" />
+                <SelectInput.Option value="center" label="center" />
+                <SelectInput.Option value="flex-start" label="flex-start" />
+                <SelectInput.Option value="flex-end" label="flex-end" />
+                <SelectInput.Option
+                  value="space-between"
+                  label="space-between"
+                />
+                <SelectInput.Option value="space-around" label="space-around" />
+                <SelectInput.Option value="space-evenly" label="space-evenly" />
               </SelectInput>
 
               <SelectInput
-                label="Size"
-                value={props.size}
-                onChange={(value) => setProps({ ...props, size: value })}
+                label="Gap"
+                value={props.gap}
+                onChange={(value) => setProps({ ...props, gap: value })}
                 classNames={selectInputClasses}
               >
                 <SelectInput.Option value="xs" label="xs" />
@@ -145,58 +160,7 @@ export const stackConfig: ComponentConfigType = {
                 <SelectInput.Option value="md" label="md" />
                 <SelectInput.Option value="lg" label="lg" />
                 <SelectInput.Option value="xl" label="xl" />
-                <SelectInput.Option value="2xl" label="2xl" />
               </SelectInput>
-
-              <SelectInput
-                label="Radius"
-                value={props.radius}
-                onChange={(value) => setProps({ ...props, radius: value })}
-                classNames={selectInputClasses}
-              >
-                <SelectInput.Option value="none" label="none" />
-                <SelectInput.Option value="sm" label="sm" />
-                <SelectInput.Option value="md" label="md" />
-                <SelectInput.Option value="lg" label="lg" />
-                <SelectInput.Option value="xl" label="xl" />
-                <SelectInput.Option value="full" label="full" />
-              </SelectInput>
-            </PlaygroundPreview.Section>
-
-            <PlaygroundPreview.Section title="States">
-              <Switch
-                label="Disabled"
-                checked={props.disabled}
-                onChange={(checked) =>
-                  setProps({ ...props, disabled: checked })
-                }
-                classNames={switchClasses}
-              />
-
-              <Switch
-                label="Loading"
-                checked={props.isLoading}
-                onChange={(checked) =>
-                  setProps({ ...props, isLoading: checked })
-                }
-                classNames={switchClasses}
-              />
-
-              <Switch
-                label="Active"
-                checked={props.active}
-                onChange={(checked) => setProps({ ...props, active: checked })}
-                classNames={switchClasses}
-              />
-
-              <Switch
-                label="Full Width"
-                checked={props.fullWidth}
-                onChange={(checked) =>
-                  setProps({ ...props, fullWidth: checked })
-                }
-                classNames={switchClasses}
-              />
             </PlaygroundPreview.Section>
           </>
         }
