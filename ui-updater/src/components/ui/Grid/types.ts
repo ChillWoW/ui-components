@@ -1,11 +1,17 @@
 import { ReactNode } from "react";
 
-type Spacing = "none" | "xs" | "sm" | "md" | "lg" | "xl" | number;
-type Justify = "start" | "center" | "end" | "between" | "around" | "evenly";
-type Align = "start" | "center" | "end" | "stretch" | "baseline";
-type Flow = "row" | "col" | "dense" | "row-dense" | "col-dense";
+export type GridSpacing = "none" | "xs" | "sm" | "md" | "lg" | "xl" | number;
+export type GridJustify =
+  | "start"
+  | "center"
+  | "end"
+  | "between"
+  | "around"
+  | "evenly";
+export type GridAlign = "start" | "center" | "end" | "stretch" | "baseline";
+export type GridFlow = "row" | "col" | "dense" | "row-dense" | "col-dense";
 
-type ResponsiveCols = {
+export type GridResponsiveCols = {
   xs?: number;
   sm?: number;
   md?: number;
@@ -16,13 +22,13 @@ type ResponsiveCols = {
 
 export interface GridProps {
   children: ReactNode;
-  cols?: number | ResponsiveCols;
+  cols?: number | GridResponsiveCols;
   rows?: number;
-  spacing?: Spacing;
-  verticalSpacing?: Spacing;
-  justify?: Justify;
-  align?: Align;
-  flow?: Flow;
+  spacing?: GridSpacing;
+  verticalSpacing?: GridSpacing;
+  justify?: GridJustify;
+  align?: GridAlign;
+  flow?: GridFlow;
   fullWidth?: boolean;
   fullHeight?: boolean;
   className?: string;

@@ -90,7 +90,7 @@ export const Drawer = ({
                 ease: "easeOut",
               }}
               className={cn(
-                "fixed top-0 bottom-0 z-[1000] bg-[#252627] border-[#3e4249]",
+                "fixed top-0 bottom-0 z-[1000] bg-[#2c2c2c] border-[#4a4a4a]",
                 position === "left" ? "left-0 border-r" : "right-0 border-l",
                 classNames?.container,
                 className

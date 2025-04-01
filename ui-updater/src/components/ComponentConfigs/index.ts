@@ -44,64 +44,68 @@ import { colorSwatchConfig } from "./configs/colorSwatchConfig";
 import { statConfig } from "./configs/statConfig";
 import { skeletonConfig } from "./configs/skeletonConfig";
 import { anchorConfig } from "./configs/anchorConfig";
+import { groupConfig } from "./configs/groupConfig";
+import { stackConfig } from "./configs/stackConfig";
 
 export const componentConfigs = {
-    accordion: accordionConfig,
-    alert: alertConfig,
-    anchor: anchorConfig,
-    avatar: avatarConfig,
-    badge: badgeConfig,
-    breadcrumb: breadcrumbConfig,
-    button: buttonConfig,
-    buttonGroup: buttonGroupConfig,
-    card: cardConfig,
-    checkbox: checkboxConfig,
-    colorSwatch: colorSwatchConfig,
-    drawer: drawerConfig,
-    flex: flexConfig,
-    grid: gridConfig,
-    numberInput: numberInputConfig,
-    colorPicker: colorPickerConfig,
-    datePicker: datePickerConfig,
-    fileInput: fileInputConfig,
-    passwordInput: passwordInputConfig,
-    pinInput: pinInputConfig,
-    selectInput: selectInputConfig,
-    textArea: textAreaConfig,
-    textInput: textInputConfig,
-    multiSelect: multiSelectConfig,
-    kbd: kbdConfig,
-    loader: loaderConfig,
-    menu: menuConfig,
-    modal: modalConfig,
-    pagination: paginationConfig,
-    progress: progressConfig,
-    radio: radioConfig,
-    radioCard: radioCardConfig,
-    radioGroup: radioGroupConfig,
-    rating: ratingConfig,
-    ringProgress: ringProgressConfig,
-    slider: sliderConfig,
-    stat: statConfig,
-    skeleton: skeletonConfig,
-    stepper: stepperConfig,
-    switch: switchConfig,
-    table: tableConfig,
-    tabs: tabsConfig,
-    text: textConfig,
-    timeline: timelineConfig,
-    tooltip: tooltipConfig,
-    code: codeConfig
+  accordion: accordionConfig,
+  alert: alertConfig,
+  anchor: anchorConfig,
+  avatar: avatarConfig,
+  badge: badgeConfig,
+  breadcrumb: breadcrumbConfig,
+  button: buttonConfig,
+  buttonGroup: buttonGroupConfig,
+  card: cardConfig,
+  checkbox: checkboxConfig,
+  colorSwatch: colorSwatchConfig,
+  drawer: drawerConfig,
+  flex: flexConfig,
+  grid: gridConfig,
+  group: groupConfig,
+  numberInput: numberInputConfig,
+  colorPicker: colorPickerConfig,
+  datePicker: datePickerConfig,
+  fileInput: fileInputConfig,
+  passwordInput: passwordInputConfig,
+  pinInput: pinInputConfig,
+  selectInput: selectInputConfig,
+  textArea: textAreaConfig,
+  textInput: textInputConfig,
+  multiSelect: multiSelectConfig,
+  kbd: kbdConfig,
+  loader: loaderConfig,
+  menu: menuConfig,
+  modal: modalConfig,
+  pagination: paginationConfig,
+  progress: progressConfig,
+  radio: radioConfig,
+  radioCard: radioCardConfig,
+  radioGroup: radioGroupConfig,
+  rating: ratingConfig,
+  ringProgress: ringProgressConfig,
+  slider: sliderConfig,
+  stack: stackConfig,
+  stat: statConfig,
+  skeleton: skeletonConfig,
+  stepper: stepperConfig,
+  switch: switchConfig,
+  table: tableConfig,
+  tabs: tabsConfig,
+  text: textConfig,
+  timeline: timelineConfig,
+  tooltip: tooltipConfig,
+  code: codeConfig,
 };
 
 export type ComponentConfigType = {
-    renderComponent: (props: any, setProps: (props: any) => void) => any;
-    renderPropsPanel?: () => any;
-    renderDocumentation?: () => any;
-    generateCode?: (props: any) => any;
-    renderError?: () => any;
-    infoPanel?: () => any;
-    defaultProps?: any;
-    renderStylesAPI?: () => any;
-    renderPlayground?: () => any;
+  renderComponent: (props: any, setProps: (props: any) => void) => any;
+  renderPropsPanel?: () => any;
+  renderDocumentation?: () => any;
+  generateCode?: (props: any) => any;
+  renderError?: () => any;
+  infoPanel?: () => any;
+  defaultProps?: any;
+  renderStylesAPI?: () => any;
+  renderPlayground?: () => any;
 };

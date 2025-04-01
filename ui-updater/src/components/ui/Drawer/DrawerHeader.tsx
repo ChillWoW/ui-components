@@ -13,7 +13,7 @@ export const DrawerHeader = ({
     <div
       className={cn(
         "flex items-center justify-between p-4",
-        separator && "border-b border-[#3e4249]",
+        separator && "border-b border-[#4a4a4a]",
         classNames?.header,
         className
       )}

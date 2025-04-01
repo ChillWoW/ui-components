@@ -12,6 +12,7 @@ export * from "./ColorSwatch";
 export * from "./Drawer";
 export * from "./Flex";
 export * from "./Grid";
+export * from "./Group";
 export * from "./Inputs";
 export * from "./Kbd";
 export * from "./Loader";
@@ -24,6 +25,7 @@ export * from "./Rating";
 export * from "./RingProgress";
 export * from "./Slider";
 export * from "./Skeleton";
+export * from "./Stack";
 export * from "./Stat";
 export * from "./Stepper";
 export * from "./Switch";
@@ -33,11 +35,11 @@ export * from "./Text";
 export * from "./Timeline";
 export * from "./Tooltip";
 
-//Tailwind Support - Moved to utils
-//@deprecated
+//Tailwind Support
+//@deprecated - Moved to utils, will be removed in v1.0.0
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
