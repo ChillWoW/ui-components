@@ -1,0 +1,8 @@
+.peer::-ms-reveal,
+.peer::-ms-clear {
+  display: none;
+}
+
+.peer::-webkit-textfield-decoration-container {
+  display: none;
+}

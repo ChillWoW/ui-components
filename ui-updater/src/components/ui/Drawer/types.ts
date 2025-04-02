@@ -1,4 +1,5 @@
 export type DrawerPosition = "left" | "right";
+export type DrawerPortalTarget = HTMLElement | string | null;
 
 export interface DrawerClassNames {
   container?: string;
@@ -32,4 +33,6 @@ export interface DrawerProps {
   closeOnOverlayClick?: boolean;
   animationDuration?: number;
   overlayAnimationDuration?: number;
+  withinPortal?: boolean;
+  portalTarget?: DrawerPortalTarget;
 }

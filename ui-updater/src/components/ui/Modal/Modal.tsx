@@ -5,6 +5,7 @@ import { ModalHeader } from "./ModalHeader";
 import { ModalBody } from "./ModalBody";
 import { ModalFooter } from "./ModalFooter";
 import { ModalProps } from "./types";
+import { Portal } from "../Portal";
 
 export const Modal = ({
   opened,
@@ -22,6 +23,8 @@ export const Modal = ({
   animationDuration = 0.3,
   disableScroll = true,
   shadow = "sm",
+  withinPortal = true,
+  portalTarget,
 }: ModalProps) => {
   const [mounted, setMounted] = useState(false);
 
@@ -83,7 +86,7 @@ export const Modal = ({
     }
   };
 
-  return (
+  const modalContent = (
     <ModalContext.Provider value={{ canClose, onClose, classNames }}>
       <div
         className={cn(backgroundClass, classNames?.overlay)}
@@ -117,6 +120,12 @@ export const Modal = ({
         </div>
       </div>
     </ModalContext.Provider>
+  );
+
+  return withinPortal ? (
+    <Portal target={portalTarget}>{modalContent}</Portal>
+  ) : (
+    modalContent
   );
 };
 

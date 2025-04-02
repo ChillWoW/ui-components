@@ -46,6 +46,9 @@ import { skeletonConfig } from "./configs/skeletonConfig";
 import { anchorConfig } from "./configs/anchorConfig";
 import { groupConfig } from "./configs/groupConfig";
 import { stackConfig } from "./configs/stackConfig";
+import { portalConfig } from "./configs/portalConfig";
+import { centerConfig } from "./configs/centerConfig";
+import { snippetConfig } from "./configs/snippetConfig";
 
 export const componentConfigs = {
   accordion: accordionConfig,
@@ -57,6 +60,7 @@ export const componentConfigs = {
   button: buttonConfig,
   buttonGroup: buttonGroupConfig,
   card: cardConfig,
+  center: centerConfig,
   checkbox: checkboxConfig,
   colorSwatch: colorSwatchConfig,
   drawer: drawerConfig,
@@ -78,6 +82,7 @@ export const componentConfigs = {
   menu: menuConfig,
   modal: modalConfig,
   pagination: paginationConfig,
+  portal: portalConfig,
   progress: progressConfig,
   radio: radioConfig,
   radioCard: radioCardConfig,
@@ -85,6 +90,7 @@ export const componentConfigs = {
   rating: ratingConfig,
   ringProgress: ringProgressConfig,
   slider: sliderConfig,
+  snippet: snippetConfig,
   stack: stackConfig,
   stat: statConfig,
   skeleton: skeletonConfig,

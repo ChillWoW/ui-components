@@ -1,5 +1,5 @@
 import React, { useId, useState, useRef, useEffect } from "react";
-import { SelectInputOptionProps, SelectInputProps } from "../types";
+import { SelectInputOptionProps, SelectInputProps } from "./types";
 import { cn } from "../../_utils";
 import { Option } from "./Option";
 import { IconX, IconCheck, IconSearch } from "@tabler/icons-react";
@@ -24,6 +24,7 @@ export const SelectInput = ({
   error,
   searchPlaceholder = "Search...",
   children,
+  showSearchIcon = true,
   ...props
 }: SelectInputProps) => {
   const id = useId();
@@ -89,7 +90,6 @@ export const SelectInput = ({
     };
   }, []);
 
-  // Handle size classes
   const getSizeClasses = () => {
     switch (size) {
       case "xs":
@@ -109,15 +109,17 @@ export const SelectInput = ({
     <div className={cn("flex flex-col relative", classNames?.container)}>
       {label && (
         <label
-          htmlFor={id}
           className={cn(
-            "text-sm text-white font-semibold ml-2 flex items-center gap-1",
+            "text-sm ml-1 flex items-center gap-1",
+            disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
         >
           {label}
           {required && (
-            <span className={cn("text-red-600", classNames?.required)}>*</span>
+            <span className={cn("text-red-500 text-sm", classNames?.required)}>
+              *
+            </span>
           )}
         </label>
       )}
@@ -125,11 +127,11 @@ export const SelectInput = ({
       <div className="relative" ref={dropdownRef}>
         <div
           className={cn(
-            "flex items-center border border-[#3e4249] rounded-lg bg-[#252627] overflow-hidden cursor-pointer",
-            "hover:border-[#53575e]",
+            "flex items-center border border-[#4a4a4a] rounded-lg bg-[#2c2c2c] overflow-hidden cursor-pointer",
+            "hover:border-[#4c4c4c]",
             error && "border-red-500",
             disabled && "opacity-60 cursor-not-allowed",
-            isOpen && "border-[#53575e]",
+            isOpen && "border-[#4c4c4c]",
             classNames?.input
           )}
           onClick={() => !disabled && setIsOpen(!isOpen)}
@@ -137,7 +139,7 @@ export const SelectInput = ({
           {leftSection && (
             <div
               className={cn(
-                "flex items-center justify-center px-2 text-gray-300",
+                "flex items-center justify-center text-gray-300 pl-2",
                 classNames?.leftSection
               )}
             >
@@ -147,7 +149,9 @@ export const SelectInput = ({
 
           {searchable && isOpen ? (
             <div className="flex items-center flex-grow">
-              <IconSearch className="text-gray-400 ml-2" size={16} />
+              {showSearchIcon && (
+                <IconSearch className="text-gray-400 ml-2" size={16} />
+              )}
               <input
                 ref={inputRef}
                 type="text"
@@ -181,7 +185,7 @@ export const SelectInput = ({
                 type="button"
                 onClick={handleClear}
                 className={cn(
-                  "text-gray-400 hover:text-white p-1 rounded-full",
+                  "text-gray-300 hover:text-white p-1 rounded-full",
                   classNames?.clearButton
                 )}
               >
@@ -196,7 +200,7 @@ export const SelectInput = ({
               strokeWidth="1.2"
               stroke="currentColor"
               className={cn(
-                "h-5 w-5 text-slate-400 transition-transform",
+                "h-5 w-5 text-gray-300 transition-transform",
                 isOpen && "transform rotate-180"
               )}
             >
@@ -212,7 +216,7 @@ export const SelectInput = ({
         {isOpen && (
           <div
             className={cn(
-              "absolute z-50 mt-1 w-full border border-[#3e4249] rounded-lg bg-[#252627] shadow-lg",
+              "absolute z-50 mt-1 w-full border border-[#4a4a4a] rounded-lg bg-[#2c2c2c] shadow-lg",
               classNames?.dropdown
             )}
           >
@@ -241,7 +245,7 @@ export const SelectInput = ({
                   });
                 })
               ) : (
-                <div className="p-2 text-center text-gray-400 text-sm">
+                <div className="p-2 text-center text-gray-300 text-sm">
                   {nothingFoundText}
                 </div>
               )}
@@ -253,8 +257,9 @@ export const SelectInput = ({
       {(error || hint) && (
         <p
           className={cn(
-            "text-sm ml-2",
-            error ? "text-red-500" : "text-gray-400",
+            "text-xs ml-1",
+            error ? "text-red-500" : "text-gray-300",
+            disabled && "opacity-60 cursor-not-allowed",
             classNames?.hint
           )}
         >

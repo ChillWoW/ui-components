@@ -1,6 +1,6 @@
 import { useRef, useState, KeyboardEvent, useCallback, useMemo } from "react";
 import { cn } from "../../_utils";
-import { PinInputProps } from "../types";
+import { PinInputProps } from "./types";
 
 export const PinInput = ({
   length = 4,
@@ -17,7 +17,6 @@ export const PinInput = ({
   value: externalValue,
   ...props
 }: PinInputProps) => {
-  // Create state from external value if provided, otherwise use empty array
   const [internalValues, setInternalValues] = useState<string[]>(() => {
     if (externalValue) {
       const valueArray = (externalValue as string).split("").slice(0, length);
@@ -26,7 +25,6 @@ export const PinInput = ({
     return Array(length).fill("");
   });
 
-  // Use the controlled value if provided, otherwise use internal state
   const values = externalValue
     ? (externalValue as string)
         .split("")
@@ -36,7 +34,6 @@ export const PinInput = ({
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Memoize the input pattern
   const pattern = useMemo(
     () => (allowLetters ? /^[0-9a-zA-Z]$/ : /^[0-9]$/),
     [allowLetters]
@@ -129,19 +126,18 @@ export const PinInput = ({
   const inputClasses = useMemo(
     () =>
       cn(
-        "w-10 h-10 text-center rounded-lg bg-[#252627] border border-[#3e4249]",
+        "w-10 h-10 text-center rounded-lg bg-[#2c2c2c] border border-[#4a4a4a]",
         "text-white text-xl font-medium outline-none",
         "transition-all duration-200",
         "focus:border-[#3e4249]",
         error && "border-red-500",
-        disabled && "cursor-not-allowed",
+        disabled && "opacity-60 cursor-not-allowed",
         classNames?.input,
         className
       ),
     [disabled, error, classNames?.input, className]
   );
 
-  // Create inputs array once
   const inputs = useMemo(
     () =>
       Array.from({ length }).map((_, index) => (
@@ -181,7 +177,6 @@ export const PinInput = ({
     ]
   );
 
-  // Generate a unique ID for accessibility
   const inputId = useMemo(
     () =>
       label
@@ -204,7 +199,9 @@ export const PinInput = ({
           >
             {label}
             {props.required && (
-              <span className={cn("text-red-600", classNames?.required)}>
+              <span
+                className={cn("text-red-500 text-sm", classNames?.required)}
+              >
                 *
               </span>
             )}
@@ -213,10 +210,10 @@ export const PinInput = ({
         <div className="flex gap-2">{inputs}</div>
         {(error || hint) && (
           <p
-            id={`${inputId}-description`}
             className={cn(
               "text-xs ml-1",
-              error ? "text-red-400" : "text-gray-300",
+              error ? "text-red-500" : "text-gray-300",
+              disabled && "opacity-60 cursor-not-allowed",
               classNames?.hint
             )}
           >

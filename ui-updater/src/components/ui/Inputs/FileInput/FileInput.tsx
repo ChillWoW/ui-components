@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { cn } from "../../_utils";
-import { FileInputProps } from "../types";
+import { FileInputProps } from "./types";
 import { IconUpload, IconFile, IconX } from "@tabler/icons-react";
 
 export const FileInput = ({
@@ -30,7 +30,6 @@ export const FileInput = ({
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Generate id for input if not provided for accessibility
   const inputId =
     id || label
       ? `file-input-${label?.replace(/\s+/g, "-").toLowerCase()}`
@@ -44,7 +43,6 @@ export const FileInput = ({
 
     const fileList = Array.from(newFiles);
 
-    // Validate file sizes if limits are provided
     const validFiles = fileList.filter((file) => {
       if (maxSize && file.size > maxSize) return false;
       if (minSize && file.size < minSize) return false;
@@ -57,7 +55,6 @@ export const FileInput = ({
       onChange?.(validFiles[0] || null);
     }
 
-    // Reset input value to allow selecting the same file again
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -84,15 +81,12 @@ export const FileInput = ({
       return accept.split(",").some((type) => {
         type = type.trim();
         if (type.startsWith(".")) {
-          // Extension check
           return type.toLowerCase() === fileExt;
         } else if (type.includes("*")) {
-          // Mime type with wildcard
           const [main, sub] = type.split("/");
           const [fileMain] = fileType.split("/");
           return sub === "*" ? main === fileMain : type === fileType;
         } else {
-          // Exact mime type
           return type === fileType;
         }
       });
@@ -141,8 +135,8 @@ export const FileInput = ({
   );
 
   const inputContainerClass = cn(
-    "flex items-center border rounded-md transition-colors bg-[#252627] overflow-hidden",
-    error ? "border-red-500" : "border-[#3e4249]",
+    "flex items-center border rounded-md transition-colors bg-[#2c2c2c] overflow-hidden",
+    error ? "border-red-500" : "border-[#4a4a4a]",
     disabled && "opacity-60 cursor-not-allowed",
     isDragging && "border-dashed border-blue-500 bg-blue-500/10",
     classNames?.inputContainer
@@ -170,7 +164,7 @@ export const FileInput = ({
               <button
                 type="button"
                 onClick={() => removeFile(index)}
-                className="text-gray-400 hover:text-red-500"
+                className="text-gray-300 hover:text-red-500"
                 aria-label="Remove file"
               >
                 <IconX size={16} />
@@ -186,14 +180,18 @@ export const FileInput = ({
     <div className={containerClass}>
       {label && (
         <label
-          htmlFor={inputId}
           className={cn(
-            "block text-sm font-medium text-gray-200",
+            "text-sm ml-1 flex items-center gap-1",
+            disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
         >
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && (
+            <span className={cn("text-red-500 text-sm", classNames?.required)}>
+              *
+            </span>
+          )}
         </label>
       )}
 
@@ -206,7 +204,7 @@ export const FileInput = ({
         {leftSection && (
           <div
             className={cn(
-              "px-3 flex items-center justify-center text-gray-300",
+              "flex items-center justify-center text-gray-300 pl-2",
               classNames?.leftSection
             )}
           >
@@ -266,7 +264,7 @@ export const FileInput = ({
         {rightSection && (
           <div
             className={cn(
-              "px-3 flex items-center justify-center text-gray-300",
+              "flex items-center justify-center text-gray-300 pr-2",
               classNames?.rightSection
             )}
           >
@@ -280,9 +278,10 @@ export const FileInput = ({
       {(error || hint) && (
         <p
           className={cn(
-            "text-xs",
-            error ? "text-red-500" : "text-gray-400",
-            classNames?.error
+            "text-xs ml-1",
+            error ? "text-red-500" : "text-gray-300",
+            disabled && "opacity-60 cursor-not-allowed",
+            classNames?.hint
           )}
         >
           {error || hint}

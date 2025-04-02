@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "../../_utils";
-import { TextInputProps } from "../types";
+import { TextInputProps } from "./types";
 
 export const TextInput = ({
   label,
@@ -13,32 +13,18 @@ export const TextInput = ({
   error,
   classNames,
   type = "text",
-  id,
+  readOnly,
+  placeholder,
+  value,
+  onChange,
   ...props
 }: TextInputProps) => {
-  const inputId =
-    id || label
-      ? `text-input-${label?.replace(/\s+/g, "-").toLowerCase()}`
-      : undefined;
-
-  const inputClass = cn(
-    "flex items-center border rounded-md overflow-hidden transition-colors bg-[#252627]",
-    error ? "border-red-500" : "border-[#3e4249]",
-    disabled && "opacity-60 cursor-not-allowed",
-    classNames?.inputContainer
-  );
-
-  const sectionClass =
-    "flex items-center justify-center bg-[#252627] text-gray-300";
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
+    if (onChange) {
       const value = e.target.value;
-      props.onChange(value as any);
+      onChange(value as any);
     }
   };
-
-  const { onChange, ...otherProps } = props;
 
   return (
     <div
@@ -50,47 +36,65 @@ export const TextInput = ({
     >
       {label && (
         <label
-          htmlFor={inputId}
           className={cn(
-            "text-sm font-semibold ml-1 flex items-center gap-1",
+            "text-sm ml-1 flex items-center gap-1",
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
         >
           {label}
           {required && (
-            <span className={cn("text-red-600", classNames?.required)}>*</span>
+            <span className={cn("text-red-500 text-sm", classNames?.required)}>
+              *
+            </span>
           )}
         </label>
       )}
 
-      <div className={inputClass}>
+      <div
+        className={cn(
+          "flex items-center border rounded-md overflow-hidden transition-colors bg-[#2c2c2c] border border-[#4a4a4a]",
+          error && "border-red-500",
+          disabled && "opacity-60 cursor-not-allowed",
+          classNames?.inputContainer
+        )}
+      >
         {leftSection && (
-          <div className={cn(sectionClass, "pl-3", classNames?.leftSection)}>
+          <div
+            className={cn(
+              "flex items-center justify-center text-gray-300 pl-2",
+              classNames?.leftSection
+            )}
+          >
             {leftSection}
           </div>
         )}
 
         <input
-          id={inputId}
           type={type}
           className={cn(
-            "w-full border-none bg-[#252627] px-3 py-2 text-sm outline-none text-white",
+            "w-full border-none bg-[#2c2c2c] px-3 py-2 text-sm outline-none text-white",
             "[-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+            "placeholder:text-gray-500",
             disabled && "cursor-not-allowed",
+            readOnly && "cursor-default",
             classNames?.input
           )}
           disabled={disabled}
+          readOnly={readOnly}
+          placeholder={placeholder}
           aria-invalid={!!error}
-          aria-describedby={
-            error || hint ? `${inputId}-description` : undefined
-          }
           onChange={handleChange}
-          {...otherProps}
+          {...props}
         />
 
         {rightSection && (
-          <div className={cn(sectionClass, "pr-3", classNames?.rightSection)}>
+          <div
+            className={cn(
+              "flex items-center justify-center text-gray-300 pr-2",
+              classNames?.rightSection
+            )}
+          >
             {rightSection}
           </div>
         )}
@@ -98,10 +102,10 @@ export const TextInput = ({
 
       {(error || hint) && (
         <p
-          id={`${inputId}-description`}
           className={cn(
             "text-xs ml-1",
-            error ? "text-red-400" : "text-gray-300",
+            error ? "text-red-500" : "text-gray-300",
+            disabled && "opacity-60 cursor-not-allowed",
             classNames?.hint
           )}
         >

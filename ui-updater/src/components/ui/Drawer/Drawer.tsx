@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "..";
+import { cn } from "../_utils";
 import { DrawerProps } from "./types";
 import { DrawerHeader } from "./DrawerHeader";
 import { DrawerContent } from "./DrawerContent";
 import { DrawerContext } from "./context";
+import { Portal } from "../Portal";
 
 export const Drawer = ({
   open,
@@ -19,6 +20,8 @@ export const Drawer = ({
   closeOnOverlayClick = true,
   animationDuration = 0.3,
   overlayAnimationDuration = 0.1,
+  withinPortal = true,
+  portalTarget,
 }: DrawerProps) => {
   useEffect(() => {
     if (!open || !canClose) return;
@@ -57,7 +60,7 @@ export const Drawer = ({
     },
   };
 
-  return (
+  const drawerContent = (
     <DrawerContext.Provider value={{ classNames, onClose, canClose }}>
       <AnimatePresence>
         {open && (
@@ -106,6 +109,12 @@ export const Drawer = ({
         )}
       </AnimatePresence>
     </DrawerContext.Provider>
+  );
+
+  return withinPortal ? (
+    <Portal target={portalTarget}>{drawerContent}</Portal>
+  ) : (
+    drawerContent
   );
 };
 

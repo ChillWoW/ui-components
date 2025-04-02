@@ -3,6 +3,7 @@ import { cn } from "../../_utils";
 import { ColorSwatch } from "../../ColorSwatch";
 import { ColorPickerProps } from "./types";
 import { formatColor, parseColor } from "./handlers";
+import { IconEye } from "@tabler/icons-react";
 
 export const ColorPicker = ({
   value,
@@ -11,39 +12,22 @@ export const ColorPicker = ({
   label = "For testing",
   hint,
   placeholder,
-  required = true,
+  required,
   error,
   disabled,
   colorPreview = true,
   readOnly,
-  format = "rgba",
+  format = "hex",
+  allowEyeDropper,
   className,
   classNames,
   ...props
 }: ColorPickerProps) => {
   const [color, setColor] = useState(value);
   const [isValidColor, setIsValidColor] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        isOpen &&
-        popoverRef.current &&
-        !popoverRef.current.contains(event.target as Node) &&
-        !triggerRef.current?.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
+  const supportsEyeDropper =
+    typeof window !== "undefined" && "EyeDropper" in window;
 
   const getRadiusClass = () => {
     const styles = {
@@ -102,22 +86,29 @@ export const ColorPicker = ({
     }
   };
 
-  const handleAlphaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newAlpha = parseFloat(e.target.value);
-    const parsedColor = parseColor(color as string, format);
-    if (parsedColor) {
-      parsedColor.a = newAlpha;
-      const newColor = formatColor(parsedColor, format);
-      setColor(newColor);
-      onChange!(newColor);
+  const handleEyeDropper = async () => {
+    if (!supportsEyeDropper || disabled) return;
+
+    try {
+      // @ts-ignore - EyeDropper is not in the TypeScript DOM types yet
+      const eyeDropper = new window.EyeDropper();
+      const result = await eyeDropper.open();
+      const color = result.sRGBHex;
+
+      setColor(color);
+      setIsValidColor(true);
+      const parsedColor = parseColor(color, format);
+      if (parsedColor) {
+        onChange && onChange(formatColor(parsedColor, format));
+      }
+    } catch (error) {
+      console.log("Eye dropper was canceled");
     }
   };
 
   useEffect(() => {
     setColor(value);
   }, [value]);
-
-  const currentAlpha = parseColor((color as string) || "", format)?.a || 1;
 
   return (
     <div
@@ -131,7 +122,6 @@ export const ColorPicker = ({
         <label
           className={cn(
             "text-sm ml-1 flex items-center gap-1",
-            error && "text-red-500",
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
@@ -147,7 +137,7 @@ export const ColorPicker = ({
 
       <div
         className={cn(
-          "flex items-center border overflow-hidden transition-colors bg-[#2c2c2c] border border-[#4a4a4a] text-white",
+          "flex items-center overflow-hidden transition-colors bg-[#2c2c2c] border border-[#4a4a4a] text-white",
           getRadiusClass(),
           error && "border-red-500",
           disabled && "opacity-60 cursor-not-allowed",
@@ -155,101 +145,75 @@ export const ColorPicker = ({
         )}
       >
         {colorPreview && (
-          <div className="relative pl-2" ref={triggerRef}>
+          <div className="pl-2">
             <div className="flex items-center justify-center">
-              <ColorSwatch
-                color={value as string}
-                onClick={() => {
-                  console.log(isOpen);
-                  !disabled && !readOnly && setIsOpen(!isOpen);
-                }}
-              />
+              <ColorSwatch color={value as string} />
             </div>
-            {isOpen && (
-              <div
-                ref={popoverRef}
-                className="absolute z-50 mt-2 p-4 bg-[#2c2c2c] rounded-md shadow-lg border border-[#4a4a4a]"
-                style={{
-                  top: "100%",
-                  left: 0,
-                }}
-              >
-                <div className="space-y-4">
-                  <input
-                    type="color"
-                    value={value}
-                    onChange={handleColorInputChange}
-                    className="w-48 h-48"
-                  />
-
-                  {format === "rgba" && (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-300">Opacity:</span>
-                        <span className="text-xs text-white">
-                          {currentAlpha.toFixed(2)}
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                        value={currentAlpha}
-                        onChange={handleAlphaChange}
-                        className={cn(
-                          "w-full h-2 bg-[#1e1e1e] rounded-full appearance-none",
-                          "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3",
-                          "[&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full",
-                          "[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:cursor-pointer",
-                          disabled && "opacity-60 cursor-not-allowed",
-                          classNames?.alphaSlider
-                        )}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
-        <input
-          type="text"
-          className={cn(
-            "w-full border-none bg-[#2c2c2c] px-3 py-2 text-sm outline-none text-white",
-            "[-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-            "placeholder:text-gray-500",
-            disabled && "cursor-not-allowed",
-            readOnly && "cursor-default",
-            classNames?.input
-          )}
-          value={color}
-          disabled={disabled}
-          onChange={handleChange}
-          readOnly={readOnly}
-          placeholder={
-            placeholder || format === "hex"
-              ? "#RRGGBB"
-              : format === "rgb"
-              ? "rgb(r,g,b)"
-              : "rgba(r,g,b,a)"
-          }
-          {...props}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            className={cn(
+              "w-full border-none bg-[#2c2c2c] px-3 py-2 text-sm outline-none text-white",
+              "[-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+              "placeholder:text-gray-500",
+              disabled && "cursor-not-allowed",
+              readOnly && "cursor-default",
+              classNames?.input
+            )}
+            value={color}
+            disabled={disabled}
+            onChange={handleChange}
+            readOnly={readOnly}
+            placeholder={
+              placeholder || format === "hex"
+                ? "#RRGGBB"
+                : format === "rgb"
+                ? "rgb(r,g,b)"
+                : "rgba(r,g,b,a)"
+            }
+            {...props}
+          />
+          <input
+            type="color"
+            value={value}
+            onChange={handleColorInputChange}
+            disabled={disabled}
+            className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+            aria-label="Color picker"
+          />
+        </div>
 
-        {/*{rightSection && (
-          <div className={cn(sectionClass, "pr-3", classNames?.rightSection)}>
-            {rightSection}
+        {allowEyeDropper && (
+          <div className="pl-2">
+            <div className="flex items-center justify-center">
+              <button
+                type="button"
+                onClick={handleEyeDropper}
+                disabled={disabled}
+                className={cn(
+                  "p-1.5 text-gray-300 hover:text-white focus:outline-none",
+                  disabled &&
+                    "opacity-60 cursor-not-allowed pointer-events-none",
+                  classNames?.eyeDropper
+                )}
+                title="Pick color from screen"
+                aria-label="Pick color from screen"
+              >
+                <IconEye size={18} />
+              </button>
+            </div>
           </div>
-        )}*/}
+        )}
       </div>
 
       {(error || hint) && (
         <p
           className={cn(
             "text-xs ml-1",
-            error ? "text-red-400" : "text-gray-300",
+            error ? "text-red-500" : "text-gray-300",
             classNames?.hint
           )}
         >
@@ -259,3 +223,5 @@ export const ColorPicker = ({
     </div>
   );
 };
+
+ColorPicker.displayName = "ColorPicker";

@@ -1,6 +1,7 @@
 export type ModalSize = "xs" | "sm" | "md" | "lg" | "xl" | "full";
 export type ModalPadding = "xs" | "sm" | "md" | "lg" | "xl" | "none";
 export type ModalShadow = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type ModalPortalTarget = HTMLElement | string | null;
 
 export interface ModalClassNames {
   overlay?: string;
@@ -28,6 +29,8 @@ export interface ModalProps {
   animationDuration?: number;
   disableScroll?: boolean;
   shadow?: ModalShadow;
+  withinPortal?: boolean;
+  portalTarget?: ModalPortalTarget;
 }
 
 export interface ModalBodyProps {

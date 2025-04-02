@@ -1,25 +1,16 @@
 import React from "react";
 import { cn } from "../../_utils";
-
-interface OptionProps {
-  value: string;
-  label: string;
-  selected?: boolean;
-  disabled?: boolean;
-  onSelect?: () => void;
-  className?: string;
-  checkedIcon?: React.ReactNode;
-}
+import { SelectInputOptionProps } from "./types";
 
 export const Option = ({
-  value,
+  children,
   label,
   selected,
   disabled,
   onSelect,
   className,
   checkedIcon,
-}: OptionProps) => {
+}: SelectInputOptionProps) => {
   const handleClick = () => {
     if (!disabled && onSelect) {
       onSelect();
@@ -37,7 +28,7 @@ export const Option = ({
       onClick={handleClick}
     >
       <div className="flex items-center justify-between">
-        <div className="truncate">{label}</div>
+        <div className="truncate">{children || label}</div>
         {selected && checkedIcon && (
           <div className="flex-shrink-0 text-gray-300">{checkedIcon}</div>
         )}

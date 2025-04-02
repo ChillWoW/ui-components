@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import React, { useState } from "react";
 import { cn } from "../../_utils";
-import { NumberInputProps } from "../types";
+import { NumberInputProps } from "./types";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 
 export const NumberInput = ({
   label,
@@ -11,93 +11,49 @@ export const NumberInput = ({
   max,
   step = 1,
   leftSection,
+  className,
+  disabled,
+  error,
+  classNames,
+  readOnly,
+  placeholder,
   value,
   onChange,
-  disabled,
-  className,
-  classNames,
-  allowDecimals = false,
   allowEmpty = false,
-  error,
-  id,
   ...props
 }: NumberInputProps) => {
   const [inputValue, setInputValue] = useState<string>(
     value !== undefined ? String(value) : ""
   );
 
-  const inputId =
-    id || label
-      ? `number-input-${label?.replace(/\s+/g, "-").toLowerCase()}`
-      : undefined;
-
-  useEffect(() => {
-    if (value !== undefined) {
-      setInputValue(String(value));
-    }
-  }, [value]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newInputValue = e.target.value;
+    const newValue = e.target.value;
 
-    if (newInputValue === "" && allowEmpty) {
+    if (newValue === "" && allowEmpty) {
       setInputValue("");
       onChange?.(0);
       return;
     }
 
-    const regex = allowDecimals ? /^-?\d*\.?\d*$/ : /^-?\d*$/;
-    if (regex.test(newInputValue)) {
-      setInputValue(newInputValue);
+    setInputValue(newValue);
 
-      if (newInputValue !== "" && newInputValue !== "-") {
-        const numValue = parseFloat(newInputValue);
+    if (newValue !== "" && newValue !== "-") {
+      const numValue = parseFloat(newValue);
 
-        // Check against min and max
-        if (min !== undefined && numValue < min) {
-          onChange?.(min);
-          return;
-        }
-        if (max !== undefined && numValue > max) {
-          onChange?.(max);
-          return;
-        }
-
-        onChange?.(numValue);
+      if (min !== undefined && numValue < min) {
+        onChange?.(min);
+        return;
       }
+      if (max !== undefined && numValue > max) {
+        onChange?.(max);
+        return;
+      }
+
+      onChange?.(numValue);
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (
-      e.key === "ArrowLeft" ||
-      e.key === "ArrowRight" ||
-      e.key === "Backspace" ||
-      e.key === "Delete" ||
-      e.key === "Tab"
-    ) {
-      return;
-    }
-
-    if (e.key === "." && allowDecimals && !inputValue.includes(".")) {
-      return;
-    }
-
-    if (
-      e.key === "-" &&
-      (min === undefined || min < 0) &&
-      !inputValue.includes("-") &&
-      e.currentTarget.selectionStart === 0
-    ) {
-      return;
-    }
-
-    if (!/^\d$/.test(e.key) && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-    }
-  };
-
-  const increment = () => {
+  const handleIncrement = () => {
     if (disabled) return;
 
     const currentValue = inputValue === "" ? 0 : parseFloat(inputValue);
@@ -112,7 +68,7 @@ export const NumberInput = ({
     }
   };
 
-  const decrement = () => {
+  const handleDecrement = () => {
     if (disabled) return;
 
     const currentValue = inputValue === "" ? 0 : parseFloat(inputValue);
@@ -128,37 +84,42 @@ export const NumberInput = ({
   };
 
   return (
-    <div className={cn("flex flex-col space-y-1", classNames?.container)}>
+    <div
+      className={cn(
+        "flex flex-col items-start text-white space-y-1",
+        classNames?.container,
+        className
+      )}
+    >
       {label && (
         <label
-          htmlFor={inputId}
           className={cn(
-            "text-sm text-white font-semibold ml-1 flex items-center gap-1",
+            "text-sm ml-1 flex items-center gap-1",
             disabled && "opacity-60 cursor-not-allowed",
             classNames?.label
           )}
         >
           {label}
           {required && (
-            <span className={cn("text-red-600", classNames?.required)}>*</span>
+            <span className={cn("text-red-500 text-sm", classNames?.required)}>
+              *
+            </span>
           )}
         </label>
       )}
 
       <div
         className={cn(
-          "flex items-center border rounded-md overflow-hidden bg-[#252627] transition-colors",
-          "border-[#3e4249]",
+          "flex items-center border rounded-md overflow-hidden transition-colors bg-[#2c2c2c] border border-[#4a4a4a]",
           error && "border-red-500",
           disabled && "opacity-60 cursor-not-allowed",
-          className,
           classNames?.inputContainer
         )}
       >
         {leftSection && (
           <div
             className={cn(
-              "pl-3 flex items-center justify-center text-gray-300",
+              "flex items-center justify-center text-gray-300 pl-2",
               classNames?.leftSection
             )}
           >
@@ -167,41 +128,34 @@ export const NumberInput = ({
         )}
 
         <input
-          id={inputId}
-          type="text"
-          inputMode={allowDecimals ? "decimal" : "numeric"}
+          type="number"
           className={cn(
-            "flex border-none bg-transparent px-3 py-2 text-sm outline-none w-full text-white",
+            "w-full border-none bg-[#2c2c2c] px-3 py-2 text-sm outline-none text-white",
             "[-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+            "placeholder:text-gray-500",
             disabled && "cursor-not-allowed",
+            readOnly && "cursor-default",
             classNames?.input
           )}
-          value={inputValue}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
           disabled={disabled}
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={inputValue !== "" ? parseFloat(inputValue) : undefined}
+          readOnly={readOnly}
+          placeholder={placeholder}
+          aria-invalid={!!error}
+          onChange={handleChange}
           {...props}
         />
 
-        <div
-          className={cn(
-            "flex flex-col border-l border-[#3e4249]",
-            classNames?.controlsContainer
-          )}
-        >
+        <div className="flex flex-col border-l border-[#4a4a4a]">
           <button
             type="button"
-            onClick={increment}
+            onClick={handleIncrement}
             disabled={
               disabled ||
               (max !== undefined && value !== undefined && value >= max)
             }
             className={cn(
-              "py-0 px-2 cursor-pointer text-gray-300 bg-transparent flex items-center justify-center h-[50%] hover:text-white hover:bg-[#333538] disabled:opacity-60 disabled:cursor-not-allowed",
-              "border-b border-[#3e4249]",
+              "py-0 px-2 cursor-pointer text-gray-300 bg-transparent flex items-center justify-center h-[50%] hover:text-white hover:bg-[#3a3a3a] disabled:opacity-60 disabled:cursor-not-allowed",
+              "border-b border-[#4a4a4a]",
               classNames?.incrementButton
             )}
           >
@@ -209,7 +163,7 @@ export const NumberInput = ({
           </button>
           <button
             type="button"
-            onClick={decrement}
+            onClick={handleDecrement}
             disabled={
               disabled ||
               (min !== undefined && value !== undefined && value <= min)
@@ -226,10 +180,10 @@ export const NumberInput = ({
 
       {(error || hint) && (
         <p
-          id={`${inputId}-description`}
           className={cn(
             "text-xs ml-1",
-            error ? "text-red-400" : "text-gray-300",
+            error ? "text-red-500" : "text-gray-300",
+            disabled && "opacity-60 cursor-not-allowed",
             classNames?.hint
           )}
         >

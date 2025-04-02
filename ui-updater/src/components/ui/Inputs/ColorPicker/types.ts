@@ -47,6 +47,7 @@ export interface ColorPickerProps {
   colorPreview?: boolean;
   readOnly?: boolean;
   format?: ColorPickerFormat;
+  allowEyeDropper?: boolean;
   className?: string;
   classNames?: ColorPickerClassNames;
 }
@@ -58,5 +59,5 @@ export interface ColorPickerClassNames {
   hint?: string;
   required?: string;
   input?: string;
-  alphaSlider?: string;
+  eyeDropper?: string;
 }

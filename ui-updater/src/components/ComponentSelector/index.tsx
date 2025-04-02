@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { IconSearch } from "@tabler/icons-react";
 
 const COMPONENT_CATEGORIES = {
-  Layout: ["card", "flex", "grid", "group", "stack"],
+  Layout: ["card", "center", "flex", "grid", "group", "stack", "portal"],
   Inputs: [
     "textInput",
     "numberInput",
@@ -43,6 +43,7 @@ const COMPONENT_CATEGORIES = {
     "table",
     "text",
     "timeline",
+    "snippet",
   ],
   Overlay: ["drawer", "modal"],
   Disclosure: ["accordion", "stepper"],
@@ -59,6 +60,7 @@ const COMPONENT_OPTIONS = [
   { value: "button", label: "Button" },
   { value: "buttonGroup", label: "Button Group" },
   { value: "card", label: "Card" },
+  { value: "center", label: "Center" },
   { value: "checkbox", label: "Checkbox" },
   { value: "code", label: "Code" },
   { value: "colorSwatch", label: "Color Swatch" },
@@ -82,6 +84,7 @@ const COMPONENT_OPTIONS = [
   { value: "menu", label: "Menu" },
   { value: "modal", label: "Modal" },
   { value: "pagination", label: "Pagination" },
+  { value: "portal", label: "Portal" },
   { value: "progress", label: "Progress" },
   { value: "radio", label: "Radio" },
   { value: "radioCard", label: "Radio Card" },
@@ -91,6 +94,7 @@ const COMPONENT_OPTIONS = [
   { value: "slider", label: "Slider" },
   { value: "skeleton", label: "Skeleton" },
   { value: "stepper", label: "Stepper" },
+  { value: "snippet", label: "Snippet" },
   { value: "stack", label: "Stack" },
   { value: "stat", label: "Stat" },
   { value: "switch", label: "Switch" },
